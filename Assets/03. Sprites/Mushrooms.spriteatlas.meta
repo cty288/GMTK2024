@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/Easy Save 3/Resources/ES3/ES3Defaults.asset.meta
+guid: b8e2a0d9448fdcb499d79687aea06c89
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
+guid: c747d16149584724dbcd4df1eb806267
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4343727234628468602
+>>>>>>>> main:Assets/03. Sprites/Mushrooms.spriteatlas.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
