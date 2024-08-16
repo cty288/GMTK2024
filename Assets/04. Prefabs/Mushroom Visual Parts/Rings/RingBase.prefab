@@ -20,6 +20,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
+      propertyPath: secondaryColorIn.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
+      propertyPath: secondaryColorIn.Array.data[0]
+      value: 
+      objectReference: {fileID: 3683574418885655574}
+    - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: connectors.Array.data[0].shroomPart
       value: 1
       objectReference: {fileID: 0}
@@ -81,3 +89,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
+--- !u!212 &3683574418885655574 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3891400348071350223, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
+  m_PrefabInstance: {fileID: 369199052991689689}
+  m_PrefabAsset: {fileID: 0}

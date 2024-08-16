@@ -7,6 +7,10 @@ public class MushroomPart : MonoBehaviour
     [SerializeField] public ShroomPart shroomPart;
     [SerializeField] public MushroomPartConnector[] connectors;
     [SerializeField] private Vector3 scaleMod;
+
+    [SerializeField] public SpriteRenderer[] primaryColorIn;
+    [SerializeField] public SpriteRenderer[] secondaryColorIn;
+    [SerializeField] public SpriteRenderer[] tertiaryColorIn;
     
     void OnDrawGizmos()
     {
