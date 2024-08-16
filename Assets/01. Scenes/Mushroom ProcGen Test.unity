@@ -123,6 +123,60 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &291225560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291225562}
+  - component: {fileID: 291225561}
+  m_Layer: 0
+  m_Name: MushroomGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &291225561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291225560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb848a067fd371c4c9bb865e6d802c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volva:
+  - {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
+  stem:
+  - {fileID: 716360920670584614, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
+  ring:
+  - {fileID: 6316439987758955979, guid: 4ec929fa30aebe3448dd207ea2baa87b, type: 3}
+  gill:
+  - {fileID: 3240039986689746938, guid: 83d87c7d84c86fd4788776310199840d, type: 3}
+  cap:
+  - {fileID: 7658846002416210012, guid: 0c2c11e7ee03a8943baf2324db125595, type: 3}
+--- !u!4 &291225562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291225560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.10795554, y: -3.18, z: 0.029293329}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1651111710
 GameObject:
   m_ObjectHideFlags: 0
