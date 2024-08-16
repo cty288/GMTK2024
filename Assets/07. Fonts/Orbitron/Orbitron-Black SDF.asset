@@ -169,8 +169,7 @@ MonoBehaviour:
   materialHashCode: 553248394
   m_Version: 1.1.0
   m_SourceFontFileGUID: c37db3c2110ce464491a5b2420a9657a
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: c37db3c2110ce464491a5b2420a9657a,
-    type: 3}
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: c37db3c2110ce464491a5b2420a9657a, type: 3}
   m_SourceFontFile: {fileID: 12800000, guid: c37db3c2110ce464491a5b2420a9657a, type: 3}
   m_AtlasPopulationMode: 1
   m_FaceInfo:
@@ -462,6 +461,21 @@ MonoBehaviour:
       m_X: 529
       m_Y: 418
       m_Width: 66
+      m_Height: 65
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+  - m_Index: 50
+    m_Metrics:
+      m_Width: 86.65625
+      m_Height: 64.796875
+      m_HorizontalBearingX: 3.15625
+      m_HorizontalBearingY: 64.796875
+      m_HorizontalAdvance: 90.265625
+    m_GlyphRect:
+      m_X: 95
+      m_Y: 344
+      m_Width: 87
       m_Height: 65
     m_Scale: 1
     m_AtlasIndex: 0
@@ -1171,21 +1185,6 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-  - m_Index: 50
-    m_Metrics:
-      m_Width: 86.65625
-      m_Height: 64.796875
-      m_HorizontalBearingX: 3.15625
-      m_HorizontalBearingY: 64.796875
-      m_HorizontalAdvance: 90.265625
-    m_GlyphRect:
-      m_X: 95
-      m_Y: 344
-      m_Width: 87
-      m_Height: 65
-    m_Scale: 1
-    m_AtlasIndex: 0
-    m_ClassDefinitionType: 0
   m_CharacterTable:
   - m_ElementType: 1
     m_Unicode: 32
@@ -1332,6 +1331,10 @@ MonoBehaviour:
     m_GlyphIndex: 45
     m_Scale: 1
   - m_ElementType: 1
+    m_Unicode: 86
+    m_GlyphIndex: 50
+    m_Scale: 1
+  - m_ElementType: 1
     m_Unicode: 87
     m_GlyphIndex: 51
     m_Scale: 1
@@ -1446,10 +1449,6 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 8230
     m_GlyphIndex: 188
-    m_Scale: 1
-  - m_ElementType: 1
-    m_Unicode: 86
-    m_GlyphIndex: 50
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: -3906942674346214780}
@@ -1967,8 +1966,7 @@ MonoBehaviour:
   m_FontFeatureTable:
     m_GlyphPairAdjustmentRecords: []
   fallbackFontAssets: []
-  m_FallbackFontAssetTable:
-  - {fileID: 11400000, guid: 97f291b6fd4e050479569ebbf120aeb9, type: 2}
+  m_FallbackFontAssetTable: []
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: c37db3c2110ce464491a5b2420a9657a
