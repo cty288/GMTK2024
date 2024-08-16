@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mushrooms
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 38e19351e083c024089a02b5a0595d5d, type: 3}
+    - {fileID: 102900000, guid: 3008ef024254aae4ab37b003cb8a2530, type: 3}
+    - {fileID: 102900000, guid: 9ca05ef58803740418ddc74e96b0b119, type: 3}
+    - {fileID: 102900000, guid: 0813564318359b640850f62b8d344861, type: 3}
+    - {fileID: 102900000, guid: c98672c60916d964c90d6d961f62604d, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 316fa3b74164a4548879d0f4489fd311, type: 3}
+  - {fileID: 21300000, guid: 5eda7cf78527a44498c910fbca377037, type: 3}
+  - {fileID: 21300000, guid: 39d5755ccbec5634a8fa57b82a0bcea6, type: 3}
+  - {fileID: 21300000, guid: a0af7f1d2b783934597406bfa4a47558, type: 3}
+  - {fileID: 21300000, guid: 0b993f8e7b83c7f42bb933dd57fae5bd, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - ShroomTest_volva
+  - ShroomTest_Stem
+  - ShroomTest_Ring
+  - ShroomTest_Cap
+  - ShroomTest_gills
+  m_RenderDataMap: {}
+  m_Tag: Mushrooms
+  m_IsVariant: 0
