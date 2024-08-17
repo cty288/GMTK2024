@@ -27,6 +27,11 @@ MonoBehaviour:
   pattern:
   - {fileID: 8671862118169510756, guid: 50ccbda3164abe14ebd0a91a6012f94a, type: 3}
   traitPartGroups:
-  - parts:
+  - Name: ShyParts
+    parts:
     - {fileID: 65600953583321910, guid: bf4a257a0f524da40b870cad9bd18d6a, type: 3}
-    - {fileID: 7658846002416210012, guid: 0c2c11e7ee03a8943baf2324db125595, type: 3}
+    - {fileID: 7658846002416210012, guid: 623f8ea9dc5331b4498a99a8c1d2003d, type: 3}
+  - Name: HappyParts
+    parts:
+    - {fileID: 65600953583321910, guid: bf4a257a0f524da40b870cad9bd18d6a, type: 3}
+    - {fileID: 7658846002416210012, guid: 623f8ea9dc5331b4498a99a8c1d2003d, type: 3}
