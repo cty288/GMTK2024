@@ -152,16 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb848a067fd371c4c9bb865e6d802c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volva:
-  - {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
-  stem:
-  - {fileID: 716360920670584614, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
-  ring:
-  - {fileID: 6316439987758955979, guid: 4ec929fa30aebe3448dd207ea2baa87b, type: 3}
-  gill:
-  - {fileID: 3240039986689746938, guid: 83d87c7d84c86fd4788776310199840d, type: 3}
-  cap:
-  - {fileID: 7658846002416210012, guid: 0c2c11e7ee03a8943baf2324db125595, type: 3}
 --- !u!4 &291225562
 Transform:
   m_ObjectHideFlags: 0
@@ -188,6 +178,8 @@ GameObject:
   - component: {fileID: 1651111713}
   - component: {fileID: 1651111712}
   - component: {fileID: 1651111711}
+  - component: {fileID: 1651111715}
+  - component: {fileID: 1651111714}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -261,3 +253,82 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651111714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651111710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: c24439f1eb1344549ac4be77a156bafe, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+--- !u!114 &1651111715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651111710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 1651111713}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 1
+  m_ShowCustomSorter: 1
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: PixelPostProcess, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
