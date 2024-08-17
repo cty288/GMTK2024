@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // Create the visual representation of a mushroom
 public class MushroomGenerator : MonoBehaviour
@@ -13,7 +14,7 @@ public class MushroomGenerator : MonoBehaviour
         
         GenerateCustomMushroom( new MushroomPart[]
         {
-            parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0], parts.partsSO.cap[0], 
+            parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0], parts.partsSO.cap[0], parts.partsSO.pattern[0]
         }, MushroomDataHelper.GetRandomMushroomData());
     }
 
@@ -84,6 +85,21 @@ public class MushroomGenerator : MonoBehaviour
             }
         }
 
+        if (partType == ShroomPart.Cap)
+        {
+            float r = Random.Range(0.0f, 1.0f);
+            if (r >= 0.5f)
+            {
+                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, t, i+1);
+            }
+        }
+
+        if (partType == ShroomPart.Pattern)
+        {
+            return mushroom.gameObject;
+        }
+        
+        
         foreach (var connector in mushroom.connectors)
         {
             GenerateCustomMushroomR(parts, shroomParams, connector.shroomPart, connector.transform, i+1);

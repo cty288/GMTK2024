@@ -48,8 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderGO: {fileID: 5379418382508605363}
-  capSprite: {fileID: 0}
-  stemSprite: {fileID: 0}
   _collider: {fileID: 8145851920789232771}
 --- !u!50 &6059797179125916536
 Rigidbody2D:
@@ -103,6 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5379418382508605364}
+  - component: {fileID: 2984897160949561580}
   m_Layer: 0
   m_Name: MushroomRender
   m_TagString: Untagged
@@ -125,3 +124,14 @@ Transform:
   m_Father: {fileID: 5379418381875069553}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &2984897160949561580
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5379418382508605363}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

@@ -28,5 +28,6 @@ public enum ShroomPart
     Gills,
     Ring,
     Stem,
-    Volvae
+    Volvae,
+    Pattern
 }

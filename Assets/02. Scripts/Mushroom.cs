@@ -27,7 +27,7 @@ public class Mushroom : MonoBehaviour {
         MushroomGenerator.GenerateCustomMushroom(new MushroomPart[]
         {
             parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0],
-            parts.partsSO.cap[0],
+            parts.partsSO.cap[0], parts.partsSO.pattern[0]
         }, data, t: renderGO.transform);
     }
 

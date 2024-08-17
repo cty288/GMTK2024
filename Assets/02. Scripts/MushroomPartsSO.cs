@@ -11,4 +11,5 @@ public class MushroomPartsSO : ScriptableObject
     [SerializeField] public MushroomPart[] ring;
     [SerializeField] public MushroomPart[] gill;
     [SerializeField] public MushroomPart[] cap;
+    [SerializeField] public MushroomPart[] pattern;
 }
