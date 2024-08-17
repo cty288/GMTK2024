@@ -56,7 +56,7 @@ public class MushroomGenerator : MonoBehaviour
     {
         if (i >= 20) return null;
         MushroomPart mushroom = Instantiate<MushroomPart>(FindMushroomPartOfType(parts, partType), t.position, t.rotation);
-        mushroom.transform.parent = t;
+        mushroom.transform.SetParent(t);
         
         if (partType == ShroomPart.Stem || partType == ShroomPart.Ring)
         {
