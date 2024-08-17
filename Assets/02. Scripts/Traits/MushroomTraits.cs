@@ -11,7 +11,12 @@ public interface IMushroomTrait{
 	
 	public void OnStartApplyToProperty(IMushroomProperty property);
 	
-	public bool IsGlobalOnly { get; }
+	//public bool IsGlobalOnly { get; }
+	
+	/// <summary>
+	/// Is the trait independent of properties?
+	/// </summary>
+	public bool IsIndependent { get; }
 }
 public abstract class MushroomTrait<T> : IMushroomTrait{
 	public HashSet<MushroomPropertyTag> TargetTags { get; } = new HashSet<MushroomPropertyTag>();
@@ -50,10 +55,14 @@ public abstract class MushroomTrait<T> : IMushroomTrait{
 		}
 	}
 
-	public abstract bool IsGlobalOnly { get; }
+	//public abstract bool IsGlobalOnly { get; }
+	public abstract bool IsIndependent { get; }
 
 
 	public MushroomTrait(){
+		if (GetTargetTags() == null){
+			return;
+		}
 		foreach (var tag in GetTargetTags()){
 			TargetTags.Add(tag);
 		}

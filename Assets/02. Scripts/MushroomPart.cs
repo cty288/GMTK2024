@@ -30,5 +30,5 @@ public enum ShroomPart
     Stem,
     Volvae,
     Pattern,
-    Global
+    //Global
 }

@@ -1,4 +1,5 @@
 using System;
+using MikroFramework.ResKit;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,6 +9,8 @@ public class MushroomSpawner : MonoBehaviour {
     public int mushroomsToSpawn = 10;
     public Vector2 rangeX = new Vector2(-9f, 9f);
     public Vector2 rangeY = new Vector2(-5f, 5f);
+
+
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -24,7 +27,9 @@ public class MushroomSpawner : MonoBehaviour {
     private void SpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
             Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-            GameObject mushroomGO = Instantiate(mushroomPrefab, randomPosition, Quaternion.identity);
+            GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 2, randomPosition);
+           // mushroomGO.transform.position = randomPosition;
+            //GameObject mushroomGO = Instantiate(mushroomPrefab, randomPosition, Quaternion.identity);
             mushroomGO.transform.SetParent(transform);
         }
     }

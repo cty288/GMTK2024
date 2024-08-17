@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.ResKit;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,18 +10,12 @@ using Random = UnityEngine.Random;
 // Create the visual representation of a mushroom
 public class MushroomGenerator : MonoBehaviour
 {
+    
     private void Start()
     {
         MushroomPartManager parts = MushroomPartManager.Instance;
 
-        GenerateCustomMushroom(new MushroomPart[] {
-            parts.partsSO.volva[Random.Range(0, parts.partsSO.volva.Length)],
-            parts.partsSO.stem[Random.Range(0, parts.partsSO.stem.Length)],
-            parts.partsSO.ring[Random.Range(0, parts.partsSO.ring.Length)],
-            parts.partsSO.gill[Random.Range(0, parts.partsSO.gill.Length)],
-            parts.partsSO.cap[Random.Range(0, parts.partsSO.cap.Length)],
-            parts.partsSO.pattern[Random.Range(0, parts.partsSO.pattern.Length)]
-        }, MushroomDataHelper.GetRandomMushroomData(1, 2));
+        GenerateRandomMushroom(1, 2, new Vector3(0, 0, 0));
     }
 
     private void Update()
@@ -30,16 +25,32 @@ public class MushroomGenerator : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
-
-    public static GameObject GenerateCustomMushroom(MushroomPart[] parts, MushroomData data, ShroomPart partType = ShroomPart.Volvae, Transform t = null)
+    
+    public static GameObject GenerateRandomMushroom(int minTrait, int maxTrait, Vector3 position)
     {
-        if (t == null)
-        {
-            var go = new GameObject();
-            t = go.transform;
-        }
+
         
-        return GenerateCustomMushroomR(parts, data, partType, t, 0);
+        
+        MushroomPartManager parts = MushroomPartManager.Instance;
+        return GenerateCustomMushroom(new MushroomPart[] {
+            parts.partsSO.volva[Random.Range(0, parts.partsSO.volva.Length)],
+            parts.partsSO.stem[Random.Range(0, parts.partsSO.stem.Length)],
+            parts.partsSO.ring[Random.Range(0, parts.partsSO.ring.Length)],
+            parts.partsSO.gill[Random.Range(0, parts.partsSO.gill.Length)],
+            parts.partsSO.cap[Random.Range(0, parts.partsSO.cap.Length)],
+            parts.partsSO.pattern[Random.Range(0, parts.partsSO.pattern.Length)]
+        }, MushroomDataHelper.GetRandomMushroomData(minTrait, maxTrait), position);
+    }
+
+    public static GameObject GenerateCustomMushroom(MushroomPart[] parts, MushroomData data, Vector3 position, ShroomPart partType = ShroomPart.Volvae)
+    {
+        GameObject prefab = Resources.Load<GameObject>("Mushroom");
+        GameObject t = Instantiate(prefab, position, Quaternion.identity);
+        Mushroom m = t.GetComponent<Mushroom>();
+        m.InitializeMushroom(data);
+        
+        GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0);
+        return t;
     }
     public static GameObject GenerateCustomMushroomR(MushroomPart[] parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i)
     {
