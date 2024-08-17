@@ -1,9 +1,10 @@
 using System;
+using MikroFramework.Architecture;
 using MikroFramework.ResKit;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MushroomSpawner : MonoBehaviour {
+public class MushroomSpawner : MonoBehaviour , ICanGetModel{
     public GameObject mushroomPrefab;
 
     public int mushroomsToSpawn = 10;
@@ -15,6 +16,10 @@ public class MushroomSpawner : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             SpawnMushrooms();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            this.GetModel<GameTimeModel>().Day.Value++;
         }
     }
 
@@ -32,5 +37,9 @@ public class MushroomSpawner : MonoBehaviour {
             //GameObject mushroomGO = Instantiate(mushroomPrefab, randomPosition, Quaternion.identity);
             mushroomGO.transform.SetParent(transform);
         }
+    }
+
+    public IArchitecture GetArchitecture() {
+        return MainGame.Interface;
     }
 }

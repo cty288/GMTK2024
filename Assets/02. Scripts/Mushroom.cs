@@ -1,16 +1,19 @@
 
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using MikroFramework.Architecture;
 using MikroFramework.Event;
 using NHibernate.Util;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class Mushroom : MonoBehaviour {
-    [SerializeField] private GameObject renderGO;
+public class Mushroom : AbstractMikroController<MainGame> {
+    [SerializeField] private GameObject growthGO;
+    [SerializeField] private GameObject seedGO;
 
-    public GameObject RenderGo => renderGO;
+    public GameObject RenderGo => growthGO;
     [SerializeField] private SortingGroup sortLayer;
     [SerializeField] private Collider2D _collider;
 
@@ -18,40 +21,59 @@ public class Mushroom : MonoBehaviour {
     [SerializeField] private AudioClip pickupSFX;
     [SerializeField] private AudioClip plantSFX;
     [SerializeField] private AudioClip destroySFX;
-    [SerializeField] private bool debug = false;
+   
     private MushroomData data;
 
     private Sequence oscillationSequence;
     [HideInInspector] public bool isSelected = false;
     
     public Dictionary<ShroomPart, MushroomPart> Parts { get;  private set; }
-    private void Start() {
 
-
-
+    private void Awake() {
+        this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(OnDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
+
+    private void OnDayChange(int arg1, int arg2) {
+        if(data != null) {
+            data.GrowthDay.Value++;
+        }
+    }
+
 
     public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
         Parts = parts;
         
-      
-        /*
-        MushroomPartManager parts = MushroomPartManager.Instance;
-        MushroomGenerator.GenerateCustomMushroom(new MushroomPart[]
-        {
-            parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0],
-            parts.partsSO.cap[0], parts.partsSO.pattern[0]
-        }, data,  renderGO.transform);*/
-
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
         oscillationSequence = DOTween.Sequence()
-            .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
-            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
+            .Append(RenderGo.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
+            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
             .SetLoops(-1, LoopType.Restart);
         
         data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
-        Debug.Log("Has very shy trait: " + data.HasTrait<VeryShy>());
+        
+        this.data.GrowthDay.RegisterWithInitValue(OnGrowthDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+        //  Debug.Log("Has very shy trait: " + data.HasTrait<VeryShy>());
+    }
+
+    private void OnGrowthDayChange(int oldDay, int newDay) {
+        int newStage = data.GetStage(newDay);
+        if (newStage == 1) {
+            seedGO.SetActive(true);
+            growthGO.SetActive(false);
+        } else if(data.GetStage(oldDay) != data.GetStage(newDay)) {
+            Debug.Log("Mushroom has grown to stage " + newStage);
+            if (newStage == 2) {
+                seedGO.SetActive(false);
+                growthGO.SetActive(true);
+            }else if (newStage == 3) {
+                
+            }
+            else { //die
+                DestroySelf();
+            }
+        }
     }
 
     private void OnVeryShyAdded(VeryShy e) {
@@ -99,5 +121,9 @@ public class Mushroom : MonoBehaviour {
         await UniTask.WaitUntil(() => !audioSource.isPlaying);
         oscillationSequence.Kill();
         Destroy(gameObject);
+    }
+
+    private void OnDestroy() {
+        data.UnregisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
     }
 }

@@ -26,27 +26,36 @@ public class MushroomGenerator : MonoBehaviour
         }
     }
     
-    public static GameObject GenerateRandomMushroom(int minTrait, int maxTrait, Vector3 position) {
+    /// <summary>
+    /// Generate a random mushroom game object
+    /// </summary>
+    /// <param name="minTrait"></param>
+    /// <param name="maxTrait"></param>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static GameObject GenerateRandomMushroom(int minTrait, int maxTrait, Vector3 position, int initialGrowthDay = 1) {
         
         MushroomPartManager parts = MushroomPartManager.Instance;
-        return GenerateCustomMushroom(MushroomDataHelper.GetRandomMushroomData(minTrait, maxTrait), position);
+        return GenerateCustomMushroom(MushroomDataHelper.GetRandomMushroomData(initialGrowthDay, minTrait, maxTrait), position);
     }
 
+    /// <summary>
+    /// Spawn a mushroom given a data
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="position"></param>
+    /// <param name="partType"></param>
+    /// <returns></returns>
     public static GameObject GenerateCustomMushroom(MushroomData data, Vector3 position, ShroomPart partType = ShroomPart.Volvae)
     {
         GameObject prefab = Resources.Load<GameObject>("Mushroom");
         GameObject t = Instantiate(prefab, position, Quaternion.identity);
         Mushroom m = t.GetComponent<Mushroom>();
         
-        
         Dictionary<ShroomPart, MushroomPart> parts = GetPartsFromData(data);
-        
-        
         m.InitializeMushroom(data, parts);
-        
-        
-        
-        
+
+
         GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0);
         return t;
     }

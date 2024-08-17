@@ -5,6 +5,7 @@ using MikroFramework.BindableProperty;
 using MikroFramework.Event;
 using NHibernate.Util;
 using UnityEngine;
+using Action = Antlr.Runtime.Misc.Action;
 using Random = UnityEngine.Random;
 
 public enum MushroomPropertyTag {
@@ -67,16 +68,22 @@ public class MushroomData {
     public MushroomProperty<float> sporeRange;
     
     
-    public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(2);
+    public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(1);
 
     public int GetStage() {
-        if (GrowthDay <= 2) {
+        return GetStage(GrowthDay.Value);
+    }
+    
+    public int GetStage(int day) {
+        if (day <= 2) {
             return 1;
-        }else if (GrowthDay <= 4) {
+        }else if (day <= 4) {
             return 2;
+        }else if (day <= 5) {
+            return 3;
         }
 
-        return 3;
+        return 4;
     }
     
     public MushroomData() :  this(1, 1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
@@ -193,18 +200,28 @@ public class MushroomData {
         
     }
     
+    private Dictionary<object, Action<IMushroomTrait>> traitRemoveCallbacks = new Dictionary<object, Action<IMushroomTrait>>();
     public void RegisterOnTraitAdd<T>(Action<T> callback, bool callIfExist = true) where T : IMushroomTrait {
+        Action<IMushroomTrait> action = trait => callback((T) trait);
+        traitRemoveCallbacks.Add(callback, action);
+        
         if (!traitAddCallbacks.ContainsKey(typeof(T))) {
-            traitAddCallbacks.Add(typeof(T), trait => callback((T) trait));
+            traitAddCallbacks.Add(typeof(T), action);
         }
         else {
-            traitAddCallbacks[typeof(T)] += trait => callback((T) trait);
+            traitAddCallbacks[typeof(T)] += action;
         }
         if (callIfExist) {
             if (traits.ContainsKey(typeof(T))) {
                 callback((T) traits[typeof(T)]);
             }
         }
+    }
+    
+    public void UnregisterOnTraitAdd<T>(Action<T> callback) where T : IMushroomTrait {
+        Action<IMushroomTrait> action = traitRemoveCallbacks[callback];
+        traitAddCallbacks[typeof(T)] -= action;
+        traitRemoveCallbacks.Remove(callback);
     }
     
     public List<IMushroomTrait> GetTraits() {
@@ -253,7 +270,7 @@ public static class MushroomDataHelper {
         return data;
     }
     
-    public static MushroomData GetRandomMushroomData(int minTraitCount, int maxTraitCount) {
+    public static MushroomData GetRandomMushroomData(int initialGrowthDay, int minTraitCount, int maxTraitCount) {
         MushroomData data = new MushroomData(
             Random.Range(0.3f, 1.8f),
             Random.Range(0.3f, 1.8f),
@@ -270,6 +287,7 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
             Random.Range(0.8f, 1.6f));
+        data.GrowthDay.Value = initialGrowthDay;
         
         int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);
         var traits = TraitPool.GetRandomTraits(traitCount);
