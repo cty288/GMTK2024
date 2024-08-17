@@ -48,6 +48,7 @@ public class MushroomGenerator : MonoBehaviour
     /// <returns></returns>
     public static GameObject GenerateCustomMushroom(MushroomData data, Vector3 position, ShroomPart partType = ShroomPart.Volvae)
     {
+        MushroomVisuals mushroomVisuals = new MushroomVisuals();
         GameObject prefab = Resources.Load<GameObject>("Mushroom");
         GameObject t = Instantiate(prefab, position, Quaternion.identity);
         Mushroom m = t.GetComponent<Mushroom>();
@@ -56,7 +57,9 @@ public class MushroomGenerator : MonoBehaviour
         m.InitializeMushroom(data, parts);
 
 
-        GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0);
+        GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0, mushroomVisuals);
+        m.mushroomVisualParts = mushroomVisuals;
+        
         return t;
     }
 
@@ -125,9 +128,9 @@ public class MushroomGenerator : MonoBehaviour
         
         return partsArray;
     }
-    
-    
-    public static GameObject GenerateCustomMushroomR(Dictionary<ShroomPart, MushroomPart> parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i)
+
+
+    private static MushroomPart GenerateCustomMushroomR(Dictionary<ShroomPart, MushroomPart> parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i, MushroomVisuals v)
     {
         if (i >= 20) return null;
         MushroomPart mushroom = Instantiate<MushroomPart>(FindMushroomPartOfType(parts, partType), t.position, t.rotation);
@@ -135,6 +138,7 @@ public class MushroomGenerator : MonoBehaviour
         
         if (partType == ShroomPart.Stem)
         {
+            v.Stem.Add(mushroom);
             mushroom.transform.localScale = 
                 new Vector3(mushroom.transform.localScale.x * shroomParams.stemWidth.RealValue, 
                     mushroom.transform.localScale.y * shroomParams.stemHeight.RealValue, 1);
@@ -142,9 +146,15 @@ public class MushroomGenerator : MonoBehaviour
         
         if (partType == ShroomPart.Cap)
         {
+            v.Cap.Add(mushroom);
             mushroom.transform.localScale = 
                 new Vector3(mushroom.transform.localScale.x * shroomParams.capWidth.RealValue, 
                     mushroom.transform.localScale.y * shroomParams.capHeight.RealValue, 1);
+        }
+
+        if (partType == ShroomPart.Volvae)
+        {
+            v.Volva = mushroom;
         }
         
         foreach (var spr in mushroom.primaryColorIn)
@@ -188,22 +198,22 @@ public class MushroomGenerator : MonoBehaviour
             float r = Random.Range(0.0f, 1.0f);
             if (r >= 0.5f)
             {
-                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, t, i+1);
+                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, t, i+1, v);
             }
         }
 
         if (partType == ShroomPart.Pattern)
         {
-            return mushroom.gameObject;
+            return mushroom;
         }
         
         
         foreach (var connector in mushroom.connectors)
         {
-            GenerateCustomMushroomR(parts, shroomParams, connector.shroomPart, connector.transform, i+1);
+            connector.child = GenerateCustomMushroomR(parts, shroomParams, connector.shroomPart, connector.transform, i+1, v).transform;
         }
 
-        return mushroom.gameObject;
+        return mushroom;
     }
 
     private static MushroomPart FindMushroomPartOfType(Dictionary<ShroomPart, MushroomPart> parts, ShroomPart partType)
@@ -214,4 +224,12 @@ public class MushroomGenerator : MonoBehaviour
 
         return null;
     }
+}
+
+[Serializable]
+public class MushroomVisuals
+{
+    public MushroomPart Volva;
+    public List<MushroomPart> Stem = new List<MushroomPart>();
+    public List<MushroomPart> Cap = new List<MushroomPart>();
 }

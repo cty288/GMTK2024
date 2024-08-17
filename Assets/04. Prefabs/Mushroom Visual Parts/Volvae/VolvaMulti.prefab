@@ -301,27 +301,27 @@ PrefabInstance:
       objectReference: {fileID: 449561291845005961}
     - target: {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: connectors.Array.data[1].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: connectors.Array.data[2].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: connectors.Array.data[3].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: connectors.Array.data[4].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: connectors.Array.data[5].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: connectors.Array.data[6].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2081603411156003438, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
       propertyPath: m_Name

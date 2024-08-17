@@ -21,6 +21,9 @@ public class Mushroom : AbstractMikroController<MainGame> {
     [SerializeField] private AudioClip pickupSFX;
     [SerializeField] private AudioClip plantSFX;
     [SerializeField] private AudioClip destroySFX;
+
+    public MushroomVisuals mushroomVisualParts; // A class containing references to all the parts of a mushroom for modification.
+    
    
     private MushroomData data;
 

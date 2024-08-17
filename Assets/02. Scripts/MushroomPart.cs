@@ -11,6 +11,11 @@ public class MushroomPart : MonoBehaviour
     [SerializeField] public SpriteRenderer[] primaryColorIn;
     [SerializeField] public SpriteRenderer[] secondaryColorIn;
     [SerializeField] public SpriteRenderer[] tertiaryColorIn;
+
+    public void SetPartSize(float height, float width)
+    {
+        
+    }
     
     void OnDrawGizmos()
     {
