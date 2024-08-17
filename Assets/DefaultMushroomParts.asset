@@ -22,3 +22,5 @@ MonoBehaviour:
   - {fileID: 3240039986689746938, guid: 83d87c7d84c86fd4788776310199840d, type: 3}
   cap:
   - {fileID: 7658846002416210012, guid: 0c2c11e7ee03a8943baf2324db125595, type: 3}
+  pattern:
+  - {fileID: 8671862118169510756, guid: 50ccbda3164abe14ebd0a91a6012f94a, type: 3}

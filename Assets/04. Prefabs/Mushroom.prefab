@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderGO: {fileID: 5379418382508605363}
+  sortLayer: {fileID: 2984897160949561580}
   _collider: {fileID: 8145851920789232771}
 --- !u!50 &6059797179125916536
 Rigidbody2D:

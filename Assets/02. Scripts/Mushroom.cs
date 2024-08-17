@@ -1,8 +1,10 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Mushroom : MonoBehaviour {
     [SerializeField] private GameObject renderGO;
+    [SerializeField] private SortingGroup sortLayer;
     [SerializeField] private Collider2D _collider;
 
     private MushroomData data;
@@ -29,6 +31,8 @@ public class Mushroom : MonoBehaviour {
             parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0],
             parts.partsSO.cap[0], parts.partsSO.pattern[0]
         }, data, t: renderGO.transform);
+
+        sortLayer.sortingOrder = (int) transform.position.y * -1000;
     }
 
     private void OnMouseEnter() {
