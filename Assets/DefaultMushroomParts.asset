@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volva:
   - {fileID: 1747207715465471994, guid: c9de099e5a6f1b742a2954842f75c0b0, type: 3}
+  - {fileID: 3363719202494127918, guid: 06ddbe9db0e8c8b428111189569777cd, type: 3}
   stem:
   - {fileID: 716360920670584614, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
+  - {fileID: 65600953583321910, guid: bf4a257a0f524da40b870cad9bd18d6a, type: 3}
   ring:
   - {fileID: 6316439987758955979, guid: 4ec929fa30aebe3448dd207ea2baa87b, type: 3}
   gill:
