@@ -31,6 +31,7 @@ public class MushroomSpawner : MonoBehaviour {
            // mushroomGO.transform.position = randomPosition;
             //GameObject mushroomGO = Instantiate(mushroomPrefab, randomPosition, Quaternion.identity);
             mushroomGO.transform.SetParent(transform);
+            mushroomGO.GetComponent<Mushroom>().RegenerateCollider();
         }
     }
 }

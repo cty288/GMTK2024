@@ -54,6 +54,11 @@ public class Mushroom : MonoBehaviour {
         Debug.Log("Has very shy trait: " + data.HasTrait<VeryShy>());
     }
 
+    public void RegenerateCollider()
+    {
+        ((CompositeCollider2D)_collider).GenerateGeometry();
+    }
+
     private void OnVeryShyAdded(VeryShy e) {
         Debug.Log("This is a very shy mushroom");
     }
