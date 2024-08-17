@@ -36,6 +36,11 @@ MonoBehaviour:
     - EasySave3
     - MikroFramework
     - UniRx
+    - UniTask
+    - UniTask.Addressables
+    - UniTask.DOTween
+    - UniTask.Linq
+    - UniTask.TextMeshPro
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
