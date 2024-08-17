@@ -19,6 +19,7 @@ public static class TraitPool {
     static TraitPool() {
         RegisterTrait(() => new VeryBlue(), TraitFlags.Good);
         RegisterTrait(() => new VeryRed(), TraitFlags.Bad | TraitFlags.Good);
+        RegisterTrait(() => new VeryShy());
     }
 
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {

@@ -17,7 +17,11 @@ public interface IMushroomTrait{
 	/// Is the trait independent of properties?
 	/// </summary>
 	public bool IsIndependent { get; }
+	
+	public int GetVisualPartGroupIdx();
 }
+
+
 public abstract class MushroomTrait<T> : IMushroomTrait{
 	public HashSet<MushroomPropertyTag> TargetTags { get; } = new HashSet<MushroomPropertyTag>();
 
@@ -57,6 +61,9 @@ public abstract class MushroomTrait<T> : IMushroomTrait{
 
 	//public abstract bool IsGlobalOnly { get; }
 	public abstract bool IsIndependent { get; }
+	public virtual int GetVisualPartGroupIdx() {
+		return -1;
+	}
 
 
 	public MushroomTrait(){
@@ -83,5 +90,21 @@ public abstract class MushroomTrait<T> : IMushroomTrait{
 			return GetTraitName();
 		}
 		return GetTraitName() + " : " + GetTraitValueDescription();
+	}
+}
+
+public abstract class IndependentMushroomTrait: MushroomTrait<int>{
+	public override bool IsIndependent { get; } = true;
+
+	protected override void OnStartApplyToProperty(MushroomProperty<int> property) {
+		
+	}
+
+	public override MushroomPropertyTag[] GetTargetTags() {
+		return null;
+	}
+
+	public override string GetTraitValueDescription() {
+		return null;
 	}
 }

@@ -44,22 +44,13 @@ public class VeryBlue : MushroomTrait<Color> {
 	}
 }
 
-public class VeryShy : MushroomTrait<Color> {
-	public override MushroomPropertyTag[] GetTargetTags() {
-		return null;
-	}
-
-	//public override bool IsGlobalOnly { get; } = false;
-
-	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
-		
-	}
+public class VeryShy : IndependentMushroomTrait {
 
 	public override string GetTraitName() {
 		return "Very Shy";
 	}
-	public override bool IsIndependent { get; } = true;
-	public override string GetTraitValueDescription() {
-		return null;
+
+	public override int GetVisualPartGroupIdx() {
+		return 0;
 	}
 }

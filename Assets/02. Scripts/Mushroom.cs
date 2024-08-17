@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using MikroFramework.Event;
@@ -26,21 +27,17 @@ public class Mushroom : MonoBehaviour {
     {
         return data;
     }
+    
+    public Dictionary<ShroomPart, MushroomPart> Parts { get;  private set; }
     private void Start() {
-        if (debug) {
-            
-        }
 
-       // InitializeMushroom(MushroomDataHelper.GetRandomMushroomData(1,2));
 
-        oscillationSequence = DOTween.Sequence()
-            .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
-            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
-            .SetLoops(-1, LoopType.Restart);
+
     }
 
-    public void InitializeMushroom(MushroomData data) {
+    public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
+        Parts = parts;
         
       
         /*
@@ -52,8 +49,18 @@ public class Mushroom : MonoBehaviour {
         }, data,  renderGO.transform);*/
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
+        oscillationSequence = DOTween.Sequence()
+            .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
+            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
+            .SetLoops(-1, LoopType.Restart);
+        
+        data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
+        Debug.Log("Has very shy trait: " + data.HasTrait<VeryShy>());
     }
 
+    private void OnVeryShyAdded(VeryShy e) {
+        Debug.Log("This is a very shy mushroom");
+    }
 
 
     private void OnMouseEnter() {

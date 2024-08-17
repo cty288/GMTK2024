@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
+using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
+using MikroFramework.Event;
 using NHibernate.Util;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum MushroomPropertyTag {
     Cap,
@@ -42,8 +46,9 @@ public class MushroomData {
         new Dictionary<MushroomPropertyTag, List<IMushroomProperty>>();
 
     private List<IMushroomProperty> flattenedProperties = new List<IMushroomProperty>();
-    
-    private List<IMushroomTrait> traits = new List<IMushroomTrait>();
+
+    private Dictionary<Type, IMushroomTrait> traits = new Dictionary<Type, IMushroomTrait>();
+    private Dictionary<Type, Action<IMushroomTrait>> traitAddCallbacks = new Dictionary<Type, Action<IMushroomTrait>>();
 
     public MushroomProperty<float> capHeight;
     public MushroomProperty<float> capWidth;
@@ -168,7 +173,10 @@ public class MushroomData {
     
     public void AddTrait(IMushroomTrait trait) {
         if (trait.IsIndependent) {
-            traits.Add(trait);
+            traits.Add(trait.GetType(), trait);
+            if (traitAddCallbacks.ContainsKey(trait.GetType())) {
+                traitAddCallbacks[trait.GetType()](trait);
+            }
             return;
         }
         
@@ -178,12 +186,43 @@ public class MushroomData {
                 trait.OnStartApplyToProperty(property);
             }
         }
-        traits.Add(trait);
+        traits.Add(trait.GetType(), trait);
+        if (traitAddCallbacks.ContainsKey(trait.GetType())) {
+            traitAddCallbacks[trait.GetType()](trait);
+        }
+        
     }
     
+    public void RegisterOnTraitAdd<T>(Action<T> callback, bool callIfExist = true) where T : IMushroomTrait {
+        if (!traitAddCallbacks.ContainsKey(typeof(T))) {
+            traitAddCallbacks.Add(typeof(T), trait => callback((T) trait));
+        }
+        else {
+            traitAddCallbacks[typeof(T)] += trait => callback((T) trait);
+        }
+        if (callIfExist) {
+            if (traits.ContainsKey(typeof(T))) {
+                callback((T) traits[typeof(T)]);
+            }
+        }
+    }
     
     public List<IMushroomTrait> GetTraits() {
-        return traits;
+        return new List<IMushroomTrait>(traits.Values);
+    }
+    
+    public bool HasTrait<T>() where T : IMushroomTrait {
+        return traits.ContainsKey(typeof(T));
+    }
+    
+    public bool HasTrait<T>(out T trait) where T : IMushroomTrait {
+        if (traits.ContainsKey(typeof(T))) {
+            trait = (T) traits[typeof(T)];
+            return true;
+        }
+
+        trait = default;
+        return false;
     }
 }
 

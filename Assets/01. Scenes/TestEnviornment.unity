@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mushroomPrefab: {fileID: 5379418381875069552, guid: a7905ec9ae241e04f9248a1204f2e8ed, type: 3}
-  mushroomsToSpawn: 30
+  mushroomsToSpawn: 5
   rangeX: {x: -9, y: 9}
   rangeY: {x: -5, y: 5}
 --- !u!4 &128142953
