@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using MikroFramework.Event;
@@ -22,15 +23,17 @@ public class Mushroom : MonoBehaviour {
 
     private Sequence oscillationSequence;
     [HideInInspector] public bool isSelected = false;
-
+    
+    public Dictionary<ShroomPart, MushroomPart> Parts { get;  private set; }
     private void Start() {
 
 
 
     }
 
-    public void InitializeMushroom(MushroomData data) {
+    public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
+        Parts = parts;
         
       
         /*

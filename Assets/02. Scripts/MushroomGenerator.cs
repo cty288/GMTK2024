@@ -26,33 +26,99 @@ public class MushroomGenerator : MonoBehaviour
         }
     }
     
-    public static GameObject GenerateRandomMushroom(int minTrait, int maxTrait, Vector3 position)
-    {
-
-        
+    public static GameObject GenerateRandomMushroom(int minTrait, int maxTrait, Vector3 position) {
         
         MushroomPartManager parts = MushroomPartManager.Instance;
-        return GenerateCustomMushroom(new MushroomPart[] {
-            parts.partsSO.volva[Random.Range(0, parts.partsSO.volva.Length)],
-            parts.partsSO.stem[Random.Range(0, parts.partsSO.stem.Length)],
-            parts.partsSO.ring[Random.Range(0, parts.partsSO.ring.Length)],
-            parts.partsSO.gill[Random.Range(0, parts.partsSO.gill.Length)],
-            parts.partsSO.cap[Random.Range(0, parts.partsSO.cap.Length)],
-            parts.partsSO.pattern[Random.Range(0, parts.partsSO.pattern.Length)]
-        }, MushroomDataHelper.GetRandomMushroomData(minTrait, maxTrait), position);
+        return GenerateCustomMushroom(MushroomDataHelper.GetRandomMushroomData(minTrait, maxTrait), position);
     }
 
-    public static GameObject GenerateCustomMushroom(MushroomPart[] parts, MushroomData data, Vector3 position, ShroomPart partType = ShroomPart.Volvae)
+    public static GameObject GenerateCustomMushroom(MushroomData data, Vector3 position, ShroomPart partType = ShroomPart.Volvae)
     {
         GameObject prefab = Resources.Load<GameObject>("Mushroom");
         GameObject t = Instantiate(prefab, position, Quaternion.identity);
         Mushroom m = t.GetComponent<Mushroom>();
-        m.InitializeMushroom(data);
+        
+        
+        Dictionary<ShroomPart, MushroomPart> parts = GetPartsFromData(data);
+        
+        
+        m.InitializeMushroom(data, parts);
+        
+        
+        
         
         GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0);
         return t;
     }
-    public static GameObject GenerateCustomMushroomR(MushroomPart[] parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i)
+
+    public static Dictionary<ShroomPart, MushroomPart> GetPartsFromData(MushroomData data) {
+        List<IMushroomTrait> traits = data.GetTraits();
+        
+        Dictionary<ShroomPart, MushroomPart> parts = new Dictionary<ShroomPart, MushroomPart>();
+        
+        HashSet<ShroomPart> unselectedParts = new HashSet<ShroomPart>();
+        foreach (ShroomPart part in Enum.GetValues(typeof(ShroomPart))) {
+            unselectedParts.Add(part);
+        }
+        
+        foreach (IMushroomTrait trait in traits) {
+            MushroomPart[] traitParts = GetPartsForTrait(trait);
+            if (traitParts == null) {
+                continue;
+            }
+            //get all parts that are in unselectedParts
+            List<MushroomPart> availableParts = new List<MushroomPart>();
+            foreach (MushroomPart part in traitParts) {
+                if (unselectedParts.Contains(part.shroomPart)) {
+                    availableParts.Add(part);
+                }
+            }
+            
+            if (availableParts.Count == 0) {
+                continue;
+            }
+            
+            MushroomPart selectedPart = availableParts[Random.Range(0, availableParts.Count)];
+            parts[selectedPart.shroomPart] = selectedPart;
+            unselectedParts.Remove(selectedPart.shroomPart);
+        }
+        
+        foreach (ShroomPart part in unselectedParts) {
+            MushroomPart[] arr = MushroomPartManager.Instance.partsSO.GetParts(part);
+            if (arr.Length > 0) {
+                parts[part] = arr[Random.Range(0, arr.Length)];
+            }
+        }
+        
+        return parts;
+    }
+
+    public static MushroomPart GetRandomPartForTrait(IMushroomTrait trait) {
+        MushroomPartManager parts = MushroomPartManager.Instance;
+        if (trait.GetVisualPartGroupIdx() < 0) {
+            return null;
+        }
+
+        MushroomPart[] partsArray =
+            MushroomPartManager.Instance.partsSO.traitPartGroups[trait.GetVisualPartGroupIdx()].parts;
+        
+        return partsArray[Random.Range(0, partsArray.Length)];
+    }
+    
+    public static MushroomPart[] GetPartsForTrait(IMushroomTrait trait) {
+        MushroomPartManager parts = MushroomPartManager.Instance;
+        if (trait.GetVisualPartGroupIdx() < 0) {
+            return null;
+        }
+
+        MushroomPart[] partsArray =
+            MushroomPartManager.Instance.partsSO.traitPartGroups[trait.GetVisualPartGroupIdx()].parts;
+        
+        return partsArray;
+    }
+    
+    
+    public static GameObject GenerateCustomMushroomR(Dictionary<ShroomPart, MushroomPart> parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i)
     {
         if (i >= 20) return null;
         MushroomPart mushroom = Instantiate<MushroomPart>(FindMushroomPartOfType(parts, partType), t.position, t.rotation);
@@ -131,14 +197,10 @@ public class MushroomGenerator : MonoBehaviour
         return mushroom.gameObject;
     }
 
-    private static MushroomPart FindMushroomPartOfType(MushroomPart[] parts, ShroomPart partType)
+    private static MushroomPart FindMushroomPartOfType(Dictionary<ShroomPart, MushroomPart> parts, ShroomPart partType)
     {
-        foreach (var part in parts)
-        {
-            if (part.shroomPart == partType)
-            {
-                return part;
-            }
+        if (parts.ContainsKey(partType)) {
+            return parts[partType];
         }
 
         return null;

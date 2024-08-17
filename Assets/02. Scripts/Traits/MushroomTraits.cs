@@ -17,6 +17,8 @@ public interface IMushroomTrait{
 	/// Is the trait independent of properties?
 	/// </summary>
 	public bool IsIndependent { get; }
+	
+	public int GetVisualPartGroupIdx();
 }
 
 
@@ -59,6 +61,9 @@ public abstract class MushroomTrait<T> : IMushroomTrait{
 
 	//public abstract bool IsGlobalOnly { get; }
 	public abstract bool IsIndependent { get; }
+	public virtual int GetVisualPartGroupIdx() {
+		return -1;
+	}
 
 
 	public MushroomTrait(){

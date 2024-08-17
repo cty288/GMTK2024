@@ -49,4 +49,8 @@ public class VeryShy : IndependentMushroomTrait {
 	public override string GetTraitName() {
 		return "Very Shy";
 	}
+
+	public override int GetVisualPartGroupIdx() {
+		return 0;
+	}
 }
