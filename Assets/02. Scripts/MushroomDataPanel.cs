@@ -19,6 +19,10 @@ public class MushroomDataPanel : MonoBehaviour {
     public void SetPanelDisplay(MushroomData data) {
         nameText.text = "CuRRENTLY DISPLAYING MUSHROOM";
         dataText.text = MushroomDataHelper.ToString(data);
+        dataText.text += "\nTraits: \n";
+        foreach (var trait in data.GetTraits()) {
+            dataText.text += trait.ToString() + "\n";
+        }
     }
 
     public void ResetPanelDisplay() {

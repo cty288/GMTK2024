@@ -29,5 +29,6 @@ public enum ShroomPart
     Ring,
     Stem,
     Volvae,
-    Pattern
+    Pattern,
+    Global
 }

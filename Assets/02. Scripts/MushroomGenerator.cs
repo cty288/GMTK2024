@@ -37,26 +37,25 @@ public class MushroomGenerator : MonoBehaviour
         if (partType == ShroomPart.Stem || partType == ShroomPart.Ring)
         {
             mushroom.transform.localScale = 
-                new Vector3(mushroom.transform.localScale.x * shroomParams.stemWidth, 
-                    mushroom.transform.localScale.y * shroomParams.stemHeight, 1);
+                new Vector3(mushroom.transform.localScale.x * shroomParams.stemWidth.RealValue, 
+                    mushroom.transform.localScale.y * shroomParams.stemHeight.RealValue, 1);
         }
         
         if (partType == ShroomPart.Cap || partType == ShroomPart.Gills)
         {
             mushroom.transform.localScale = 
-                new Vector3(mushroom.transform.localScale.x * shroomParams.capWidth, 
-                    mushroom.transform.localScale.y * shroomParams.capHeight, 1);
+                new Vector3(mushroom.transform.localScale.x * shroomParams.capWidth.RealValue, 
+                    mushroom.transform.localScale.y * shroomParams.capHeight.RealValue, 1);
         }
         
         foreach (var spr in mushroom.primaryColorIn)
         {
             if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
             {
-                spr.color = shroomParams.stemColor;
+                spr.color = shroomParams.stemColor.RealValue;
             }
-            else
-            {
-                spr.color = shroomParams.capColor;
+            else {
+                spr.color = shroomParams.capColor.RealValue;
             }
             
         }
@@ -65,11 +64,11 @@ public class MushroomGenerator : MonoBehaviour
         {
             if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
             {
-                spr.color = shroomParams.stemColor0;
+                spr.color = shroomParams.stemColor0.RealValue;
             }
             else
             {
-                spr.color = shroomParams.capColor0;
+                spr.color = shroomParams.capColor0.RealValue;
             }
         }
         
@@ -77,11 +76,11 @@ public class MushroomGenerator : MonoBehaviour
         {
             if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
             {
-                spr.color = shroomParams.stemColor1;
+                spr.color = shroomParams.stemColor1.RealValue;
             }
             else
             {
-                spr.color = shroomParams.capColor1;
+                spr.color = shroomParams.capColor1.RealValue;
             }
         }
 

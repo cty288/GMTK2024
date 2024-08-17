@@ -1,4 +1,6 @@
 using DG.Tweening;
+using MikroFramework.Event;
+using NHibernate.Util;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -15,14 +17,18 @@ public class Mushroom : MonoBehaviour {
         InitializeMushroom();
 
         DOTween.Sequence()
-            .Append(renderGO.transform.DOScale(data.oscillation, data.oscillationSpeed).SetEase(Ease.InOutSine))
-            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed))
+            .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
+            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue))
             .SetLoops(-1, LoopType.Restart);
     }
 
     private void InitializeMushroom()
     {
         data = MushroomDataHelper.GetRandomMushroomData();
+        data.AddTraitToAllParts(new VeryRed());
+        data.AddTrait(ShroomPart.Cap, new VeryBlue());
+        
+        
 
         MushroomPartManager parts = MushroomPartManager.Instance;
 
@@ -33,7 +39,11 @@ public class Mushroom : MonoBehaviour {
         }, data, t: renderGO.transform);
 
         sortLayer.sortingOrder = (int) transform.position.y * -1000;
+        
+
     }
+
+
 
     private void OnMouseEnter() {
         MushroomDataPanel.Instance.SetPanelDisplay(data);
