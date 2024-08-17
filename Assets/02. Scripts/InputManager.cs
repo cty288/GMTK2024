@@ -26,6 +26,10 @@ public class InputManager : MonoBehaviour {
     public Vector2 panLimitMin;    // Minimum limits for panning
     public Vector2 panLimitMax;    // Maximum limits for panning
     private Vector3 dragOrigin;    // Starting position of the mouse drag
+    private Vector3 targetPosition;
+    public float smoothness;
+    public float inertia = 3;
+    private bool isDragging;
 
     /* Input Actions */
     //public event Action OnMouseClick;
@@ -52,24 +56,38 @@ public class InputManager : MonoBehaviour {
             //TODO: Make Clicking on Objects Eat Input
 
             // Panning: Record the initial position of the mouse when dragging starts
+            Debug.Log("clicked");
             dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            print(dragOrigin);
+            isDragging = true;
+            
         }
-
         PanCamera();
+
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             OnEscape?.Invoke();
         }
     }
 
-    void PanCamera() {
-        if (Input.GetMouseButton(0)) {
-            print("Panning");
+    void PanCamera()
+    {
+        if (Input.GetMouseButton(0) && isDragging)
+        {
+            inertia = 3;
+            Vector3 difference = dragOrigin - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            targetPosition = Camera.main.transform.position + new Vector3(difference.x, difference.y, 0);
 
-            //var delta : Vector3 = Input.mousePosition - lastPosition;
-            //transform.Translate(delta.x * mouseSensitivity, delta.y * mouseSensitivity, 0);
-            //lastPosition = Input.mousePosition;
+            // Smoothly move the camera towards the target position
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, smoothness * Time.deltaTime);
+        }
+        else if( (Vector3.Distance(targetPosition , Camera.main.transform.position) > 1) && isDragging)
+        {
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, inertia * Time.deltaTime);
+            inertia -= Time.deltaTime;
+            if(inertia < 0)
+            {
+                isDragging = false;
+            }
         }
     }
 
