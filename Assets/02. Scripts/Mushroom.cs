@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -7,21 +8,26 @@ public class Mushroom : MonoBehaviour {
     [SerializeField] private SortingGroup sortLayer;
     [SerializeField] private Collider2D _collider;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip pickupSFX;
+    [SerializeField] private AudioClip plantSFX;
+    [SerializeField] private AudioClip destroySFX;
+
     private MushroomData data;
 
-    private bool isSelected;
+    private Sequence oscillationSequence;
+    [HideInInspector] public bool isSelected = false;
 
     private void Start() {
         InitializeMushroom();
 
-        DOTween.Sequence()
+        oscillationSequence = DOTween.Sequence()
             .Append(renderGO.transform.DOScale(data.oscillation, data.oscillationSpeed).SetEase(Ease.InOutSine))
             .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed))
             .SetLoops(-1, LoopType.Restart);
     }
 
-    private void InitializeMushroom()
-    {
+    private void InitializeMushroom() {
         data = MushroomDataHelper.GetRandomMushroomData();
 
         MushroomPartManager parts = MushroomPartManager.Instance;
@@ -32,25 +38,48 @@ public class Mushroom : MonoBehaviour {
             parts.partsSO.cap[0], parts.partsSO.pattern[0]
         }, data, t: renderGO.transform);
 
-        sortLayer.sortingOrder = (int) transform.position.y * -1000;
+        sortLayer.sortingOrder = (int)transform.position.y * -1000;
     }
 
     private void OnMouseEnter() {
         MushroomDataPanel.Instance.SetPanelDisplay(data);
-
-        
     }
 
     private void OnMouseExit() {
         MushroomDataPanel.Instance.ResetPanelDisplay();
     }
 
-    private void OnMouseDown()
-    {
-        MushroomEntityManager.Instance.KillMushroom(this.gameObject);
+    private void Update() {
+        if (isSelected) {
+            transform.position = InputManager.Instance.GetMouseWorldPosition();
+            sortLayer.sortingOrder = (int)transform.position.y * -1000;
+        }
     }
 
-    private void DestroySelf() {
+    public void Select() {
+        audioSource.clip = pickupSFX;
+        audioSource.Play();
+
+        oscillationSequence.Pause();
+
+        isSelected = true;
+    }
+
+    public void Deselect() {
+        audioSource.clip = plantSFX;
+        audioSource.Play();
+
+        oscillationSequence.Play();
+
+        isSelected = false;
+    }
+
+    public async void DestroySelf() {
+        audioSource.clip = destroySFX;
+        audioSource.Play();
+
+        await UniTask.WaitUntil(() => !audioSource.isPlaying);
+        oscillationSequence.Kill();
         Destroy(gameObject);
     }
 }

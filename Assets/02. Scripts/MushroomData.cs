@@ -51,7 +51,7 @@ public static class MushroomDataHelper {
             stemColor = new Color(Random.value, Random.value, Random.value),
             stemColor0 = new Color(Random.value, Random.value, Random.value),
             stemColor1 = new Color(Random.value, Random.value, Random.value),
-            
+
             isPoisonous = Random.value > 0.5f,
             sporeRange = Random.Range(0.8f, 1.6f)
         };

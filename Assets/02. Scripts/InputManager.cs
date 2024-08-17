@@ -21,18 +21,9 @@ public class InputManager : MonoBehaviour {
     private Vector3 mousePos;
     private Vector3 mousePosWorld;
 
-    /* Camera Panning */
-    public float panSpeed = 20f;   // Speed at which the camera will pan
-    public Vector2 panLimitMin;    // Minimum limits for panning
-    public Vector2 panLimitMax;    // Maximum limits for panning
-    private Vector3 dragOrigin;    // Starting position of the mouse drag
-    private Vector3 targetPosition;
-    public float smoothness;
-    public float inertia = 3;
-    private bool isDragging;
-
     /* Input Actions */
-    //public event Action OnMouseClick;
+    public event Action OnMouseDown;
+    public event Action OnMouseUp;
     public event Action OnEscape;
 
     public void Update() {
@@ -51,43 +42,15 @@ public class InputManager : MonoBehaviour {
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (Input.GetMouseButtonDown(0)) {
-            //OnMouseClick?.Invoke();
-
-            //TODO: Make Clicking on Objects Eat Input
-
-            // Panning: Record the initial position of the mouse when dragging starts
-            Debug.Log("clicked");
-            dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            isDragging = true;
-            
+            OnMouseDown?.Invoke();
         }
-        PanCamera();
 
+        if (Input.GetMouseButtonUp(0)) {
+            OnMouseUp?.Invoke();
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             OnEscape?.Invoke();
-        }
-    }
-
-    void PanCamera()
-    {
-        if (Input.GetMouseButton(0) && isDragging)
-        {
-            inertia = 3;
-            Vector3 difference = dragOrigin - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPosition = Camera.main.transform.position + new Vector3(difference.x, difference.y, 0);
-
-            // Smoothly move the camera towards the target position
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, smoothness * Time.deltaTime);
-        }
-        else if( (Vector3.Distance(targetPosition , Camera.main.transform.position) > 1) && isDragging)
-        {
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, inertia * Time.deltaTime);
-            inertia -= Time.deltaTime;
-            if(inertia < 0)
-            {
-                isDragging = false;
-            }
         }
     }
 
