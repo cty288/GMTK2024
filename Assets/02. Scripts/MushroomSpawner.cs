@@ -1,20 +1,28 @@
 using System;
+using MikroFramework.Architecture;
 using MikroFramework.ResKit;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MushroomSpawner : MonoBehaviour {
+public class MushroomSpawner : MonoBehaviour , ICanGetModel{
     public GameObject mushroomPrefab;
 
-    public int mushroomsToSpawn = 10;
+    public int mushroomsToSpawn = 3;
     public Vector2 rangeX = new Vector2(-9f, 9f);
     public Vector2 rangeY = new Vector2(-5f, 5f);
 
 
+    private void Awake() {
+        SpawnMushrooms();
+    }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             SpawnMushrooms();
+        }
+       
+        if (Input.GetKeyDown(KeyCode.P)) {
+            this.GetModel<GameTimeModel>().Day.Value++;
         }
     }
 
@@ -27,11 +35,15 @@ public class MushroomSpawner : MonoBehaviour {
     private void SpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
             Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-            GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 2, randomPosition);
+            GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, randomPosition);
            // mushroomGO.transform.position = randomPosition;
             //GameObject mushroomGO = Instantiate(mushroomPrefab, randomPosition, Quaternion.identity);
             mushroomGO.transform.SetParent(transform);
             mushroomGO.GetComponent<Mushroom>().RegenerateCollider();
         }
+    }
+
+    public IArchitecture GetArchitecture() {
+        return MainGame.Interface;
     }
 }
