@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 // Create the visual representation of a mushroom
@@ -14,8 +15,21 @@ public class MushroomGenerator : MonoBehaviour
         
         GenerateCustomMushroom( new MushroomPart[]
         {
-            parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0], parts.partsSO.cap[0], parts.partsSO.pattern[0]
+            parts.partsSO.volva[Random.Range(0, parts.partsSO.volva.Length)], 
+            parts.partsSO.stem[Random.Range(0, parts.partsSO.stem.Length)], 
+            parts.partsSO.ring[Random.Range(0, parts.partsSO.ring.Length)], 
+            parts.partsSO.gill[Random.Range(0, parts.partsSO.gill.Length)], 
+            parts.partsSO.cap[Random.Range(0, parts.partsSO.cap.Length)], 
+            parts.partsSO.pattern[Random.Range(0, parts.partsSO.pattern.Length)]
         }, MushroomDataHelper.GetRandomMushroomData());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public static GameObject GenerateCustomMushroom(MushroomPart[] parts, MushroomData data, ShroomPart partType = ShroomPart.Volvae, Transform t = null)
