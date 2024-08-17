@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class MushroomPartManager : MonoBehaviour
             {
                 GameObject go = new GameObject();
                 _instance = go.AddComponent<MushroomPartManager>();
-                _instance.partsSO = AssetDatabase.LoadAssetAtPath<MushroomPartsSO>("Assets/DefaultMushroomParts.asset");
+                _instance.partsSO = Resources.Load<MushroomPartsSO>("DefaultMushroomParts");
                 return _instance;
             }
         }
