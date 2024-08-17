@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour {
     [SerializeField] private GameObject renderGO;
-    [SerializeField] private SpriteRenderer capSprite;
-    [SerializeField] private SpriteRenderer stemSprite;
     [SerializeField] private Collider2D _collider;
 
     private MushroomData data;
@@ -20,13 +18,17 @@ public class Mushroom : MonoBehaviour {
             .SetLoops(-1, LoopType.Restart);
     }
 
-    private void InitializeMushroom() {
+    private void InitializeMushroom()
+    {
         data = MushroomDataHelper.GetRandomMushroomData();
 
-        capSprite.size = new Vector2(data.capWidth, data.capHeight);
-        stemSprite.size = new Vector2(data.stemWidth, data.stemHeight);
-        capSprite.color = data.capColor;
-        stemSprite.color = data.stemColor;
+        MushroomPartManager parts = MushroomPartManager.Instance;
+
+        MushroomGenerator.GenerateCustomMushroom(new MushroomPart[]
+        {
+            parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0],
+            parts.partsSO.cap[0],
+        }, data, t: renderGO.transform);
     }
 
     private void OnMouseEnter() {

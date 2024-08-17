@@ -9,6 +9,10 @@ public struct MushroomData {
     public float oscillationSpeed;
     public Color capColor;
     public Color stemColor;
+    public Color capColor0;
+    public Color stemColor0;
+    public Color capColor1;
+    public Color stemColor1;
     public bool isPoisonous;
     public float sporeRange;
 }
@@ -24,6 +28,10 @@ public static class MushroomDataHelper {
             oscillationSpeed = 1f,
             capColor = Color.red,
             stemColor = Color.white,
+            capColor0 = Color.red,
+            stemColor0 = Color.white,
+            capColor1 = Color.red,
+            stemColor1 = Color.white,
             isPoisonous = false,
             sporeRange = 1f
         };
@@ -38,7 +46,12 @@ public static class MushroomDataHelper {
             oscillation = new Vector2(Random.Range(0.8f, 1.3f), Random.Range(0.8f, 1.3f)),
             oscillationSpeed = Random.Range(0.3f, 0.9f),
             capColor = new Color(Random.value, Random.value, Random.value),
+            capColor0 = new Color(Random.value, Random.value, Random.value),
+            capColor1 = new Color(Random.value, Random.value, Random.value),
             stemColor = new Color(Random.value, Random.value, Random.value),
+            stemColor0 = new Color(Random.value, Random.value, Random.value),
+            stemColor1 = new Color(Random.value, Random.value, Random.value),
+            
             isPoisonous = Random.value > 0.5f,
             sporeRange = Random.Range(0.8f, 1.6f)
         };

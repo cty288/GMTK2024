@@ -7,25 +7,27 @@ using UnityEngine;
 // Create the visual representation of a mushroom
 public class MushroomGenerator : MonoBehaviour
 {
-    [SerializeField] private MushroomPart[] volva;
-    [SerializeField] private MushroomPart[] stem;
-    [SerializeField] private MushroomPart[] ring;
-    [SerializeField] private MushroomPart[] gill;
-    [SerializeField] private MushroomPart[] cap;
-
     private void Start()
     {
+        MushroomPartManager parts = MushroomPartManager.Instance;
+        
         GenerateCustomMushroom( new MushroomPart[]
         {
-            volva[0], stem[0], ring[0], gill[0], cap[0]
-        }, new MushroomParams(2, 1.2f, 1, 2, Color.red, Color.cyan, Color.gray));
+            parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0], parts.partsSO.cap[0], 
+        }, MushroomDataHelper.GetRandomMushroomData());
     }
 
-    public GameObject GenerateCustomMushroom(MushroomPart[] parts, MushroomParams shroomParams, ShroomPart partType = ShroomPart.Volvae)
+    public static GameObject GenerateCustomMushroom(MushroomPart[] parts, MushroomData data, ShroomPart partType = ShroomPart.Volvae, Transform t = null)
     {
-        return GenerateCustomMushroomR(parts, shroomParams, partType, transform, 0);
+        if (t == null)
+        {
+            var go = new GameObject();
+            t = go.transform;
+        }
+        
+        return GenerateCustomMushroomR(parts, data, partType, t, 0);
     }
-    public GameObject GenerateCustomMushroomR(MushroomPart[] parts, MushroomParams shroomParams, ShroomPart partType, Transform t, int i)
+    public static GameObject GenerateCustomMushroomR(MushroomPart[] parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i)
     {
         if (i >= 20) return null;
         MushroomPart mushroom = Instantiate<MushroomPart>(FindMushroomPartOfType(parts, partType), t.position, t.rotation);
@@ -44,20 +46,42 @@ public class MushroomGenerator : MonoBehaviour
                 new Vector3(mushroom.transform.localScale.x * shroomParams.capWidth, 
                     mushroom.transform.localScale.y * shroomParams.capHeight, 1);
         }
-
+        
         foreach (var spr in mushroom.primaryColorIn)
         {
-            spr.color = shroomParams.primary;
+            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
+            {
+                spr.color = shroomParams.stemColor;
+            }
+            else
+            {
+                spr.color = shroomParams.capColor;
+            }
+            
         }
         
         foreach (var spr in mushroom.secondaryColorIn)
         {
-            spr.color = shroomParams.secondary;
+            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
+            {
+                spr.color = shroomParams.stemColor0;
+            }
+            else
+            {
+                spr.color = shroomParams.capColor0;
+            }
         }
         
         foreach (var spr in mushroom.tertiaryColorIn)
         {
-            spr.color = shroomParams.tertiary;
+            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
+            {
+                spr.color = shroomParams.stemColor1;
+            }
+            else
+            {
+                spr.color = shroomParams.capColor1;
+            }
         }
 
         foreach (var connector in mushroom.connectors)
@@ -68,7 +92,7 @@ public class MushroomGenerator : MonoBehaviour
         return mushroom.gameObject;
     }
 
-    private MushroomPart FindMushroomPartOfType(MushroomPart[] parts, ShroomPart partType)
+    private static MushroomPart FindMushroomPartOfType(MushroomPart[] parts, ShroomPart partType)
     {
         foreach (var part in parts)
         {
@@ -80,25 +104,4 @@ public class MushroomGenerator : MonoBehaviour
 
         return null;
     }
-}
-
-public struct MushroomParams
-{
-    public MushroomParams(float sH, float sW, float cH, float cW, Color p, Color s, Color t)
-    {
-        stemHeight = sH;
-        stemWidth = sW;
-        capHeight = cH;
-        capWidth = cW;
-        primary = p;
-        secondary = s;
-        tertiary = t;
-    }
-    public float stemHeight;
-    public float stemWidth;
-    public float capHeight;
-    public float capWidth;
-    public Color primary;
-    public Color secondary;
-    public Color tertiary;
 }

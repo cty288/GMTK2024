@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6613316980215783906}
   - component: {fileID: 3891400348071350223}
+  - component: {fileID: 3499400423636953663}
   m_Layer: 0
   m_Name: ShroomTest_Stem
   m_TagString: Untagged
@@ -116,6 +117,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &3499400423636953663
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6195376329329942359}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0.05878496, y: -1.1936547}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10, y: 10}
+    newSize: {x: 10, y: 10}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.8846035, y: 3.335427}
+  m_EdgeRadius: 0
 --- !u!1 &6227118498672198534
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,8 +169,8 @@ Transform:
   m_GameObject: {fileID: 6227118498672198534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6613316980215783906}
   m_Father: {fileID: 0}
@@ -165,4 +192,7 @@ MonoBehaviour:
   connectors:
   - shroomPart: 2
     transform: {fileID: 4323701870668193289}
-  scaleMod: {x: 0, y: 0, z: 0}
+  scaleMod: {x: 0.25, y: 0.25, z: 0.25}
+  primaryColorIn: []
+  secondaryColorIn: []
+  tertiaryColorIn: []
