@@ -271,15 +271,11 @@ public static class MushroomDataHelper {
         int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);
         var traits = TraitPool.GetRandomTraits(traitCount);
         List<ShroomPart> allParts = new List<ShroomPart>() {ShroomPart.Cap, ShroomPart.Stem, ShroomPart.Global};
+        
+        
         foreach (var trait in traits) {
-            int partCount = Random.Range(1, 4);
-            var parts = new ShroomPart[partCount];
-            TraitPool.Shuffle(allParts);
-            for (int i = 0; i < partCount; i++) {
-                parts[i] = allParts[i];
-            }
-            
-            data.AddTraitToParts(parts, trait);
+           int partIdx = Random.Range(0, allParts.Count);
+           data.AddTrait(allParts[partIdx], trait);
         }
         return data;
 
