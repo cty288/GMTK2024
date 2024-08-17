@@ -46,6 +46,21 @@ public class Mushroom : AbstractMikroController<MainGame> {
         }
     }
 
+    /// <summary>
+    /// Updates the mushroom part sizes based on the information in data
+    /// </summary>
+    private void ChangeMushroomSizes()
+    {
+        foreach (var stem in mushroomVisualParts.Stem)
+        {
+            stem.SetPartSize(data.stemHeight.RealValue, data.stemWidth.RealValue);
+        }
+        foreach (var cap in mushroomVisualParts.Cap)
+        {
+            cap.SetPartSize(data.capHeight.RealValue, data.capWidth.RealValue);
+        }
+    }
+
 
     public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
@@ -80,6 +95,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             else { //die
                 DestroySelf();
             }
+            ChangeMushroomSizes();
             RegenerateCollider();
         }
     }

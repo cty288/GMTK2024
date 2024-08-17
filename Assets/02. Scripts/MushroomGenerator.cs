@@ -139,17 +139,13 @@ public class MushroomGenerator : MonoBehaviour
         if (partType == ShroomPart.Stem)
         {
             v.Stem.Add(mushroom);
-            mushroom.transform.localScale = 
-                new Vector3(mushroom.transform.localScale.x * shroomParams.stemWidth.RealValue, 
-                    mushroom.transform.localScale.y * shroomParams.stemHeight.RealValue, 1);
+            mushroom.SetPartSize(shroomParams.stemHeight.RealValue, shroomParams.stemWidth.RealValue);
         }
         
         if (partType == ShroomPart.Cap)
         {
             v.Cap.Add(mushroom);
-            mushroom.transform.localScale = 
-                new Vector3(mushroom.transform.localScale.x * shroomParams.capWidth.RealValue, 
-                    mushroom.transform.localScale.y * shroomParams.capHeight.RealValue, 1);
+            mushroom.SetPartSize(shroomParams.capHeight.RealValue, shroomParams.capWidth.RealValue);
         }
 
         if (partType == ShroomPart.Volvae)

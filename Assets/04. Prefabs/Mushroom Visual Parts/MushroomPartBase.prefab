@@ -205,6 +205,7 @@ MonoBehaviour:
   connectors:
   - shroomPart: 2
     transform: {fileID: 4323701870668193289}
+    child: {fileID: 0}
   scaleMod: {x: 0.25, y: 0.25, z: 0.25}
   primaryColorIn: []
   secondaryColorIn: []
