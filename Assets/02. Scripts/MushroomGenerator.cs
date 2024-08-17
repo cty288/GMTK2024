@@ -15,7 +15,7 @@ public class MushroomGenerator : MonoBehaviour
     {
         MushroomPartManager parts = MushroomPartManager.Instance;
 
-        GenerateRandomMushroom(1, 2, new Vector3(0, 0, 0));
+        //GenerateRandomMushroom(1, 2, new Vector3(0, 0, 0));
     }
 
     private void Update()
