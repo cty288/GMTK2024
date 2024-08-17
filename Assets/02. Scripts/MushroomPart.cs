@@ -25,8 +25,6 @@ public class MushroomPart : MonoBehaviour
 public enum ShroomPart
 {
     Cap,
-    Gills,
-    Ring,
     Stem,
     Volvae,
     Pattern,

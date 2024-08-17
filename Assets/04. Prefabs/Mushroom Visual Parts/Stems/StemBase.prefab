@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
+      propertyPath: shroomPart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: tertiaryColorIn.Array.size
       value: 1
       objectReference: {fileID: 0}

@@ -33,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: shroomPart
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: tertiaryColorIn.Array.size
@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 8973840011475609127}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: connectors.Array.data[0].shroomPart
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6227118498672198534, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: m_Name
