@@ -32,13 +32,12 @@ public class Mushroom : MonoBehaviour {
 
     private void InitializeMushroom() {
         data = MushroomDataHelper.GetRandomMushroomData();
+        
+        
+        
         data.AddTraitToAllParts(new VeryRed());
         data.AddTrait(ShroomPart.Cap, new VeryBlue());
-        
-        
-
         MushroomPartManager parts = MushroomPartManager.Instance;
-
         MushroomGenerator.GenerateCustomMushroom(new MushroomPart[]
         {
             parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0],

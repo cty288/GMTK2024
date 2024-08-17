@@ -7,6 +7,7 @@ public enum MushroomPropertyTag {
     Height,
     Width,
     Size,
+    Growth,
     Color,
     Poisonous,
     SporeRange,
@@ -47,6 +48,7 @@ public class MushroomData {
     public MushroomProperty<float> capWidth;
     public MushroomProperty<float> stemHeight;
     public MushroomProperty<float> stemWidth;
+    public MushroomProperty<float> growthSpeed;
     public MushroomProperty<Vector2> oscillation;
     public MushroomProperty<float> oscillationSpeed;
     public MushroomProperty<Color> capColor;
@@ -58,12 +60,25 @@ public class MushroomData {
     public MushroomProperty<bool> isPoisonous;
     public MushroomProperty<float> sporeRange;
     
-    public MushroomData() :  this(1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
+    
+    public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(2);
+
+    public int GetStage() {
+        if (GrowthDay <= 2) {
+            return 1;
+        }else if (GrowthDay <= 4) {
+            return 2;
+        }
+
+        return 3;
+    }
+    
+    public MushroomData() :  this(1, 1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
         
         AddBasicProperties();
     }
     
-    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
+    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, float growthSpeed, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
         this.capHeight = new MushroomProperty<float>(capHeight, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
         this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
         this.stemHeight = new MushroomProperty<float>(stemHeight, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
@@ -78,6 +93,7 @@ public class MushroomData {
         this.stemColor1 = new MushroomProperty<Color>(stemColor1, MushroomPropertyTag.Color);
         this.isPoisonous = new MushroomProperty<bool>(isPoisonous, MushroomPropertyTag.Poisonous);
         this.sporeRange = new MushroomProperty<float>(sporeRange, MushroomPropertyTag.SporeRange);
+        this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
         
         AddBasicProperties();
     }
@@ -97,6 +113,14 @@ public class MushroomData {
         AddProperty(ShroomPart.Global, sporeRange);
         AddProperty(ShroomPart.Global, oscillation);
         AddProperty(ShroomPart.Global, oscillationSpeed);
+    }
+
+    public int GetSellPrice() { //TODO: later
+        return 2;
+    }
+    
+    public int GetBuyPrice() { //TODO: later
+        return 1;
     }
     
     public void AddProperty(ShroomPart part, IMushroomProperty property) {
@@ -177,7 +201,29 @@ public static class MushroomDataHelper {
     public static MushroomData GetControlMushroomData() {
         return new MushroomData();
     }
+    
+    
+    public static MushroomData GetInitialMushroomData() {
+        MushroomData data = new MushroomData(
+            Random.Range(0.5f, 1),
+            Random.Range(0.5f, 1),
+            Random.Range(0.5f, 1),
+            Random.Range(0.5f, 1),
+            1,
+            new Vector2(Random.Range(0.5f, 1), Random.Range(0.5f, 1)),
+            Random.Range(0.5f, 1),
+            new Color(Random.value, Random.value, Random.value),
+            new Color(Random.value, Random.value, Random.value),
+            new Color(Random.value, Random.value, Random.value),
+            new Color(Random.value, Random.value, Random.value),
+            new Color(Random.value, Random.value, Random.value),
+            new Color(Random.value, Random.value, Random.value),
+            Random.value > 0.5f,
+            Random.Range(0.5f, 1));
 
+        return data;
+    }
+    
     public static MushroomData GetRandomMushroomData() {
         /*return new MushroomData {
             capHeight = Random.Range(0.3f, 1.8f),
@@ -202,6 +248,7 @@ public static class MushroomDataHelper {
             Random.Range(0.3f, 1.8f),
             Random.Range(0.3f, 1.8f),
             Random.Range(0.3f, 1.8f),
+            1,
             new Vector2(Random.Range(0.8f, 1.3f), Random.Range(0.8f, 1.3f)),
             Random.Range(0.3f, 0.9f),
             new Color(Random.value, Random.value, Random.value),
