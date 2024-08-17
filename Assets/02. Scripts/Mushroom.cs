@@ -37,10 +37,17 @@ public class Mushroom : MonoBehaviour {
 
     private void OnMouseEnter() {
         MushroomDataPanel.Instance.SetPanelDisplay(data);
+
+        
     }
 
     private void OnMouseExit() {
         MushroomDataPanel.Instance.ResetPanelDisplay();
+    }
+
+    private void OnMouseDown()
+    {
+        MushroomEntityManager.Instance.KillMushroom(this.gameObject);
     }
 
     private void DestroySelf() {
