@@ -77,6 +77,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             else { //die
                 DestroySelf();
             }
+            RegenerateCollider();
         }
     }
 
