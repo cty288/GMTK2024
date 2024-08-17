@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MushroomSpawner : MonoBehaviour {
     public GameObject mushroomPrefab;
@@ -11,6 +13,12 @@ public class MushroomSpawner : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space)) {
             SpawnMushrooms();
         }
+    }
+
+    private void Start() {
+        Debug.Log(TraitPool.GetRandomTraits(1)[0]);
+        Debug.Log(TraitPool.GetRandomTraits(1, TraitFlags.Good)[0]);
+        Debug.Log(TraitPool.GetRandomTraits(1, TraitFlags.Bad | TraitFlags.Good, false)[0]); 
     }
 
     private void SpawnMushrooms() {

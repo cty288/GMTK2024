@@ -12,16 +12,15 @@ public class MushroomGenerator : MonoBehaviour
     private void Start()
     {
         MushroomPartManager parts = MushroomPartManager.Instance;
-        
-        GenerateCustomMushroom( new MushroomPart[]
-        {
-            parts.partsSO.volva[Random.Range(0, parts.partsSO.volva.Length)], 
-            parts.partsSO.stem[Random.Range(0, parts.partsSO.stem.Length)], 
-            parts.partsSO.ring[Random.Range(0, parts.partsSO.ring.Length)], 
-            parts.partsSO.gill[Random.Range(0, parts.partsSO.gill.Length)], 
-            parts.partsSO.cap[Random.Range(0, parts.partsSO.cap.Length)], 
+
+        GenerateCustomMushroom(new MushroomPart[] {
+            parts.partsSO.volva[Random.Range(0, parts.partsSO.volva.Length)],
+            parts.partsSO.stem[Random.Range(0, parts.partsSO.stem.Length)],
+            parts.partsSO.ring[Random.Range(0, parts.partsSO.ring.Length)],
+            parts.partsSO.gill[Random.Range(0, parts.partsSO.gill.Length)],
+            parts.partsSO.cap[Random.Range(0, parts.partsSO.cap.Length)],
             parts.partsSO.pattern[Random.Range(0, parts.partsSO.pattern.Length)]
-        }, MushroomDataHelper.GetRandomMushroomData());
+        }, MushroomDataHelper.GetRandomMushroomData(1, 2));
     }
 
     private void Update()

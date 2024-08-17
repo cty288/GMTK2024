@@ -168,25 +168,51 @@ public class MushroomData {
     }
     
     public void AddTrait<T>(ShroomPart part, MushroomTrait<T> trait) {
+        if (trait.IsGlobalOnly) {
+            part = ShroomPart.Global;
+        }
         if (!flattenedProperties.ContainsKey(part)) {
             return;
         }
         foreach (var property in flattenedProperties[part]) {
-            if(property is MushroomProperty<T> tProperty) {
-                if (trait.SelectTrait(tProperty)) {
-                    trait.AddInfluencedProperty(tProperty);
-                    trait.OnStartApplyToProperty(tProperty);
-                }
+            if (trait.SelectTrait(property)) {
+                trait.AddInfluencedProperty(property);
+                trait.OnStartApplyToProperty(property);
             }
         }
         traits.Add(trait);
     }
     
-    public void AddTraitToParts<T>(ShroomPart[] parts, MushroomTrait<T> trait) {
+    public void AddTrait(ShroomPart part, IMushroomTrait trait) {
+        if (trait.IsGlobalOnly) {
+            part = ShroomPart.Global;
+        }
+        if (!flattenedProperties.ContainsKey(part)) {
+            return;
+        }
+        
+        foreach (var property in flattenedProperties[part]) {
+            if (trait.SelectTrait(property)) {
+                trait.AddInfluencedProperty(property);
+                trait.OnStartApplyToProperty(property);
+            }
+        }
+        traits.Add(trait);
+    }
+    
+    public void AddTraitToParts(ShroomPart[] parts, IMushroomTrait trait) {
+        if (trait.IsGlobalOnly) {
+            parts = new ShroomPart[] {ShroomPart.Global};
+        }
         parts.ForEach(part => AddTrait(part, trait));
     }
     
-    public void AddTraitToAllParts<T>(MushroomTrait<T> trait) {
+    public void AddTraitToAllParts(IMushroomTrait trait) {
+        if (trait.IsGlobalOnly) {
+            AddTrait(ShroomPart.Global, trait);
+            return;
+        }
+        
         foreach (var part in flattenedProperties.Keys) {
             AddTrait(part, trait);
         }
@@ -224,26 +250,8 @@ public static class MushroomDataHelper {
         return data;
     }
     
-    public static MushroomData GetRandomMushroomData() {
-        /*return new MushroomData {
-            capHeight = Random.Range(0.3f, 1.8f),
-            capWidth = Random.Range(0.3f, 1.8f),
-            stemHeight = Random.Range(0.3f, 1.8f),
-            stemWidth = Random.Range(0.3f, 1.8f),
-            oscillation = new Vector2(Random.Range(0.8f, 1.3f), Random.Range(0.8f, 1.3f)),
-            oscillationSpeed = Random.Range(0.3f, 0.9f),
-            capColor = new Color(Random.value, Random.value, Random.value),
-            capColor0 = new Color(Random.value, Random.value, Random.value),
-            capColor1 = new Color(Random.value, Random.value, Random.value),
-            stemColor = new Color(Random.value, Random.value, Random.value),
-            stemColor0 = new Color(Random.value, Random.value, Random.value),
-            stemColor1 = new Color(Random.value, Random.value, Random.value),
-
-            isPoisonous = Random.value > 0.5f,
-            sporeRange = Random.Range(0.8f, 1.6f)
-        };*/
-
-        return new MushroomData(
+    public static MushroomData GetRandomMushroomData(int minTraitCount, int maxTraitCount) {
+        MushroomData data = new MushroomData(
             Random.Range(0.3f, 1.8f),
             Random.Range(0.3f, 1.8f),
             Random.Range(0.3f, 1.8f),
@@ -259,6 +267,21 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
             Random.Range(0.8f, 1.6f));
+        
+        int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);
+        var traits = TraitPool.GetRandomTraits(traitCount);
+        List<ShroomPart> allParts = new List<ShroomPart>() {ShroomPart.Cap, ShroomPart.Stem, ShroomPart.Global};
+        foreach (var trait in traits) {
+            int partCount = Random.Range(1, 4);
+            var parts = new ShroomPart[partCount];
+            TraitPool.Shuffle(allParts);
+            for (int i = 0; i < partCount; i++) {
+                parts[i] = allParts[i];
+            }
+            
+            data.AddTraitToParts(parts, trait);
+        }
+        return data;
 
     }
 

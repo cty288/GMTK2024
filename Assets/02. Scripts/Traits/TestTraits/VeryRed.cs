@@ -7,10 +7,12 @@ public class VeryRed : MushroomTrait<Color> {
 		return new MushroomPropertyTag[] {MushroomPropertyTag.Color};
 	}
 
-	public override void OnStartApplyToProperty(MushroomProperty<Color> property) {
+	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
 		property.RealValue.Value += new Color(0.5f, 0, 0);
 	}
-
+	
+	
+	public override bool IsGlobalOnly { get; } = false;
 	public override string GetTraitName() {
 		return "Very Red";
 	}
@@ -25,7 +27,9 @@ public class VeryBlue : MushroomTrait<Color> {
 		return new MushroomPropertyTag[] {MushroomPropertyTag.Color};
 	}
 
-	public override void OnStartApplyToProperty(MushroomProperty<Color> property) {
+	public override bool IsGlobalOnly { get; } = false;
+
+	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
 		property.RealValue.Value = new Color(0f, 0, 1f);
 	}
 
