@@ -8,6 +8,8 @@ using UnityEngine.Rendering;
 
 public class Mushroom : MonoBehaviour {
     [SerializeField] private GameObject renderGO;
+
+    public GameObject RenderGo => renderGO;
     [SerializeField] private SortingGroup sortLayer;
     [SerializeField] private Collider2D _collider;
 
@@ -15,14 +17,18 @@ public class Mushroom : MonoBehaviour {
     [SerializeField] private AudioClip pickupSFX;
     [SerializeField] private AudioClip plantSFX;
     [SerializeField] private AudioClip destroySFX;
-
+    [SerializeField] private bool debug = false;
     private MushroomData data;
 
     private Sequence oscillationSequence;
     [HideInInspector] public bool isSelected = false;
 
     private void Start() {
-        InitializeMushroom();
+        if (debug) {
+            
+        }
+
+       // InitializeMushroom(MushroomDataHelper.GetRandomMushroomData(1,2));
 
         oscillationSequence = DOTween.Sequence()
             .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
@@ -30,14 +36,17 @@ public class Mushroom : MonoBehaviour {
             .SetLoops(-1, LoopType.Restart);
     }
 
-    private void InitializeMushroom() {
-        data = MushroomDataHelper.GetRandomMushroomData(1,2);
+    public void InitializeMushroom(MushroomData data) {
+        this.data = data;
+        
+      
+        /*
         MushroomPartManager parts = MushroomPartManager.Instance;
         MushroomGenerator.GenerateCustomMushroom(new MushroomPart[]
         {
             parts.partsSO.volva[0], parts.partsSO.stem[0], parts.partsSO.ring[0], parts.partsSO.gill[0],
             parts.partsSO.cap[0], parts.partsSO.pattern[0]
-        }, data, t: renderGO.transform);
+        }, data,  renderGO.transform);*/
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
     }

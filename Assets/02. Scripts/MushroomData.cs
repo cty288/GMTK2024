@@ -4,6 +4,8 @@ using NHibernate.Util;
 using UnityEngine;
 
 public enum MushroomPropertyTag {
+    Cap,
+    Stem,
     Height,
     Width,
     Size,
@@ -36,11 +38,10 @@ public class MushroomProperty<T> : IMushroomProperty{
 }
 
 public class MushroomData {
-    private Dictionary<ShroomPart, Dictionary<MushroomPropertyTag, List<IMushroomProperty>>> properties =
-        new Dictionary<ShroomPart, Dictionary<MushroomPropertyTag, List<IMushroomProperty>>>();
+    private Dictionary<MushroomPropertyTag, List<IMushroomProperty>> properties =
+        new Dictionary<MushroomPropertyTag, List<IMushroomProperty>>();
 
-    private Dictionary<ShroomPart, List<IMushroomProperty>> flattenedProperties =
-        new Dictionary<ShroomPart, List<IMushroomProperty>>();
+    private List<IMushroomProperty> flattenedProperties = new List<IMushroomProperty>();
     
     private List<IMushroomTrait> traits = new List<IMushroomTrait>();
 
@@ -79,18 +80,18 @@ public class MushroomData {
     }
     
     public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, float growthSpeed, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
-        this.capHeight = new MushroomProperty<float>(capHeight, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
-        this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
-        this.stemHeight = new MushroomProperty<float>(stemHeight, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
-        this.stemWidth = new MushroomProperty<float>(stemWidth, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
+        this.capHeight = new MushroomProperty<float>(capHeight,  MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
+        this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
+        this.stemHeight = new MushroomProperty<float>(stemHeight,  MushroomPropertyTag.Stem, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
+        this.stemWidth = new MushroomProperty<float>(stemWidth, MushroomPropertyTag.Stem, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
         this.oscillation = new MushroomProperty<Vector2>(oscillation, MushroomPropertyTag.Oscillation);
         this.oscillationSpeed = new MushroomProperty<float>(oscillationSpeed, MushroomPropertyTag.OscillationSpeed);
-        this.capColor = new MushroomProperty<Color>(capColor, MushroomPropertyTag.Color);
-        this.stemColor = new MushroomProperty<Color>(stemColor, MushroomPropertyTag.Color);
-        this.capColor0 = new MushroomProperty<Color>(capColor0, MushroomPropertyTag.Color);
-        this.stemColor0 = new MushroomProperty<Color>(stemColor0, MushroomPropertyTag.Color);
-        this.capColor1 = new MushroomProperty<Color>(capColor1, MushroomPropertyTag.Color);
-        this.stemColor1 = new MushroomProperty<Color>(stemColor1, MushroomPropertyTag.Color);
+        this.capColor = new MushroomProperty<Color>(capColor, MushroomPropertyTag.Cap,MushroomPropertyTag.Color);
+        this.stemColor = new MushroomProperty<Color>(stemColor, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
+        this.capColor0 = new MushroomProperty<Color>(capColor0, MushroomPropertyTag.Cap,MushroomPropertyTag.Color);
+        this.stemColor0 = new MushroomProperty<Color>(stemColor0, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
+        this.capColor1 = new MushroomProperty<Color>(capColor1, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
+        this.stemColor1 = new MushroomProperty<Color>(stemColor1, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
         this.isPoisonous = new MushroomProperty<bool>(isPoisonous, MushroomPropertyTag.Poisonous);
         this.sporeRange = new MushroomProperty<float>(sporeRange, MushroomPropertyTag.SporeRange);
         this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
@@ -99,20 +100,20 @@ public class MushroomData {
     }
 
     private void AddBasicProperties() {
-        AddProperty(ShroomPart.Cap, capHeight);
-        AddProperty(ShroomPart.Cap, capWidth);
-        AddProperty(ShroomPart.Cap, capColor);
-        AddProperty(ShroomPart.Cap, capColor0);
-        AddProperty(ShroomPart.Cap, capColor1);
-        AddProperty(ShroomPart.Stem, stemHeight);
-        AddProperty(ShroomPart.Stem, stemWidth);
-        AddProperty(ShroomPart.Stem, stemColor);
-        AddProperty(ShroomPart.Stem, stemColor0);
-        AddProperty(ShroomPart.Stem, stemColor1);
-        AddProperty(ShroomPart.Global, isPoisonous);
-        AddProperty(ShroomPart.Global, sporeRange);
-        AddProperty(ShroomPart.Global, oscillation);
-        AddProperty(ShroomPart.Global, oscillationSpeed);
+        AddProperty(capHeight);
+        AddProperty(capWidth);
+        AddProperty(capColor);
+        AddProperty(capColor0);
+        AddProperty(capColor1);
+        AddProperty(stemHeight);
+        AddProperty(stemWidth);
+        AddProperty(stemColor);
+        AddProperty(stemColor0);
+        AddProperty(stemColor1);
+        AddProperty(isPoisonous);
+        AddProperty(sporeRange);
+        AddProperty(oscillation);
+        AddProperty(oscillationSpeed);
     }
 
     public int GetSellPrice() { //TODO: later
@@ -123,31 +124,25 @@ public class MushroomData {
         return 1;
     }
     
-    public void AddProperty(ShroomPart part, IMushroomProperty property) {
-        if (!properties.ContainsKey(part)) {
-            properties.Add(part, new Dictionary<MushroomPropertyTag, List<IMushroomProperty>>());
-        }
+    public void AddProperty(IMushroomProperty property) {
 
         property.Tags.ForEach(tag => {
-            if (!properties[part].ContainsKey(tag)) {
-                properties[part].Add(tag, new List<IMushroomProperty>());
+            if (!properties.ContainsKey(tag)) {
+                properties.Add(tag, new List<IMushroomProperty>());
             }
             
-            if(properties[part][tag].Count > 0 && properties[part][tag][0].GetType() != property.GetType()) {
+            /*if(properties[tag].Count > 0 && properties[tag][0].GetType() != property.GetType()) {
                 throw new System.Exception("Property type mismatch for tag " + tag + " in part " + part + " : " + property.GetType() + " != " + properties[part][tag][0].GetType() + "");
-            }
+            }*/
             
-            properties[part][tag].Add(property);
+            properties[tag].Add(property);
         });
         
-        if (!flattenedProperties.ContainsKey(part)) {
-            flattenedProperties.Add(part, new List<IMushroomProperty>());
-        }
-        
-        flattenedProperties[part].Add(property);
+  
+        flattenedProperties.Add(property);
     }
     
-    public List<MushroomProperty<T>> GetProperties<T>(ShroomPart part, MushroomPropertyTag tag) {
+    /*public List<MushroomProperty<T>> GetProperties<T>(ShroomPart part, MushroomPropertyTag tag) {
         if (!properties.ContainsKey(part) || !properties[part].ContainsKey(tag)) {
             return new List<MushroomProperty<T>>();
         }
@@ -165,16 +160,19 @@ public class MushroomData {
         }
 
         return result;
+    }*/
+    
+    public void AddTrait<T>(MushroomTrait<T> trait) {
+        AddTrait((IMushroomTrait) trait);
     }
     
-    public void AddTrait<T>(ShroomPart part, MushroomTrait<T> trait) {
-        if (trait.IsGlobalOnly) {
-            part = ShroomPart.Global;
-        }
-        if (!flattenedProperties.ContainsKey(part)) {
+    public void AddTrait(IMushroomTrait trait) {
+        if (trait.IsIndependent) {
+            traits.Add(trait);
             return;
         }
-        foreach (var property in flattenedProperties[part]) {
+        
+        foreach (var property in flattenedProperties) {
             if (trait.SelectTrait(property)) {
                 trait.AddInfluencedProperty(property);
                 trait.OnStartApplyToProperty(property);
@@ -183,40 +181,6 @@ public class MushroomData {
         traits.Add(trait);
     }
     
-    public void AddTrait(ShroomPart part, IMushroomTrait trait) {
-        if (trait.IsGlobalOnly) {
-            part = ShroomPart.Global;
-        }
-        if (!flattenedProperties.ContainsKey(part)) {
-            return;
-        }
-        
-        foreach (var property in flattenedProperties[part]) {
-            if (trait.SelectTrait(property)) {
-                trait.AddInfluencedProperty(property);
-                trait.OnStartApplyToProperty(property);
-            }
-        }
-        traits.Add(trait);
-    }
-    
-    public void AddTraitToParts(ShroomPart[] parts, IMushroomTrait trait) {
-        if (trait.IsGlobalOnly) {
-            parts = new ShroomPart[] {ShroomPart.Global};
-        }
-        parts.ForEach(part => AddTrait(part, trait));
-    }
-    
-    public void AddTraitToAllParts(IMushroomTrait trait) {
-        if (trait.IsGlobalOnly) {
-            AddTrait(ShroomPart.Global, trait);
-            return;
-        }
-        
-        foreach (var part in flattenedProperties.Keys) {
-            AddTrait(part, trait);
-        }
-    }
     
     public List<IMushroomTrait> GetTraits() {
         return traits;
@@ -270,12 +234,11 @@ public static class MushroomDataHelper {
         
         int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);
         var traits = TraitPool.GetRandomTraits(traitCount);
-        List<ShroomPart> allParts = new List<ShroomPart>() {ShroomPart.Cap, ShroomPart.Stem, ShroomPart.Global};
+
         
         
         foreach (var trait in traits) {
-           int partIdx = Random.Range(0, allParts.Count);
-           data.AddTrait(allParts[partIdx], trait);
+            data.AddTrait(trait);
         }
         return data;
 

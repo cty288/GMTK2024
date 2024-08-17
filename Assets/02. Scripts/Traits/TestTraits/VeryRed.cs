@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VeryRed : MushroomTrait<Color> {
 	public override MushroomPropertyTag[] GetTargetTags() {
-		return new MushroomPropertyTag[] {MushroomPropertyTag.Color};
+		return new MushroomPropertyTag[] {MushroomPropertyTag.Color, MushroomPropertyTag.Stem};
 	}
 
 	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
@@ -12,7 +12,9 @@ public class VeryRed : MushroomTrait<Color> {
 	}
 	
 	
-	public override bool IsGlobalOnly { get; } = false;
+	//public override bool IsGlobalOnly { get; } = false;
+	public override bool IsIndependent { get; } = false;
+
 	public override string GetTraitName() {
 		return "Very Red";
 	}
@@ -24,10 +26,10 @@ public class VeryRed : MushroomTrait<Color> {
 
 public class VeryBlue : MushroomTrait<Color> {
 	public override MushroomPropertyTag[] GetTargetTags() {
-		return new MushroomPropertyTag[] {MushroomPropertyTag.Color};
+		return new MushroomPropertyTag[] {MushroomPropertyTag.Color, MushroomPropertyTag.Cap};
 	}
 
-	public override bool IsGlobalOnly { get; } = false;
+	//public override bool IsGlobalOnly { get; } = false;
 
 	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
 		property.RealValue.Value = new Color(0f, 0, 1f);
@@ -36,7 +38,27 @@ public class VeryBlue : MushroomTrait<Color> {
 	public override string GetTraitName() {
 		return "Very Blue";
 	}
+	public override bool IsIndependent { get; } = false;
+	public override string GetTraitValueDescription() {
+		return null;
+	}
+}
 
+public class VeryShy : MushroomTrait<Color> {
+	public override MushroomPropertyTag[] GetTargetTags() {
+		return null;
+	}
+
+	//public override bool IsGlobalOnly { get; } = false;
+
+	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
+		
+	}
+
+	public override string GetTraitName() {
+		return "Very Shy";
+	}
+	public override bool IsIndependent { get; } = true;
 	public override string GetTraitValueDescription() {
 		return null;
 	}
