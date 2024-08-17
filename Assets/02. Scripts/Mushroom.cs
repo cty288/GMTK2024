@@ -22,7 +22,10 @@ public class Mushroom : MonoBehaviour {
 
     private Sequence oscillationSequence;
     [HideInInspector] public bool isSelected = false;
-
+    public MushroomData GetMushroomData()
+    {
+        return data;
+    }
     private void Start() {
         if (debug) {
             
