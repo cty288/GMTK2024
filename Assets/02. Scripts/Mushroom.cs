@@ -26,6 +26,10 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private Sequence oscillationSequence;
     [HideInInspector] public bool isSelected = false;
+    public MushroomData GetMushroomData()
+    {
+        return data;
+    }
     
     public Dictionary<ShroomPart, MushroomPart> Parts { get;  private set; }
 
