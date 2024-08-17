@@ -24,16 +24,9 @@ public class Mushroom : MonoBehaviour {
     [HideInInspector] public bool isSelected = false;
 
     private void Start() {
-        if (debug) {
-            
-        }
 
-       // InitializeMushroom(MushroomDataHelper.GetRandomMushroomData(1,2));
 
-        oscillationSequence = DOTween.Sequence()
-            .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
-            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
-            .SetLoops(-1, LoopType.Restart);
+
     }
 
     public void InitializeMushroom(MushroomData data) {
@@ -49,8 +42,18 @@ public class Mushroom : MonoBehaviour {
         }, data,  renderGO.transform);*/
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
+        oscillationSequence = DOTween.Sequence()
+            .Append(renderGO.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
+            .Append(renderGO.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
+            .SetLoops(-1, LoopType.Restart);
+        
+        data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
+        Debug.Log("Has very shy trait: " + data.HasTrait<VeryShy>());
     }
 
+    private void OnVeryShyAdded(VeryShy e) {
+        Debug.Log("This is a very shy mushroom");
+    }
 
 
     private void OnMouseEnter() {

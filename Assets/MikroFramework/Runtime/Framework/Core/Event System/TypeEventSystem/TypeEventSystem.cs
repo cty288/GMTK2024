@@ -82,6 +82,8 @@ namespace MikroFramework.Event
                 (registerations as Registerations<T>).OnEvent.Invoke(e);
             }
         }
+        
+        
 
         /// <summary>
         /// RegisterInstance a local event. Use static functions (global events) if you are not using an architecture.
