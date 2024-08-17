@@ -32,8 +32,15 @@ public class MushroomEntityManager : MonoBehaviour
         }
     }
     
-    public void TurnOnDeleteMode()
+    public void DeleteMode()
     {
-        deleteMode = true;
+        if (deleteMode == true)
+        {
+            deleteMode = false;
+        }
+        else
+        {
+            deleteMode = true;
+        }
     }
 }
