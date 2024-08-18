@@ -66,7 +66,7 @@ public class MushroomGenerator : MonoBehaviour {
 
         m.mushroomVisualParts = mushroomVisuals;
 
-        Dictionary<ShroomPart, MushroomPart> parts = GetPartsFromData(data);
+        Dictionary<ShroomPart, MushroomPart> parts = RegetParts(data, m.Parts);
         m.ReinitializeMushroom(parts);
 
 
@@ -112,6 +112,48 @@ public class MushroomGenerator : MonoBehaviour {
             MushroomPart[] arr = MushroomPartManager.Instance.partsSO.GetParts(part);
             if (arr.Length > 0) {
                 parts[part] = arr[Random.Range(0, arr.Length)];
+            }
+        }
+
+        return parts;
+    }
+    
+    public static Dictionary<ShroomPart, MushroomPart> RegetParts(MushroomData data, Dictionary<ShroomPart, MushroomPart> oldParts) {
+        List<IMushroomTrait> traits = data.GetTraits();
+
+        Dictionary<ShroomPart, MushroomPart> parts = new Dictionary<ShroomPart, MushroomPart>();
+
+        HashSet<ShroomPart> unselectedParts = new HashSet<ShroomPart>();
+        foreach (ShroomPart part in Enum.GetValues(typeof(ShroomPart))) {
+            unselectedParts.Add(part);
+        }
+
+        foreach (IMushroomTrait trait in traits) {
+            MushroomPart[] traitParts = GetPartsForTrait(trait);
+            if (traitParts == null) {
+                continue;
+            }
+            //get all parts that are in unselectedParts
+            List<MushroomPart> availableParts = new List<MushroomPart>();
+            foreach (MushroomPart part in traitParts) {
+                if (unselectedParts.Contains(part.shroomPart)) {
+                    availableParts.Add(part);
+                }
+            }
+
+            if (availableParts.Count == 0) {
+                continue;
+            }
+
+            MushroomPart selectedPart = availableParts[Random.Range(0, availableParts.Count)];
+            parts[selectedPart.shroomPart] = selectedPart;
+            unselectedParts.Remove(selectedPart.shroomPart);
+        }
+
+        foreach (ShroomPart part in unselectedParts) {
+            MushroomPart[] arr = MushroomPartManager.Instance.partsSO.GetParts(part);
+            if (arr.Length > 0) {
+                parts[part] = oldParts[part];
             }
         }
 
