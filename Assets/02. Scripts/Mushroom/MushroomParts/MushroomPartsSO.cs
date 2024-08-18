@@ -16,6 +16,7 @@ public class MushroomPartsSO : ScriptableObject
     [SerializeField] public MushroomPart[] stem;
     [SerializeField] public MushroomPart[] cap;
     [SerializeField] public MushroomPart[] pattern;
+    [SerializeField] public MushroomPart[] ring;
 
 
     [SerializeField] public TraitPartGroup[] traitPartGroups;
@@ -31,6 +32,8 @@ public class MushroomPartsSO : ScriptableObject
                 return cap;
             case ShroomPart.Pattern:
                 return pattern;
+            case ShroomPart.Ring:
+                return ring;
             default:
                 return null;
         }

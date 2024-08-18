@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 3683574418885655574}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: connectors.Array.data[0].shroomPart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6227118498672198534, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: m_Name

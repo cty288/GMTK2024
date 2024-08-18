@@ -162,7 +162,7 @@ public class MushroomGenerator : MonoBehaviour
         
         foreach (var spr in mushroom.primaryColorIn)
         {
-            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
+            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem || partType == ShroomPart.Ring)
             {
                 spr.color = shroomParams.stemColor.RealValue;
             }
@@ -174,7 +174,7 @@ public class MushroomGenerator : MonoBehaviour
         
         foreach (var spr in mushroom.secondaryColorIn)
         {
-            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
+            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem || partType == ShroomPart.Ring)
             {
                 spr.color = shroomParams.stemColor0.RealValue;
             }
@@ -186,7 +186,7 @@ public class MushroomGenerator : MonoBehaviour
         
         foreach (var spr in mushroom.tertiaryColorIn)
         {
-            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem)
+            if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem || partType == ShroomPart.Ring)
             {
                 spr.color = shroomParams.stemColor1.RealValue;
             }
