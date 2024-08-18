@@ -24,6 +24,9 @@ public class InputManager : MonoBehaviour {
     /* Input Actions */
     public event Action OnMouseDown;
     public event Action OnMouseUp;
+
+    public event Action OnScrollUp;
+    public event Action OnScrollDown;
     public event Action OnEscape;
 
     public void Update() {
@@ -51,6 +54,16 @@ public class InputManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
             OnEscape?.Invoke();
+        }
+
+        if (Input.mouseScrollDelta.y > 0)
+        {
+            OnScrollUp?.Invoke();
+        }
+        
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            OnScrollDown?.Invoke();
         }
     }
 

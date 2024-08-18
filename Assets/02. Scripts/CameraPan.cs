@@ -9,6 +9,8 @@ public class CameraPan : MonoBehaviour {
     private void Start() {
         inputManager = InputManager.Instance;
         inputManager.OnMouseDown += StartPan;
+        inputManager.OnScrollUp += ZoomIn;
+        inputManager.OnScrollDown += ZoomOut;
     }
 
     public void StartPan() {
@@ -23,6 +25,16 @@ public class CameraPan : MonoBehaviour {
     public void EndPan() {
         isDragging = false;
         inputManager.OnMouseUp -= EndPan;
+    }
+
+    public void ZoomIn()
+    {
+        Camera.main.orthographicSize -= 0.2f;
+    }
+
+    public void ZoomOut()
+    {
+        Camera.main.orthographicSize += 0.2f;
     }
 
     private void FixedUpdate() {
