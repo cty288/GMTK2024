@@ -18,6 +18,9 @@ public class VFXManager : MonoBehaviour
     [SerializeField] private ParticleSystem dustPlace;
     [SerializeField] private ParticleSystem dustPickUp;
 
+    public VFXPool growVFXPool;
+    public VFXPool pollinateVFXPool;
+
     private void Awake()
     {
         _instance = this;
@@ -36,4 +39,6 @@ public class VFXManager : MonoBehaviour
         dustPickUp.transform.position = position;
         dustPickUp.Play();
     }
+    
+   
 }

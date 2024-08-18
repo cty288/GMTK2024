@@ -481,6 +481,8 @@ GameObject:
   m_Component:
   - component: {fileID: 135745484}
   - component: {fileID: 135745483}
+  - component: {fileID: 135745486}
+  - component: {fileID: 135745485}
   m_Layer: 0
   m_Name: VFXManager
   m_TagString: Untagged
@@ -502,6 +504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dustPlace: {fileID: 385155846}
   dustPickUp: {fileID: 852955952}
+  growVFXPool: {fileID: 135745486}
+  pollinateVFXPool: {fileID: 135745485}
 --- !u!4 &135745484
 Transform:
   m_ObjectHideFlags: 0
@@ -517,6 +521,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &135745485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135745482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af4de3f377a8da4d9c5e45e66bb7098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxPrefab: {fileID: 0}
+  allocation: 0
+--- !u!114 &135745486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135745482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af4de3f377a8da4d9c5e45e66bb7098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxPrefab: {fileID: 0}
+  allocation: 0
 --- !u!1 &168290025
 GameObject:
   m_ObjectHideFlags: 0
@@ -3732,8 +3764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27fc32f4e0df5e642b91ead91f113f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopPanel: {fileID: 2079648505}
-  shopUI: {fileID: 2079648504}
   description:
   - {fileID: 580482829}
   - {fileID: 1368837625}
