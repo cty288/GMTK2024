@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SuppressorRing : MushroomTrait
-{
+public class SuppressorRing : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
         data.capHeight.RealValue.Locked = true;
         data.capWidth.RealValue.Locked = true;
@@ -27,6 +22,6 @@ public class SuppressorRing : MushroomTrait
     }
 
     public override int GetVisualPartGroupIdx() {
-        return 8;
+        return 16;
     }
 }
