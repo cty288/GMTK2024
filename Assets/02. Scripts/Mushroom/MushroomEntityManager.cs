@@ -71,13 +71,13 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     private void RandomlySpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
-            SpawnMushroom();
+            Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
+            SpawnMushroom(randomPosition);
         }
     }
 
-    private void SpawnMushroom() {
-        Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-        GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, randomPosition);
+    public void SpawnMushroom(Vector2 position) {
+        GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, position);
         mushroomGO.name = mushroomGO.name + "_" + debugCount++;
         mushroomGO.transform.SetParent(transform);
         Mushroom mushroom = mushroomGO.GetComponent<Mushroom>();
