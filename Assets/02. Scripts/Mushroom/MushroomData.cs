@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public enum MushroomPropertyTag {
     Cap,
     Stem,
+    Ring,
     Height,
     Width,
     Size,
@@ -182,7 +183,8 @@ public class MushroomData {
         //step0: color inheritance
         MushroomPropertyTag[][] tagGroups = new MushroomPropertyTag[][] {
             new MushroomPropertyTag[] {MushroomPropertyTag.Cap, MushroomPropertyTag.Color},
-            new MushroomPropertyTag[] {MushroomPropertyTag.Stem, MushroomPropertyTag.Color}
+            new MushroomPropertyTag[] {MushroomPropertyTag.Stem, MushroomPropertyTag.Color},
+            
         };
         
         foreach (var tagGroup in tagGroups) {
@@ -296,7 +298,7 @@ public class MushroomData {
         
         traitToPropertyMap.Add(MushroomTraitCategory.Cap, new MushroomProperty<float>[] {capHeight, capWidth});
         traitToPropertyMap.Add(MushroomTraitCategory.Stem, new MushroomProperty<float>[] {stemHeight, stemWidth});
-        traitToPropertyMap.Add(MushroomTraitCategory.Ring, new MushroomProperty<float>[] {oscillationSpeed, sporeRange});
+        traitToPropertyMap.Add(MushroomTraitCategory.Ring, new MushroomProperty<float>[] {});
         
         traitToParentMap.Add(MushroomTraitCategory.Cap, null);
         traitToParentMap.Add(MushroomTraitCategory.Stem, null);

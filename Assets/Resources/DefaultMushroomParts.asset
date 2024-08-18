@@ -86,3 +86,6 @@ MonoBehaviour:
   - Name: Standard Stem
     parts:
     - {fileID: 6498925681441679309, guid: 908a0fe64c03f1b44bce5e9fe447a2cb, type: 3}
+  - Name: SupressorRing
+    parts:
+    - {fileID: 6412275932885880628, guid: 5513c669012bec747ae1f11dc8987822, type: 3}

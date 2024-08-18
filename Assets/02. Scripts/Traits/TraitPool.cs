@@ -37,6 +37,9 @@ public static class TraitPool {
         RegisterTrait(() => new Strangled());
         RegisterTrait(() => new Thorny());
         RegisterTrait(() => new TreeRoot());
+
+        //Rings
+        RegisterTrait(() => new SuppressorRing());
     }
 
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
