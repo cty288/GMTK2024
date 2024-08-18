@@ -30,7 +30,6 @@ MonoBehaviour:
   - {fileID: 6498925681441679309, guid: 8650d428a5d97f94fb2949f0311acb9e, type: 3}
   cap:
   - {fileID: 4815320148666517607, guid: 763071e8dfb15aa49bca8f39c38968b9, type: 3}
-  - {fileID: 4815320148666517607, guid: 857c636b8abc268469885d26ce5c3d8f, type: 3}
   pattern:
   - {fileID: 1779987586927323020, guid: 031dbbf16557425469d096389b000033, type: 3}
   - {fileID: 1779987586927323020, guid: d8174ecf2fcefd745837f6e6425d8c2b, type: 3}
@@ -55,3 +54,9 @@ MonoBehaviour:
   - Name: AlienBanana
     parts:
     - {fileID: 4815320148666517607, guid: 529a7f29b5614704abb51e65b7fabc84, type: 3}
+  - Name: OnionCap
+    parts:
+    - {fileID: 4815320148666517607, guid: 857c636b8abc268469885d26ce5c3d8f, type: 3}
+  - Name: StandardCap
+    parts:
+    - {fileID: 4815320148666517607, guid: 763071e8dfb15aa49bca8f39c38968b9, type: 3}

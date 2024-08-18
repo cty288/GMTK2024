@@ -90,6 +90,8 @@ public class MushroomData {
     public MushroomProperty<Color> stemColor1;
     public MushroomProperty<bool> isPoisonous;
     public MushroomProperty<float> sporeRange;
+    public MushroomProperty<int> extraSellPrice;
+    public MushroomProperty<int> sellPriceLocker;
 
 
     public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(1);
@@ -266,6 +268,8 @@ public class MushroomData {
         this.stemColor1 = new MushroomProperty<Color>(stemColor1, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
         this.isPoisonous = new MushroomProperty<bool>(isPoisonous, MushroomPropertyTag.Poisonous);
         this.sporeRange = new MushroomProperty<float>(sporeRange, MushroomPropertyTag.SporeRange);
+        this.extraSellPrice = new MushroomProperty<int>(0);
+        this.sellPriceLocker = new MushroomProperty<int>(-1);
        // this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
        //this.stemWidth.RealValue.Value = 2;
         AddBasicProperties();
@@ -287,6 +291,8 @@ public class MushroomData {
         AddProperty(sporeRange);
         AddProperty(oscillation);
         AddProperty(oscillationSpeed);
+        AddProperty(extraSellPrice);
+        AddProperty(sellPriceLocker);
         
         traitToPropertyMap.Add(MushroomTraitCategory.Cap, new MushroomProperty<float>[] {capHeight, capWidth});
         traitToPropertyMap.Add(MushroomTraitCategory.Stem, new MushroomProperty<float>[] {stemHeight, stemWidth});
@@ -303,7 +309,17 @@ public class MushroomData {
     }
 
     public int GetSellPrice() { //TODO: later
-        return 2;
+        int basePrice = 0;
+        
+        
+        
+        
+        //=================================================
+        int finalPrice = Math.Max(0, extraSellPrice.RealValue.Value + basePrice);
+        if (sellPriceLocker.RealValue.Value >= 0) {
+            finalPrice = sellPriceLocker.RealValue.Value;
+        }
+        return finalPrice;
     }
 
     public int GetBuyPrice() { //TODO: later
@@ -508,16 +524,17 @@ public static class MushroomDataHelper {
 
     public static string ToString(MushroomData data) {
         return
-                $"Cap Height: {data.capHeight}\n" +
-                $"Cap Width: {data.capWidth}\n" +
-                $"Stem Height: {data.stemHeight}\n" +
-                $"Stem Width: {data.stemWidth}\n" +
-                $"Oscillation: {data.oscillation}\n" +
-                $"Oscillation Speed: {data.oscillationSpeed}\n" +
-                $"Cap Color: {data.capColor}\n" +
-                $"Stem Color: {data.stemColor}\n" +
-                $"Is Poisonous: {data.isPoisonous}\n" +
-                $"Spore Range: {data.sporeRange}";
+            $"Cap Height: {data.capHeight}\n" +
+            $"Cap Width: {data.capWidth}\n" +
+            $"Stem Height: {data.stemHeight}\n" +
+            $"Stem Width: {data.stemWidth}\n" +
+            $"Oscillation: {data.oscillation}\n" +
+            $"Oscillation Speed: {data.oscillationSpeed}\n" +
+            $"Cap Color: {data.capColor}\n" +
+            $"Stem Color: {data.stemColor}\n" +
+            $"Is Poisonous: {data.isPoisonous}\n" +
+            $"Spore Range: {data.sporeRange}\n" +
+            $"Sell Price: {data.GetSellPrice()}\n";
     }
 
 

@@ -8,6 +8,7 @@ public class Flowery : MushroomTrait
     }
 
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
+        if(newStage != 2) return;
         base.OnNewDay(data, oldDay, newDay, oldStage, newStage);
         data.capWidth.RealValue.Value++;
     }
