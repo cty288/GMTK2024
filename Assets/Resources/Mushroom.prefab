@@ -198,6 +198,12 @@ MonoBehaviour:
   pickupSFX: {fileID: 8300000, guid: 0df56f5a1ce453e469335381e6d3c4c9, type: 3}
   plantSFX: {fileID: 8300000, guid: f4aec9925481ffc4abcbf3b9b4dbd9f4, type: 3}
   destroySFX: {fileID: 8300000, guid: 1a04d6760e7c8934ea2b8000842a35ba, type: 3}
+  mushroomVisualParts:
+    Volva: {fileID: 0}
+    Stem: []
+    Cap: []
+    Ring: []
+    Outliners: []
   isSelected: 0
 --- !u!82 &-616642042409352581
 AudioSource:

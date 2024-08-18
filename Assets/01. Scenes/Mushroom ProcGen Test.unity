@@ -332,3 +332,60 @@ MonoBehaviour:
   m_AfterStackBundles:
   - assemblyQualifiedName: PixelPostProcess, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!1001 &8400380998822280078
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.18012391
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176057, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8400380999003176058, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
+      propertyPath: m_Name
+      value: Dust Cloud
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 031299bfb1050794eb4c59b25c4a3ba1, type: 3}
