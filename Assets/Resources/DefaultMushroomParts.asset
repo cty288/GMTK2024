@@ -35,6 +35,8 @@ MonoBehaviour:
   - {fileID: 1779987586927323020, guid: d8174ecf2fcefd745837f6e6425d8c2b, type: 3}
   - {fileID: 1779987586927323020, guid: 55403686ffd39e74298a0f0223d389b9, type: 3}
   - {fileID: 1779987586927323020, guid: 0c5938655f02730418290977f0bd9c6b, type: 3}
+  ring:
+  - {fileID: 6316439987758955979, guid: 4ec929fa30aebe3448dd207ea2baa87b, type: 3}
   traitPartGroups:
   - Name: BigCap
     parts:
