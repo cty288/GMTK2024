@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9082167845892632372}
   - component: {fileID: 1765958240587373671}
+  - component: {fileID: 5968024933373553953}
   m_Layer: 0
   m_Name: SeedPhrase
   m_TagString: Untagged
@@ -84,6 +85,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &5968024933373553953
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7184755784372057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
 --- !u!1 &3265130595370687007
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +198,6 @@ MonoBehaviour:
   pickupSFX: {fileID: 8300000, guid: 0df56f5a1ce453e469335381e6d3c4c9, type: 3}
   plantSFX: {fileID: 8300000, guid: f4aec9925481ffc4abcbf3b9b4dbd9f4, type: 3}
   destroySFX: {fileID: 8300000, guid: 1a04d6760e7c8934ea2b8000842a35ba, type: 3}
-  debug: 0
   isSelected: 0
 --- !u!82 &-616642042409352581
 AudioSource:
@@ -307,7 +333,17 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 1
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 5968024933373553953}
+    m_ColliderPaths:
+    - - X: 3200000
+        Y: 3200000
+      - X: -3200000
+        Y: 3200000
+      - X: -3200000
+        Y: -3200000
+      - X: 3200000
+        Y: -3200000
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005

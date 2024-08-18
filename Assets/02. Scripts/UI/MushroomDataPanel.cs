@@ -1,7 +1,8 @@
+using MikroFramework.Architecture;
 using TMPro;
 using UnityEngine;
 
-public class MushroomDataPanel : MonoBehaviour {
+public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
     public static MushroomDataPanel Instance;
 
     public void Awake() {
@@ -13,11 +14,20 @@ public class MushroomDataPanel : MonoBehaviour {
         }
     }
 
+    [SerializeField] private TextMeshProUGUI dayText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dataText;
 
+    private void Start() {
+        this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(UpdateDayText);
+    }
+
+    private void UpdateDayText(int oldDay, int newDay) {
+        dayText.text = $"Day: {newDay}";
+    }
+
     public void SetPanelDisplay(MushroomData data) {
-        nameText.text = "CuRRENTLY DISPLAYING MUSHROOM";
+        nameText.text = $"Mushroom: Day {data.GrowthDay.Value}";
         dataText.text = MushroomDataHelper.ToString(data);
         dataText.text += "\nTraits: \n";
         foreach (var trait in data.GetTraits()) {
@@ -28,5 +38,9 @@ public class MushroomDataPanel : MonoBehaviour {
     public void ResetPanelDisplay() {
         nameText.text = "No MusHRoom sEleCTED";
         dataText.text = "data here lmao";
+    }
+
+    public IArchitecture GetArchitecture() {
+        return MainGame.Interface;
     }
 }
