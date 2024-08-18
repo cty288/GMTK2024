@@ -18,7 +18,7 @@ MonoBehaviour:
     value: 1
   posterize:
     overrideState: 1
-    value: 1080
+    value: 182
   colorQuality:
     overrideState: 1
     value: 256
