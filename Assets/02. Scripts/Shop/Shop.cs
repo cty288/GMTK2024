@@ -7,8 +7,7 @@ using TMPro;
 public class Shop : MonoBehaviour
 {
     
-    public RectTransform shopPanel;
-    public GameObject shopUI;
+    
     public TextMeshProUGUI[] description = new TextMeshProUGUI[3];
     private bool inAnimation = false;
 
@@ -22,8 +21,7 @@ public class Shop : MonoBehaviour
     void Start()
     {
         
-        shopUI.SetActive(false);
-        shopPanel.localScale = Vector3.zero;
+      
     }
 
     // Update is called once per frame
@@ -32,10 +30,12 @@ public class Shop : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //EnableShopUI();
+            
             UpdateShopUI();
         }
     }
+
+    //paramater a -> button 1,2,3. it is set inside the UI Button
     public void PurchaseMushroom(int a)
     {
         var data = mushroomData[a];
@@ -46,6 +46,8 @@ public class Shop : MonoBehaviour
         }
         Debug.Log("wow you bought a fucking shroom");
     }
+
+    
     void UpdateShopUI()
     {
         foreach(var e in babyShroomTrait)
@@ -86,6 +88,8 @@ public class Shop : MonoBehaviour
             }
         }
     }
+
+    //i was playing around with the cursor api but it seems it doesn't really fit. the cursor is to small and the size is not changeable
     public void ToggleSellMode()
     {
         if (!sellMode)
@@ -101,28 +105,9 @@ public class Shop : MonoBehaviour
         
 
     }
-    void EnableShopUI()
-    {
-        InitShopItems();
-        shopUI.SetActive(true);
+  
 
-        inAnimation = true;
-        shopPanel.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
-       
-    }
+ 
 
-    public void DisableShopUI()
-    {
-        shopPanel.DOScale(Vector3.zero, 0.5f).OnComplete(() => { shopUI.gameObject.SetActive(false); inAnimation = false; });
-    }
 
-    private void InitShopItems()
-    {
-        for(int i = 0; i < 3; i++)
-        {
-            var go = MushroomGenerator.GenerateRandomMushroom(1, 2, new Vector3(100, 100, 100));
-            mushroomData[i] = go.GetComponent<Mushroom>().GetMushroomData();
-            description[i].text = mushroomData[i].ToString();
-        }
-    }
 }
