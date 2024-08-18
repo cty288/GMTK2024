@@ -214,6 +214,7 @@ public class MushroomGenerator : MonoBehaviour {
 
         if (partType == ShroomPart.Volvae) {
             v.Volva = mushroom;
+            mushroom.SetPartSize(shroomParams.stemHeight.RealValue, shroomParams.stemWidth.RealValue);
         }
 
         foreach (var spr in mushroom.primaryColorIn) {
