@@ -89,10 +89,18 @@ public class MushroomData {
     }
     
     public MushroomData() :  this(1, 1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
-        
         AddBasicProperties();
+        GrowthDay.RegisterOnValueChanged(OnGrowthDayChanged);
     }
-    
+
+    private void OnGrowthDayChanged(int oldDay, int newDay) {
+        int oldStage = GetStage(oldDay);
+        int newStage = GetStage(newDay);
+        foreach (var trait in traits.Values) {
+            trait.OnNewDay(this, oldDay, newDay, oldStage, newStage);
+        }
+    }
+
     public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, float growthSpeed, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
         this.capHeight = new MushroomProperty<float>(capHeight,  MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
         this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
@@ -186,7 +194,6 @@ public class MushroomData {
         if (traitAddCallbacks.ContainsKey(trait.GetType())) {
             traitAddCallbacks[trait.GetType()](trait);
         }
-        
     }
     
     private Dictionary<object, Action<IMushroomTrait>> traitRemoveCallbacks = new Dictionary<object, Action<IMushroomTrait>>();
