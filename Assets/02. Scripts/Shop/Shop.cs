@@ -13,11 +13,12 @@ public class Shop : MonoBehaviour
     private bool inAnimation = false;
 
     private MushroomData[] mushroomData = new MushroomData[3];
-
-
-    public TextMeshProUGUI[] babyShroomTrait = new TextMeshProUGUI[3];
-    public TextMeshProUGUI[] mommyShroomTrait = new TextMeshProUGUI[3];
-    public TextMeshProUGUI[] daddyShroomTrait = new TextMeshProUGUI[3];
+    private bool sellMode = false;
+    public PlayerCurrency currency;
+    [SerializeField]  TextMeshProUGUI[] babyShroomTrait = new TextMeshProUGUI[3];
+    [SerializeField]  TextMeshProUGUI[] mommyShroomTrait = new TextMeshProUGUI[3];
+    [SerializeField]  TextMeshProUGUI[] daddyShroomTrait = new TextMeshProUGUI[3];
+    [SerializeField] Texture2D cursor;
     void Start()
     {
         
@@ -35,9 +36,31 @@ public class Shop : MonoBehaviour
             UpdateShopUI();
         }
     }
+    public void PurchaseMushroom(int a)
+    {
+        var data = mushroomData[a];
+        int mushroomPrice = data.GetBuyPrice();
+        if(currency.CanAfford(mushroomPrice))
+        {
+            currency.Modify(-mushroomPrice);
+        }
+        Debug.Log("wow you bought a fucking shroom");
+    }
     void UpdateShopUI()
     {
-        for(int i = 0; i < 3; i++)
+        foreach(var e in babyShroomTrait)
+        {
+            e.gameObject.SetActive(false);
+        }
+        foreach (var e in mommyShroomTrait)
+        {
+            e.gameObject.SetActive(false);
+        }
+        foreach (var e in daddyShroomTrait)
+        {
+            e.gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 3; i++)
         {
 
             var go = MushroomGenerator.GenerateRandomMushroom(1, 2, new Vector3(100, 100, 100));
@@ -48,15 +71,35 @@ public class Shop : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        
+                        babyShroomTrait[j].gameObject.SetActive(true);
+                        babyShroomTrait[j].text = traits[j].GetTraitName();
                         break;
                     case 1:
+                        mommyShroomTrait[j].gameObject.SetActive(true);
+                        mommyShroomTrait[j].text = traits[j].GetTraitName();
                         break;
                     case 2:
+                        daddyShroomTrait[j].gameObject.SetActive(true);
+                        daddyShroomTrait[j].text = traits[j].GetTraitName();
                         break;
                 }
             }
         }
+    }
+    public void ToggleSellMode()
+    {
+        if (!sellMode)
+        {
+            Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+            sellMode = true;
+        }
+        else
+        {
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            sellMode = false;
+        }
+        
+
     }
     void EnableShopUI()
     {
