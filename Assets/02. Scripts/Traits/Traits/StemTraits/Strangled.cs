@@ -23,6 +23,6 @@ public class Strangled : MushroomTrait {
     }
 
     public override int GetVisualPartGroupIdx() {
-        return 6;
+        return 10;
     }
 }

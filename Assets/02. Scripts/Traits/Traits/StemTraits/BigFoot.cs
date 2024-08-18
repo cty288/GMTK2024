@@ -25,6 +25,6 @@ public class BigFoot : MushroomTrait {
     }
 
     public override int GetVisualPartGroupIdx() {
-        return 5;
+        return 8;
     }
 }

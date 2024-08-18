@@ -25,6 +25,6 @@ public class Thorny : MushroomTrait {
     }
 
     public override int GetVisualPartGroupIdx() {
-        return 7;
+        return 9;
     }
 }

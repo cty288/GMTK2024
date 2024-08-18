@@ -23,6 +23,6 @@
     }
 
     public override int GetVisualPartGroupIdx() {
-        return 2;
+        return 12;
     }
 }
