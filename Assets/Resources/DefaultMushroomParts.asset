@@ -31,7 +31,6 @@ MonoBehaviour:
   cap:
   - {fileID: 4815320148666517607, guid: 763071e8dfb15aa49bca8f39c38968b9, type: 3}
   - {fileID: 4815320148666517607, guid: 857c636b8abc268469885d26ce5c3d8f, type: 3}
-  - {fileID: 4815320148666517607, guid: 529a7f29b5614704abb51e65b7fabc84, type: 3}
   pattern:
   - {fileID: 1779987586927323020, guid: 031dbbf16557425469d096389b000033, type: 3}
   - {fileID: 1779987586927323020, guid: d8174ecf2fcefd745837f6e6425d8c2b, type: 3}
@@ -53,3 +52,6 @@ MonoBehaviour:
   - Name: Flowery
     parts:
     - {fileID: 4815320148666517607, guid: e4ccb122740ab924099b8f744f0ae673, type: 3}
+  - Name: AlienBanana
+    parts:
+    - {fileID: 4815320148666517607, guid: 529a7f29b5614704abb51e65b7fabc84, type: 3}
