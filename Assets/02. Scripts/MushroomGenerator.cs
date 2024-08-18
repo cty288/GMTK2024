@@ -136,6 +136,13 @@ public class MushroomGenerator : MonoBehaviour
         MushroomPart mushroom = Instantiate<MushroomPart>(FindMushroomPartOfType(parts, partType), t.position, t.rotation);
         mushroom.transform.SetParent(t);
         
+        //Get the outliner
+        var o = mushroom.GetComponent<Outliner>();
+        if (o != null)
+        {
+            v.Outliners.Add(o);
+        }
+        
         if (partType == ShroomPart.Stem)
         {
             v.Stem.Add(mushroom);
@@ -228,4 +235,5 @@ public class MushroomVisuals
     public MushroomPart Volva;
     public List<MushroomPart> Stem = new List<MushroomPart>();
     public List<MushroomPart> Cap = new List<MushroomPart>();
+    public List<Outliner> Outliners = new List<Outliner>();
 }

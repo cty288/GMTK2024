@@ -105,16 +105,26 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ((CompositeCollider2D)_collider).GenerateGeometry();
     }
 
+    public void ChangeOutlineColor(Color color)
+    {
+        foreach (var outliner in mushroomVisualParts.Outliners)
+        {
+            outliner.ChangeColor(color);
+        }
+    }
+
     private void OnVeryShyAdded(VeryShy e) {
         Debug.Log("This is a very shy mushroom");
     }
 
 
     private void OnMouseEnter() {
+        ChangeOutlineColor(Color.white);
         MushroomDataPanel.Instance.SetPanelDisplay(data);
     }
 
     private void OnMouseExit() {
+        ChangeOutlineColor(Color.black);
         MushroomDataPanel.Instance.ResetPanelDisplay();
     }
 
