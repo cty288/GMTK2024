@@ -194,7 +194,7 @@ public class MushroomGenerator : MonoBehaviour
             float r = Random.Range(0.0f, 1.0f);
             if (r >= 0.5f)
             {
-                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, t, i+1, v);
+                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, mushroom.transform, i+1, v);
             }
         }
 
