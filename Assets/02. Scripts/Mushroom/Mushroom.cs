@@ -59,8 +59,32 @@ public class Mushroom : AbstractMikroController<MainGame> {
         foreach (var stem in mushroomVisualParts.Stem) {
             stem.SetPartSize(data.stemHeight.RealValue, data.stemWidth.RealValue);
         }
+        foreach (var ring in mushroomVisualParts.Ring)
+        {
+            float avgWidth = (data.capWidth.RealValue + data.stemWidth.RealValue)/2;
+            ring.SetPartSize(avgWidth, avgWidth);
+        }
         foreach (var cap in mushroomVisualParts.Cap) {
             cap.SetPartSize(data.capHeight.RealValue, data.capWidth.RealValue);
+        }
+    }
+
+    private void ChangeMushroomColor()
+    {
+        foreach (var stem in mushroomVisualParts.Stem) {
+            stem.SetPartColor(data.stemColor.RealValue, ColorElement.Primary);
+            stem.SetPartColor(data.stemColor0.RealValue, ColorElement.Secondary);
+            stem.SetPartColor(data.stemColor1.RealValue, ColorElement.Tertiary);
+        }
+        foreach (var ring in mushroomVisualParts.Ring) {
+            ring.SetPartColor(data.stemColor.RealValue, ColorElement.Primary);
+            ring.SetPartColor(data.stemColor0.RealValue, ColorElement.Secondary);
+            ring.SetPartColor(data.stemColor1.RealValue, ColorElement.Tertiary);
+        }
+        foreach (var cap in mushroomVisualParts.Cap) {
+            cap.SetPartColor(data.capColor.RealValue, ColorElement.Primary);
+            cap.SetPartColor(data.capColor0.RealValue, ColorElement.Secondary);
+            cap.SetPartColor(data.capColor1.RealValue, ColorElement.Tertiary);
         }
     }
 
@@ -109,6 +133,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         await UniTask.NextFrame();
         if(!this) return;
         ChangeMushroomSizes();
+        ChangeMushroomColor();
         RegenerateCollider();
     }
 

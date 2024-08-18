@@ -149,6 +149,13 @@ public class MushroomGenerator : MonoBehaviour
             mushroom.SetPartSize(shroomParams.stemHeight.RealValue, shroomParams.stemWidth.RealValue);
         }
         
+        if (partType == ShroomPart.Ring)
+        {
+            v.Ring.Add(mushroom);
+            float avgWidth = (shroomParams.stemWidth.RealValue + shroomParams.capWidth.RealValue) / 2;
+            mushroom.SetPartSize(avgWidth, avgWidth);
+        }
+        
         if (partType == ShroomPart.Cap)
         {
             v.Cap.Add(mushroom);
@@ -235,5 +242,6 @@ public class MushroomVisuals
     public MushroomPart Volva;
     public List<MushroomPart> Stem = new List<MushroomPart>();
     public List<MushroomPart> Cap = new List<MushroomPart>();
+    public List<MushroomPart> Ring = new List<MushroomPart>();
     public List<Outliner> Outliners = new List<Outliner>();
 }

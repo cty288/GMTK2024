@@ -343,11 +343,11 @@ PrefabInstance:
       objectReference: {fileID: 5622590838470135531}
     - target: {fileID: 716360920670584614, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
       propertyPath: connectors.Array.data[0].shroomPart
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 716360920670584614, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
       propertyPath: connectors.Array.data[1].shroomPart
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 949420700565729970, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
       propertyPath: m_Name
@@ -396,6 +396,10 @@ PrefabInstance:
     - target: {fileID: 2995841348677830994, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618196624614570749, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8663457136736583557, guid: e9ba1ae6dde29db4e91df62a74e2b853, type: 3}
       propertyPath: m_IsActive
