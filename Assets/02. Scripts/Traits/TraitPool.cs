@@ -28,6 +28,7 @@ public static class TraitPool {
         RegisterTrait(() => new AlienBanana());
         RegisterTrait(() => new OnionCap());
         RegisterTrait(() => new StandardCap());
+        RegisterTrait(() => new SuppressorRing());
     }
 
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
