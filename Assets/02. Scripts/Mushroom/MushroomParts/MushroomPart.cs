@@ -11,6 +11,35 @@ public class MushroomPart : MonoBehaviour
     [SerializeField] public SpriteRenderer[] primaryColorIn;
     [SerializeField] public SpriteRenderer[] secondaryColorIn;
     [SerializeField] public SpriteRenderer[] tertiaryColorIn;
+
+    // Change the size of current part.
+    public void SetPartSize(float height, float width)
+    {
+        var p = transform.parent;
+
+        transform.parent = null;
+        
+        foreach (var connector in connectors)
+        {
+            if (connector.child != null)
+            {
+                connector.child.parent = null;
+            }
+        }
+
+        transform.localScale = new Vector3(width * scaleMod.x, height * scaleMod.y, 1);
+        
+        foreach (var connector in connectors)
+        {
+            if (connector.child != null)
+            {
+                connector.child.parent = connector.transform;
+                connector.child.position = connector.transform.position;
+            }
+        }
+
+        transform.parent = p;
+    }
     
     void OnDrawGizmos()
     {
@@ -25,8 +54,6 @@ public class MushroomPart : MonoBehaviour
 public enum ShroomPart
 {
     Cap,
-    Gills,
-    Ring,
     Stem,
     Volvae,
     Pattern,

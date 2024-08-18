@@ -7,4 +7,5 @@ using UnityEngine;
 {
     [SerializeField] public ShroomPart shroomPart;
     [SerializeField] public Transform transform;
+    [SerializeField] public Transform child;
 }

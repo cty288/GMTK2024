@@ -23,6 +23,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
     [SerializeField] private AudioClip plantSFX;
     [SerializeField] private AudioClip destroySFX;
 
+    public MushroomVisuals mushroomVisualParts; // A class containing references to all the parts of a mushroom for modification.
+   
     private MushroomData data;
 
     private Sequence oscillationSequence;
@@ -45,6 +47,21 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private void OnDayChange(int arg1, int arg2) {
         if (data != null) {
             data.GrowthDay.Value++;
+        }
+    }
+
+    /// <summary>
+    /// Updates the mushroom part sizes based on the information in data
+    /// </summary>
+    private void ChangeMushroomSizes()
+    {
+        foreach (var stem in mushroomVisualParts.Stem)
+        {
+            stem.SetPartSize(data.stemHeight.RealValue, data.stemWidth.RealValue);
+        }
+        foreach (var cap in mushroomVisualParts.Cap)
+        {
+            cap.SetPartSize(data.capHeight.RealValue, data.capWidth.RealValue);
         }
     }
 
@@ -77,6 +94,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             } else { //die
                 DestroySelf();
             }
+            ChangeMushroomSizes();
             RegenerateCollider();
         }
     }
@@ -102,15 +120,25 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ((CompositeCollider2D)_collider).GenerateGeometry();
     }
 
+    public void ChangeOutlineColor(Color color)
+    {
+        foreach (var outliner in mushroomVisualParts.Outliners)
+        {
+            outliner.ChangeColor(color);
+        }
+    }
+
     private void OnVeryShyAdded(VeryShy e) {
         Debug.Log("This is a very shy mushroom");
     }
 
     private void OnMouseEnter() {
+        ChangeOutlineColor(Color.white);
         MushroomDataPanel.Instance.SetPanelDisplay(data);
     }
 
     private void OnMouseExit() {
+        ChangeOutlineColor(Color.black);
         MushroomDataPanel.Instance.ResetPanelDisplay();
     }
 

@@ -14,8 +14,6 @@ public class MushroomPartsSO : ScriptableObject
 {
     [SerializeField] public MushroomPart[] volva;
     [SerializeField] public MushroomPart[] stem;
-    [SerializeField] public MushroomPart[] ring;
-    [SerializeField] public MushroomPart[] gill;
     [SerializeField] public MushroomPart[] cap;
     [SerializeField] public MushroomPart[] pattern;
 
@@ -29,10 +27,6 @@ public class MushroomPartsSO : ScriptableObject
                 return volva;
             case ShroomPart.Stem:
                 return stem;
-            case ShroomPart.Ring:
-                return ring;
-            case ShroomPart.Gills:
-                return gill;
             case ShroomPart.Cap:
                 return cap;
             case ShroomPart.Pattern:

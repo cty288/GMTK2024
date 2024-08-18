@@ -60,7 +60,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 35dad94119cd7ac488a2ecf85c428a50, type: 3}
   - {fileID: 21300000, guid: f5ea62612a87fba4587c64fb6a128de2, type: 3}
   - {fileID: 21300000, guid: a3ccaaf1c8c266946a5b12bc389a49e7, type: 3}
-  - {fileID: 21300000, guid: 8494e5a3416f4194c9eb63ebd627b2f8, type: 3}
+  - {fileID: 1230449657, guid: 8494e5a3416f4194c9eb63ebd627b2f8, type: 3}
+  - {fileID: -1289529737, guid: 8494e5a3416f4194c9eb63ebd627b2f8, type: 3}
   - {fileID: 21300000, guid: 3eb3c514b49ea224f9b1b609b6595f08, type: 3}
   - {fileID: 21300000, guid: 306dca64fbf8f6947b1afbd5469a65bb, type: 3}
   - {fileID: 21300000, guid: 6ed1f6a4c4453f847baa8b8378ec311f, type: 3}
@@ -93,7 +94,8 @@ SpriteAtlas:
   - Stem 1
   - Stem 3
   - Root 4
-  - Cap 7
+  - Cap 7_1
+  - Cap 7_0
   - Root 3
   - Stem 7
   - Root 2

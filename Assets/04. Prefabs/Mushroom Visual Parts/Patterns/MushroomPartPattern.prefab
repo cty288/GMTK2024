@@ -16,12 +16,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6ab939b4c56db7342852cc88dc860e21, type: 3}
     - target: {fileID: 3891400348071350223, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891400348071350223, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: m_MaskInteraction
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: shroomPart
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5960276779138223634, guid: fb5f6a9aaf2dcc342b9b72e2faf72f6c, type: 3}
       propertyPath: connectors.Array.size
