@@ -89,3 +89,18 @@ MonoBehaviour:
   - Name: SupressorRing
     parts:
     - {fileID: 6412275932885880628, guid: 5513c669012bec747ae1f11dc8987822, type: 3}
+  - Name: DriedOut
+    parts:
+    - {fileID: 6412275932885880628, guid: 284362b108228614cb37b3bad4d85e48, type: 3}
+  - Name: StandardRing
+    parts:
+    - {fileID: 6412275932885880628, guid: 18558263078a70545b673fc85e38fea0, type: 3}
+  - Name: Extravagant
+    parts:
+    - {fileID: 6412275932885880628, guid: 2fe89509964ffac42bc0c42c9547d348, type: 3}
+  - Name: Tube
+    parts:
+    - {fileID: 6412275932885880628, guid: 05d53d52bb08fe741bc9a857308f062d, type: 3}
+  - Name: Skirt
+    parts:
+    - {fileID: 6412275932885880628, guid: 5a9a34dfdfe80344aad1d6a5c5ec2fcb, type: 3}
