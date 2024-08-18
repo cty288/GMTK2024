@@ -22,4 +22,11 @@ public class VFXManager : MonoBehaviour
     {
         _instance = this;
     }
+
+    public void PlayPlace(Vector3 position)
+    {
+        dustPlace.gameObject.SetActive(true);
+        dustPlace.transform.position = position;
+        dustPlace.Play();
+    }
 }

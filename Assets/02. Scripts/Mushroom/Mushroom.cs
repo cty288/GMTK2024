@@ -88,6 +88,16 @@ public class Mushroom : AbstractMikroController<MainGame> {
         }
     }
 
+    public void RegenerateMushroomVisuals()
+    {
+        MushroomGenerator.RegenerateMushroomVisuals(data, this);
+    }
+
+    public void ReinitializeMushroom(Dictionary<ShroomPart, MushroomPart> parts)
+    {
+        Parts = parts;
+    }
+
     public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
         Parts = parts;
@@ -132,6 +142,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private async UniTask UpdateVisual() {
         await UniTask.NextFrame();
         if(!this) return;
+        //RegenerateMushroomVisuals();
         ChangeMushroomSizes();
         ChangeMushroomColor();
         RegenerateCollider();
@@ -271,6 +282,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
         audioSource.Play();
 
         oscillationSequence.Play();
+        
+        VFXManager.Instance.PlayPlace(transform.position);
 
         isSelected = false;
     }
