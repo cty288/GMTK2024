@@ -62,3 +62,6 @@ MonoBehaviour:
   - Name: StandardCap
     parts:
     - {fileID: 4815320148666517607, guid: 763071e8dfb15aa49bca8f39c38968b9, type: 3}
+  - Name: SupressorRing
+    parts:
+    - {fileID: 6412275932885880628, guid: 5513c669012bec747ae1f11dc8987822, type: 3}
