@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [System.Flags]
 public enum TraitFlags {
@@ -15,11 +13,12 @@ public static class TraitPool {
 
     private static Dictionary<TraitFlags, List<Func<IMushroomTrait>>> traitsByFlags =
         new Dictionary<TraitFlags, List<Func<IMushroomTrait>>>();
-    
+
     private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> traitsByCategory =
         new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
 
     static TraitPool() {
+        //Caps
         RegisterTrait(() => new BigCap());
         RegisterTrait(() => new SplitedTrait());
         RegisterTrait(() => new PetrifiedCap());
@@ -28,26 +27,36 @@ public static class TraitPool {
         RegisterTrait(() => new AlienBanana());
         RegisterTrait(() => new OnionCap());
         RegisterTrait(() => new StandardCap());
+
+        //Stems
+        RegisterTrait(() => new BigFoot());
+        RegisterTrait(() => new Gourd());
+        RegisterTrait(() => new PetrifiedStem());
+        RegisterTrait(() => new StandardStem());
+        RegisterTrait(() => new StraightEdge());
+        RegisterTrait(() => new Strangled());
+        RegisterTrait(() => new Thorny());
+        RegisterTrait(() => new TreeRoot());
     }
 
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
         traitGetters.Add(traitGetter);
         foreach (TraitFlags flag in Enum.GetValues(typeof(TraitFlags))) {
-            if(flags.HasFlag(flag)) {
-                if(!traitsByFlags.ContainsKey(flag)) {
+            if (flags.HasFlag(flag)) {
+                if (!traitsByFlags.ContainsKey(flag)) {
                     traitsByFlags[flag] = new List<Func<IMushroomTrait>>();
                 }
                 traitsByFlags[flag].Add(traitGetter);
             }
         }
-        
+
         MushroomTraitCategory category = traitGetter().Category;
-        if(!traitsByCategory.ContainsKey(category)) {
+        if (!traitsByCategory.ContainsKey(category)) {
             traitsByCategory[category] = new List<Func<IMushroomTrait>>();
         }
         traitsByCategory[category].Add(traitGetter);
     }
-    
+
     public static void Shuffle<T>(List<T> list) {
         for (int i = 0; i < list.Count; i++) {
             int randomIndex = UnityEngine.Random.Range(i, list.Count);
@@ -55,20 +64,20 @@ public static class TraitPool {
         }
     }
     public static IMushroomTrait GetRandomTrait(MushroomTraitCategory category) {
-        if(!traitsByCategory.ContainsKey(category)) {
+        if (!traitsByCategory.ContainsKey(category)) {
             return null;
         }
         List<Func<IMushroomTrait>> candidates = traitsByCategory[category];
-        if(candidates == null) {
+        if (candidates == null) {
             return null;
         }
         Shuffle(candidates);
         return candidates[0]();
     }
-    
+
     public static List<IMushroomTrait> GetRandomTraits(int count = 1, TraitFlags flags = TraitFlags.None, bool isOR = true) {
         List<Func<IMushroomTrait>> result = new List<Func<IMushroomTrait>>();
-        if(flags == TraitFlags.None) {
+        if (flags == TraitFlags.None) {
             result = traitGetters;
             List<IMushroomTrait> traits = new List<IMushroomTrait>();
             Shuffle(result);
@@ -77,26 +86,26 @@ public static class TraitPool {
             }
             return traits;
         }
-        
+
         HashSet<Func<IMushroomTrait>> candidates = new HashSet<Func<IMushroomTrait>>();
-        if(isOR) {
+        if (isOR) {
             foreach (TraitFlags flag in Enum.GetValues(typeof(TraitFlags))) {
-                if(flags.HasFlag(flag) && traitsByFlags.ContainsKey(flag)) {
+                if (flags.HasFlag(flag) && traitsByFlags.ContainsKey(flag)) {
                     candidates.UnionWith(traitsByFlags[flag]);
                 }
             }
         } else {
             candidates.UnionWith(traitGetters);
             foreach (TraitFlags flag in Enum.GetValues(typeof(TraitFlags))) {
-                if(flags.HasFlag(flag) && traitsByFlags.ContainsKey(flag)) {
+                if (flags.HasFlag(flag) && traitsByFlags.ContainsKey(flag)) {
                     candidates.IntersectWith(traitsByFlags[flag]);
                 }
             }
         }
-        if(candidates.Count == 0) {
+        if (candidates.Count == 0) {
             return new List<IMushroomTrait>();
         }
-        
+
         result.AddRange(candidates);
         Shuffle(result);
         List<IMushroomTrait> resultTraits = new List<IMushroomTrait>();
@@ -105,6 +114,6 @@ public static class TraitPool {
         }
         return resultTraits;
     }
-    
-    
+
+
 }
