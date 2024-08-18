@@ -33,7 +33,7 @@ public class MushroomSpawner : MonoBehaviour, ICanGetModel {
     private void SpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
             Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-            GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, randomPosition);
+            GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, randomPosition, Random.Range(1, 5));
             // mushroomGO.transform.position = randomPosition;
             //GameObject mushroomGO = Instantiate(mushroomPrefab, randomPosition, Quaternion.identity);
             mushroomGO.transform.SetParent(transform);

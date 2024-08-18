@@ -4,8 +4,10 @@ using MikroFramework.Architecture;
 using MikroFramework.Event;
 using System;
 using System.Collections.Generic;
+using MikroFramework;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 
 public class Mushroom : AbstractMikroController<MainGame> {
@@ -34,7 +36,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     public Dictionary<ShroomPart, MushroomPart> Parts { get; private set; }
-    private List<Mushroom> neighbors = new List<Mushroom>();
+    //private List<Mushroom> neighbors = new List<Mushroom>();
 
     public Action<Mushroom> OnMushroomDestroyed;
 
@@ -79,72 +81,116 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnGrowthDayChange(int oldDay, int newDay) {
         int newStage = data.GetStage(newDay);
+        
         if (newStage == 1) {
-            Stage1();
-        } else if (data.GetStage(oldDay) != data.GetStage(newDay)) {
-            if (newStage == 2) {
-                Stage2();
-            } else if (newStage == 3) {
-                Stage3();
-            } else { //die
-                DestroySelf();
+            OnStage1();
+        }else if (newStage == 2) {
+            if (newDay == 3) {
+                OnStage2Start();
             }
-            ChangeMushroomSizes();
-            RegenerateCollider();
+            OnStage2();
+        } else if (newStage == 3) {
+            OnStage3();
         }
-    }
-
-    private void Stage1() {
-        seedGO.SetActive(true);
-        growthGO.SetActive(false);
-
-        List<Mushroom> stage3Neighbors = FindNeighborsBasedOnStage(3);
-        foreach (Mushroom parent in stage3Neighbors) {
-            var traits = parent.data.GetTraits();
-            TraitPool.Shuffle(traits);
-            foreach (var trait in traits) {
-                //TODO: 
-                // try to add the trait to this mushroom
-                // if a trait slot is available, add the trait, otherwise try 50% replace or try for next slot
-                // keep track of which parent's mushroomData was used for which traits
+        else {
+            DestroySelf();
+        }
+        ChangeMushroomSizes();
+        RegenerateCollider();
+        /*this.Delay(0.1f, () => {
+            if (this) {
 
             }
-        }
+
+        });*/
     }
 
-    private void Stage2() {
+    private void OnStage2() {
+        //growth & mutation -> I wrote the code in data
         seedGO.SetActive(false);
         growthGO.SetActive(true);
+    }
+    private void OnStage2Start() {
+
 
         // for each mappedProperty, get the property from a parent that did not give a trait slot related to the mappedProperty
         // for each other property, get a random parent's trait or mix a few parent's traits together
-        // on second day, increment/decrement a few traits
+        // I wrote the code in data
     }
 
-    private void Stage3() {
-        int currChildren = FindNeighborsBasedOnStage(1).Count;
+    private List<MushroomData> GetStage1Neighbors() {
+        
+        var allMushrooms = entityManager.GetAllMushrooms();
+        List<MushroomData> neighbors = new List<MushroomData>();
+
+        foreach (Mushroom m1 in allMushrooms) {
+            if (m1 != this) {
+                float distance = Vector2.Distance(m1.transform.position, transform.position);
+                if (distance <= this.GetMushroomData().sporeRange.RealValue && m1.GetMushroomData().GetStage() == 1) {
+                    neighbors.Add(m1.GetMushroomData());
+                }
+            }
+        }
+        return neighbors;
+    }
+    
+
+    private void OnStage1() {
+        seedGO.SetActive(true);
+        growthGO.SetActive(false);
+
+    }
+
+
+    private void OnStage3() {
+        //parent pass traits to 2 children
+        List<MushroomData> stage1Neighbors = GetStage1Neighbors();
+        
+        int currChildren = stage1Neighbors.Count;
         for (int i = 0; i < 2 - currChildren; i++) {
             Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * data.sporeRange.RealValue + (Vector2)transform.position;
-            entityManager.SpawnMushroom(spawnPos);
+            Mushroom spawnedMushroom = entityManager.SpawnMushroom(spawnPos, 0, 0);
+            stage1Neighbors.Add(spawnedMushroom.GetMushroomData());
+        }
+        
+        TraitPool.Shuffle(stage1Neighbors);
+        for (int i = 0; i < Math.Min(stage1Neighbors.Count, 2); i++) {
+            bool res = PassTrait(stage1Neighbors[i]);
+            if (res) {
+                Debug.Log($"Mushroom {data.GetHashCode()} passed trait to {stage1Neighbors[i].GetHashCode()}");
+            }
         }
     }
 
-    public void SetNeighbors(List<Mushroom> neighbors) {
-        this.neighbors = neighbors;
+    /// <summary>
+    /// Make the child inherit some traits from the parent (recording the parent)
+    /// </summary>
+    /// <param name="child"></param>
+    private Boolean PassTrait(MushroomData child) {
+        MushroomData data = this.GetMushroomData();
+        child.AddInfluencedBy(data);
+        
+        int categoriesCount = Enum.GetValues(typeof(MushroomTraitCategory)).Length;
+        int startIdx = UnityEngine.Random.Range(0, categoriesCount);
+        int remainCount = categoriesCount;
+        
+        while (remainCount > 0) {
+            MushroomTraitCategory category = (MushroomTraitCategory)startIdx;
+            if (child.TraitToParentMap[category] == null) {
+                child.TraitToParentMap[category] = data;
+                return true;
+            }else if(Random.value < 0.5f) {
+                child.TraitToParentMap[category] = data;
+                return true;
+            }
+
+            startIdx = (startIdx + 1) % categoriesCount;
+            remainCount--;
+        }
+
+        return false;
     }
 
-    public void AddNeighbor(Mushroom neighbor) {
-        if (!neighbors.Contains(neighbor))
-            this.neighbors.Add(neighbor);
-    }
-
-    public void RemoveNeighbor(Mushroom neighbor) {
-        this.neighbors.Remove(neighbor);
-    }
-
-    public void ClearNeighbors() {
-        neighbors.Clear();
-    }
 
     public void RegenerateCollider() {
         ((CompositeCollider2D)_collider).GenerateGeometry();
@@ -195,15 +241,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         isSelected = false;
     }
 
-    private List<Mushroom> FindNeighborsBasedOnStage(int stage) {
-        List<Mushroom> results = new List<Mushroom>();
-        foreach (Mushroom neighbor in neighbors) {
-            if (neighbor.data.GetStage() == stage) {
-                results.Add(neighbor);
-            }
-        }
-        return results;
-    }
+
 
     public async void DestroySelf() {
         audioSource.clip = destroySFX;

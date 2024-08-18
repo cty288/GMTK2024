@@ -48,45 +48,30 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     private void IncrementDay() {
         this.GetModel<GameTimeModel>().Day.Value++;
-        UpdateMushroomNeighbors();
+        //UpdateMushroomNeighbors();
     }
 
-    private void UpdateMushroomNeighbors() {
-        foreach (Mushroom m in allMushrooms) {
-            m.ClearNeighbors();
-        }
 
-        foreach (Mushroom m1 in allMushrooms) {
-            foreach (Mushroom m2 in allMushrooms) {
-                if (m1 != m2) {
-                    float distance = Vector2.Distance(m1.transform.position, m2.transform.position);
-                    if (distance <= m1.GetMushroomData().sporeRange.RealValue)
-                        m1.AddNeighbor(m2);
-                    if (distance <= m2.GetMushroomData().sporeRange.RealValue)
-                        m2.AddNeighbor(m1);
-                }
-            }
-        }
-    }
 
     private void RandomlySpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
             Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-            SpawnMushroom(randomPosition);
+            SpawnMushroom(randomPosition, 1,1, Random.Range(1, 5));
         }
     }
 
-    public void SpawnMushroom(Vector2 position) {
-        GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, position);
+    public Mushroom SpawnMushroom(Vector2 position, int minTrait, int maxTrait, int growthDay = 1) {
+        GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(minTrait, maxTrait, position, growthDay);
         mushroomGO.name = mushroomGO.name + "_" + debugCount++;
         mushroomGO.transform.SetParent(transform);
         Mushroom mushroom = mushroomGO.GetComponent<Mushroom>();
         mushroom.RegenerateCollider();
         mushroom.OnMushroomDestroyed += OnMushroomDestroyed;
         allMushrooms.Add(mushroom);
+        return mushroom;
     }
 
-    private List<Mushroom> GetAllMushrooms() {
+    public List<Mushroom> GetAllMushrooms() {
         return allMushrooms;
     }
 
