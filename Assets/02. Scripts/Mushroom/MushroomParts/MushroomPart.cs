@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MushroomPart : MonoBehaviour
@@ -40,6 +41,45 @@ public class MushroomPart : MonoBehaviour
 
         transform.parent = p;
     }
+
+    public void SetPartColor(Color color, ColorElement element = ColorElement.All)
+    {
+        switch (element)
+        {
+            case ColorElement.Primary:
+                foreach (var spr in primaryColorIn)
+                {
+                    spr.color = color;
+                }
+                break;
+            case ColorElement.Secondary:
+                foreach (var spr in secondaryColorIn)
+                {
+                    spr.color = color;
+                }
+                break;
+            case ColorElement.Tertiary:
+                foreach (var spr in tertiaryColorIn)
+                {
+                    spr.color = color;
+                }
+                break;
+            case ColorElement.All:
+                foreach (var spr in primaryColorIn)
+                {
+                    spr.color = color;
+                }
+                foreach (var spr in secondaryColorIn)
+                {
+                    spr.color = color;
+                }
+                foreach (var spr in tertiaryColorIn)
+                {
+                    spr.color = color;
+                }
+                break;
+        }
+    }
     
     void OnDrawGizmos()
     {
@@ -59,4 +99,12 @@ public enum ShroomPart
     Pattern,
     Ring
     //Global
+}
+
+public enum ColorElement
+{
+    Primary,
+    Secondary,
+    Tertiary,
+    All
 }
