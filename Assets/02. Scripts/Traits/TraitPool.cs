@@ -40,6 +40,11 @@ public static class TraitPool {
 
         //Rings
         RegisterTrait(() => new SuppressorRing());
+        RegisterTrait(() => new StandardRing());
+        RegisterTrait(() => new Extravagant());
+        RegisterTrait(() => new DriedOut());
+        RegisterTrait(() => new Skirt());
+        RegisterTrait(() => new Tube());
     }
 
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
