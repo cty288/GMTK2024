@@ -273,6 +273,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
         audioSource.Play();
 
         oscillationSequence.Pause();
+        
+        VFXManager.Instance.PlayPickup(transform.position);
 
         isSelected = true;
     }

@@ -29,4 +29,11 @@ public class VFXManager : MonoBehaviour
         dustPlace.transform.position = position;
         dustPlace.Play();
     }
+    
+    public void PlayPickup(Vector3 position)
+    {
+        dustPickUp.gameObject.SetActive(true);
+        dustPickUp.transform.position = position;
+        dustPickUp.Play();
+    }
 }
