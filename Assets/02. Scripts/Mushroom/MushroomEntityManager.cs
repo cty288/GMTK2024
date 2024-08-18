@@ -16,11 +16,11 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     private Mushroom selectedMushroom;
     private List<Mushroom> allMushrooms = new List<Mushroom>();
 
-    public GameObject mushroomPrefab;
-
     public int mushroomsToSpawn = 3;
     public Vector2 rangeX = new Vector2(-9f, 9f);
     public Vector2 rangeY = new Vector2(-5f, 5f);
+
+    private int debugCount = 0;
 
     public void Awake() {
         if (Instance == null) {
@@ -42,7 +42,30 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {
-            this.GetModel<GameTimeModel>().Day.Value++;
+            IncrementDay();
+        }
+    }
+
+    private void IncrementDay() {
+        this.GetModel<GameTimeModel>().Day.Value++;
+        UpdateMushroomNeighbors();
+    }
+
+    private void UpdateMushroomNeighbors() {
+        foreach (Mushroom m in allMushrooms) {
+            m.ClearNeighbors();
+        }
+
+        foreach (Mushroom m1 in allMushrooms) {
+            foreach (Mushroom m2 in allMushrooms) {
+                if (m1 != m2) {
+                    float distance = Vector2.Distance(m1.transform.position, m2.transform.position);
+                    if (distance <= m1.GetMushroomData().sporeRange.RealValue)
+                        m1.AddNeighbor(m2);
+                    if (distance <= m2.GetMushroomData().sporeRange.RealValue)
+                        m2.AddNeighbor(m1);
+                }
+            }
         }
     }
 
@@ -55,9 +78,11 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     private void SpawnMushroom() {
         Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
         GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(1, 1, randomPosition);
+        mushroomGO.name = mushroomGO.name + "_" + debugCount++;
         mushroomGO.transform.SetParent(transform);
         Mushroom mushroom = mushroomGO.GetComponent<Mushroom>();
         mushroom.RegenerateCollider();
+        mushroom.OnMushroomDestroyed += OnMushroomDestroyed;
         allMushrooms.Add(mushroom);
     }
 
@@ -65,15 +90,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         return allMushrooms;
     }
 
-    public List<Mushroom> GetMushroomsInRange(Vector2 position, float range) {
-        List<Mushroom> results = new List<Mushroom>();
-        foreach (Mushroom mushroom in allMushrooms) {
-            if (Vector2.Distance(mushroom.transform.position, position) <= range) {
-                results.Add(mushroom);
-            }
-        }
-        return results;
-    }
+
 
     public IArchitecture GetArchitecture() {
         return MainGame.Interface;
@@ -104,10 +121,13 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         if (hit.collider != null) {
             Mushroom mushroom = hit.collider.GetComponent<Mushroom>();
             if (mushroom != null) {
-                allMushrooms.Remove(mushroom);
                 mushroom.DestroySelf();
             }
         }
+    }
+
+    public void OnMushroomDestroyed(Mushroom mushroom) {
+        allMushrooms.Remove(mushroom);
     }
 
     public void DeleteMode() {

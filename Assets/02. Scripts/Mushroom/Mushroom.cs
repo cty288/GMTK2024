@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using MikroFramework.Architecture;
 using MikroFramework.Event;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -33,6 +34,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
     public Dictionary<ShroomPart, MushroomPart> Parts { get; private set; }
     private List<Mushroom> neighbors = new List<Mushroom>();
 
+    public Action<Mushroom> OnMushroomDestroyed;
+
     private void Awake() {
         entityManager = MushroomEntityManager.Instance;
 
@@ -58,8 +61,6 @@ public class Mushroom : AbstractMikroController<MainGame> {
         data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
 
         this.data.GrowthDay.RegisterWithInitValue(OnGrowthDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
-
-        SetNeighbors(entityManager.GetMushroomsInRange(gameObject.transform.position, data.sporeRange.RealValue.Value));
     }
 
     private void OnGrowthDayChange(int oldDay, int newDay) {
@@ -85,11 +86,16 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     public void AddNeighbor(Mushroom neighbor) {
-        this.neighbors.Add(neighbor);
+        if (!neighbors.Contains(neighbor))
+            this.neighbors.Add(neighbor);
     }
 
     public void RemoveNeighbor(Mushroom neighbor) {
         this.neighbors.Remove(neighbor);
+    }
+
+    public void ClearNeighbors() {
+        neighbors.Clear();
     }
 
     public void RegenerateCollider() {
@@ -130,20 +136,6 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
         oscillationSequence.Play();
 
-        //update neighbors
-        List<Mushroom> newNeighbors = entityManager.GetMushroomsInRange(gameObject.transform.position, data.sporeRange.RealValue.Value);
-        foreach (Mushroom neighbor in neighbors) {
-            if (!newNeighbors.Contains(neighbor)) {
-                neighbor.RemoveNeighbor(this);
-                this.RemoveNeighbor(neighbor);
-            }
-            if (newNeighbors.Contains(neighbor)) {
-                newNeighbors.Remove(neighbor);
-            }
-        }
-
-        neighbors.AddRange(newNeighbors);
-
         isSelected = false;
     }
 
@@ -162,6 +154,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
         audioSource.Play();
 
         await UniTask.WaitUntil(() => !audioSource.isPlaying);
+
+        OnMushroomDestroyed?.Invoke(this);
 
         oscillationSequence.Kill();
         Destroy(gameObject);
