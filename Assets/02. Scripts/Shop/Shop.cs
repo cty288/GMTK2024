@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-//#include <vector>                <= i just thought it was funny why i wrote this
+//i hate people
 public class Shop : MonoBehaviour
 {
     
@@ -13,6 +13,11 @@ public class Shop : MonoBehaviour
     private bool inAnimation = false;
 
     private MushroomData[] mushroomData = new MushroomData[3];
+
+
+    public TextMeshProUGUI[] babyShroomTrait = new TextMeshProUGUI[3];
+    public TextMeshProUGUI[] mommyShroomTrait = new TextMeshProUGUI[3];
+    public TextMeshProUGUI[] daddyShroomTrait = new TextMeshProUGUI[3];
     void Start()
     {
         
@@ -24,12 +29,35 @@ public class Shop : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.A) && inAnimation == false)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            EnableShopUI();
+            //EnableShopUI();
+            UpdateShopUI();
         }
     }
+    void UpdateShopUI()
+    {
+        for(int i = 0; i < 3; i++)
+        {
 
+            var go = MushroomGenerator.GenerateRandomMushroom(1, 2, new Vector3(100, 100, 100));
+            mushroomData[i] = go.GetComponent<Mushroom>().GetMushroomData();
+            var traits = mushroomData[i].GetTraits();
+            for(int j = 0; j< traits.Count; j++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+        }
+    }
     void EnableShopUI()
     {
         InitShopItems();

@@ -162,11 +162,13 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnMouseEnter() {
         ChangeOutlineColor(Color.white);
+        MushroomDataPanel.Instance.TurnOnPanel();
         MushroomDataPanel.Instance.SetPanelDisplay(data);
     }
 
     private void OnMouseExit() {
         ChangeOutlineColor(Color.black);
+        MushroomDataPanel.Instance.TurnOffPanel();
         MushroomDataPanel.Instance.ResetPanelDisplay();
     }
 

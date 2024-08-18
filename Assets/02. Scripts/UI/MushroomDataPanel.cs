@@ -13,7 +13,7 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
             Destroy(this);
         }
     }
-
+    [SerializeField] private GameObject UIGroup;
     [SerializeField] private TextMeshProUGUI dayText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dataText;
@@ -42,5 +42,14 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
 
     public IArchitecture GetArchitecture() {
         return MainGame.Interface;
+    }
+
+    public void TurnOnPanel()
+    {
+        UIGroup.SetActive(true);
+    }
+    public void TurnOffPanel()
+    {
+        UIGroup.SetActive(false);
     }
 }
