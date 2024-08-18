@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VeryRed : MushroomTrait<Color> {
-	public override MushroomPropertyTag[] GetTargetTags() {
-		return new MushroomPropertyTag[] {MushroomPropertyTag.Color, MushroomPropertyTag.Stem};
+public class VeryRed : MushroomTrait{
+
+	//public override bool IsGlobalOnly { get; } = false;
+	public override void OnStartApply(MushroomData data) {
+		var capColors = data.GetProperties<Color>(MushroomPropertyTag.Color, MushroomPropertyTag.Cap);
+		foreach (var capColor in capColors) {
+			capColor.RealValue.Value += new Color(0.5f, 0, 0);
+		}
 	}
 
-	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
-		property.RealValue.Value += new Color(0.5f, 0, 0);
-	}
-	
-	
-	//public override bool IsGlobalOnly { get; } = false;
-	public override bool IsIndependent { get; } = false;
 
 	public override string GetTraitName() {
 		return "Very Red";
@@ -24,31 +22,36 @@ public class VeryRed : MushroomTrait<Color> {
 	}
 }
 
-public class VeryBlue : MushroomTrait<Color> {
-	public override MushroomPropertyTag[] GetTargetTags() {
-		return new MushroomPropertyTag[] {MushroomPropertyTag.Color, MushroomPropertyTag.Cap};
+public class VeryBlue : MushroomTrait {
+	public override void OnStartApply(MushroomData data) {
+		var colors = data.GetProperties<Color>(MushroomPropertyTag.Color, MushroomPropertyTag.Stem);
+		foreach (var capColor in colors) {
+			capColor.RealValue.Value = new Color(0, 0, 1f);
+		}
 	}
-
-	//public override bool IsGlobalOnly { get; } = false;
-
-	protected override void OnStartApplyToProperty(MushroomProperty<Color> property) {
-		property.RealValue.Value = new Color(0f, 0, 1f);
-	}
-
 	public override string GetTraitName() {
 		return "Very Blue";
 	}
-	public override bool IsIndependent { get; } = false;
+
 	public override string GetTraitValueDescription() {
 		return null;
 	}
 }
 
-public class VeryShy : IndependentMushroomTrait {
+public class VeryShy : MushroomTrait {
 
 	public override string GetTraitName() {
 		return "Very Shy";
 	}
+
+	public override string GetTraitValueDescription() {
+		return null;
+	}
+
+	public override void OnStartApply(MushroomData data) {
+		
+	}
+
 
 	public override int GetVisualPartGroupIdx() {
 		return 0;

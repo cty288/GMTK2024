@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
 using MikroFramework.Event;
@@ -175,25 +176,12 @@ public class MushroomData {
         return result;
     }*/
     
-    public void AddTrait<T>(MushroomTrait<T> trait) {
+    public void AddTrait<T>(MushroomTrait trait) {
         AddTrait((IMushroomTrait) trait);
     }
     
     public void AddTrait(IMushroomTrait trait) {
-        if (trait.IsIndependent) {
-            traits.Add(trait.GetType(), trait);
-            if (traitAddCallbacks.ContainsKey(trait.GetType())) {
-                traitAddCallbacks[trait.GetType()](trait);
-            }
-            return;
-        }
-        
-        foreach (var property in flattenedProperties) {
-            if (trait.SelectTrait(property)) {
-                trait.AddInfluencedProperty(property);
-                trait.OnStartApplyToProperty(property);
-            }
-        }
+        trait.OnStartApply(this);
         traits.Add(trait.GetType(), trait);
         if (traitAddCallbacks.ContainsKey(trait.GetType())) {
             traitAddCallbacks[trait.GetType()](trait);
@@ -260,7 +248,30 @@ public class MushroomData {
         trait = default;
         return false;
     }
+
+    /// <summary>
+    /// AND operation
+    /// </summary>
+    /// <param name="tags"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public HashSet<MushroomProperty<T>> GetProperties<T>(params MushroomPropertyTag[] tags) {
+        //find properties that have all the tags
+        HashSet<IMushroomProperty> result = new HashSet<IMushroomProperty>();
+        foreach (var tag in tags) {
+            if (!properties.ContainsKey(tag)) {
+                return null;
+            }
+            
+            result.UnionWith(properties[tag]);
+        }
+        
+        //filter out those of different types
+        result.RemoveWhere(property => property.GetType() != typeof(MushroomProperty<T>));
+        return new HashSet<MushroomProperty<T>>(result.Cast<MushroomProperty<T>>());
+    }
 }
+
 
 public static class MushroomDataHelper {
     public static MushroomData GetControlMushroomData() {
