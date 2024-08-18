@@ -41,6 +41,22 @@ public class MushroomProperty<T> : IMushroomProperty {
 }
 
 public class MushroomData {
+    private Dictionary<MushroomTraitCategory, MushroomProperty<float>> traitToPropertyMap =
+        new Dictionary<MushroomTraitCategory, MushroomProperty<float>>();
+
+    public Dictionary<MushroomTraitCategory, MushroomProperty<float>> TraitToPropertyMap => traitToPropertyMap;
+
+    private Dictionary<MushroomTraitCategory, MushroomData> traitToParentMap =
+        new Dictionary<MushroomTraitCategory, MushroomData>();
+    public Dictionary<MushroomTraitCategory, MushroomData> TraitToParentMap => traitToParentMap;
+    
+
+    private HashSet<MushroomData> influencedBy = new HashSet<MushroomData>();
+
+
+
+
+
     private Dictionary<MushroomPropertyTag, List<IMushroomProperty>> properties =
         new Dictionary<MushroomPropertyTag, List<IMushroomProperty>>();
 
@@ -48,13 +64,16 @@ public class MushroomData {
 
     private Dictionary<Type, IMushroomTrait> traits = new Dictionary<Type, IMushroomTrait>();
     private Dictionary<Type, Action<IMushroomTrait>> traitAddCallbacks = new Dictionary<Type, Action<IMushroomTrait>>();
+    private Dictionary<MushroomTraitCategory, IMushroomTrait> traitCategoryToTrait = new Dictionary<MushroomTraitCategory, IMushroomTrait>();
+    
+    
     private Action<IMushroomTrait> onTraitAdd;
 
     public MushroomProperty<float> capHeight;
     public MushroomProperty<float> capWidth;
     public MushroomProperty<float> stemHeight;
     public MushroomProperty<float> stemWidth;
-    public MushroomProperty<float> growthSpeed;
+    //public MushroomProperty<float> growthSpeed;
     public MushroomProperty<Vector2> oscillation;
     public MushroomProperty<float> oscillationSpeed;
     public MushroomProperty<Color> capColor;
@@ -85,20 +104,139 @@ public class MushroomData {
         return 4;
     }
     
-    public MushroomData() :  this(1, 1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
+    public MushroomData() :  this(1, 1, 1, 1,  new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
         AddBasicProperties();
-        GrowthDay.RegisterOnValueChanged(OnGrowthDayChanged);
+       
+        
+    }
+    public void AddInfluencedBy(MushroomData parent) {
+        influencedBy.Add(parent);
     }
 
     private void OnGrowthDayChanged(int oldDay, int newDay) {
         int oldStage = GetStage(oldDay);
         int newStage = GetStage(newDay);
+
+        
+        if (newStage == 1) {
+            OnStage1();
+        }else if (newStage == 2) {
+            if (newDay == 3) {
+                OnStage2Start();
+            }
+            OnStage2();
+        } else if (newStage == 3) {
+            OnStage3();
+        }
+
+        
+        
         foreach (var trait in traits.Values) {
             trait.OnNewDay(this, oldDay, newDay, oldStage, newStage);
         }
     }
 
-    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, float growthSpeed, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
+    private void OnStage3() {
+        
+    }
+
+    private void OnStage2() {
+        //growth & mutation
+        //for each empty trait slot, mutate a property
+        MushroomTraitCategory[] categories = traitCategoryToTrait.Keys.ToArray();
+
+        foreach (MushroomTraitCategory category in categories) {
+            if (traitCategoryToTrait[category] == null) {
+                if (Random.value <= 0.75) {
+                    MushroomProperty<float> property = traitToPropertyMap[category];
+                    property.RealValue.Value = Mathf.Max(property.RealValue.Value + Random.Range(-1f, 1f), 0.5f);
+                    Debug.Log("Mutated property " + category);
+                }
+                else {
+                    var trait = TraitPool.GetRandomTrait(category);
+                    if (trait != null) {
+                        AddTrait(trait);
+                        Debug.Log("Mutation Added trait " + trait.GetTraitName());
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnStage2Start() {
+        // for each mappedProperty, get the property from a parent that did not give a trait slot related to the mappedProperty
+        // for each other property, get a random parent's trait or mix a few parent's traits together
+       
+        //step0: color inheritance
+        MushroomPropertyTag[][] tagGroups = new MushroomPropertyTag[][] {
+            new MushroomPropertyTag[] {MushroomPropertyTag.Cap, MushroomPropertyTag.Color},
+            new MushroomPropertyTag[] {MushroomPropertyTag.Stem, MushroomPropertyTag.Color}
+        };
+        
+        foreach (var tagGroup in tagGroups) {
+            if(Random.value > 0.5f) {
+                continue;
+            }
+            //pick a random parent
+            if (influencedBy.Count == 0) {
+                break;
+            }
+            MushroomData parent = influencedBy.ToList()[Random.Range(0, influencedBy.Count)];
+            var selfColor = GetProperties<Color>(tagGroup).ToList();
+            var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
+            for (int i = 0; i < selfColor.Count; i++) {
+                if(i < parentColor.Count) {
+                    selfColor[i].RealValue.Value = parentColor[i].RealValue.Value;
+                }
+            }
+        }
+        
+        //step1: add traits
+        foreach (MushroomTraitCategory category in traitToParentMap.Keys) {
+            if (traitToParentMap[category] != null) {
+                var parent = traitToParentMap[category];
+                IMushroomTrait parentTrait = parent.GetTraits().Find(trait => trait.Category == category);
+                if (parentTrait != null) {
+                    AddTrait(parentTrait.GetCopy());
+                    Debug.Log("Added trait " + parentTrait.GetTraitName());
+                }
+            }
+        }
+        
+        //step2: inherit properties
+        foreach (MushroomTraitCategory category in traitToPropertyMap.Keys) {
+             MushroomData excludedParent = traitToParentMap[category];
+             HashSet<MushroomData> targetParents = new HashSet<MushroomData>(influencedBy);
+             if (excludedParent != null) {
+                 targetParents.Remove(excludedParent);
+             }
+             if (targetParents.Count == 0) {
+                 continue;
+             }
+             MushroomData parent = targetParents.ToList()[Random.Range(0, targetParents.Count)];
+             MushroomProperty<float> selfProperty = traitToPropertyMap[category];
+             MushroomProperty<float> parentProperty = parent.traitToPropertyMap[category];
+             selfProperty.RealValue.Value = parentProperty.RealValue.Value;
+             Debug.Log($"Inherited property {category} from parent {parent.GetHashCode()}");
+        }
+        
+        //step3: stemwidth and spore range
+        int parentCount = influencedBy.Count;
+        stemWidth.RealValue.Value = Mathf.Clamp(stemWidth.RealValue.Value + parentCount * 0.3f, stemWidth.RealValue.Value, 3f);
+        sporeRange.RealValue.Value = Mathf.Clamp(sporeRange.RealValue.Value + parentCount * 0.5f, sporeRange.RealValue.Value, 6f);
+        
+        //step4: clean up
+        influencedBy.Clear();
+        traitToParentMap.Clear();
+        
+
+    }
+
+    private void OnStage1() {
+        
+    }
+
+    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
         this.capHeight = new MushroomProperty<float>(capHeight, MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
         this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
         this.stemHeight = new MushroomProperty<float>(stemHeight, MushroomPropertyTag.Stem, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
@@ -113,9 +251,10 @@ public class MushroomData {
         this.stemColor1 = new MushroomProperty<Color>(stemColor1, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
         this.isPoisonous = new MushroomProperty<bool>(isPoisonous, MushroomPropertyTag.Poisonous);
         this.sporeRange = new MushroomProperty<float>(sporeRange, MushroomPropertyTag.SporeRange);
-        this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
-
+       // this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
+       //this.stemWidth.RealValue.Value = 2;
         AddBasicProperties();
+        GrowthDay.RegisterOnValueChanged(OnGrowthDayChanged);
     }
 
     private void AddBasicProperties() {
@@ -133,6 +272,19 @@ public class MushroomData {
         AddProperty(sporeRange);
         AddProperty(oscillation);
         AddProperty(oscillationSpeed);
+        
+        traitToPropertyMap.Add(MushroomTraitCategory.CapLength, capHeight);
+        traitToPropertyMap.Add(MushroomTraitCategory.CapWidth, capWidth);
+        traitToPropertyMap.Add(MushroomTraitCategory.StemLength, stemHeight);
+        
+        traitToParentMap.Add(MushroomTraitCategory.CapLength, null);
+        traitToParentMap.Add(MushroomTraitCategory.CapWidth, null);
+        traitToParentMap.Add(MushroomTraitCategory.StemLength, null);
+        
+        traitCategoryToTrait.Add(MushroomTraitCategory.CapLength, null);
+        traitCategoryToTrait.Add(MushroomTraitCategory.CapWidth, null);
+        traitCategoryToTrait.Add(MushroomTraitCategory.StemLength, null);
+
     }
 
     public int GetSellPrice() { //TODO: later
@@ -186,11 +338,17 @@ public class MushroomData {
     }
 
     public void AddTrait(IMushroomTrait trait) {
+        if(traitCategoryToTrait[trait.Category] != null) {
+            Debug.LogWarning("Trait already exists for category " + trait.Category);
+            return;
+        }
         trait.OnStartApply(this);
         traits.Add(trait.GetType(), trait);
         if (traitAddCallbacks.ContainsKey(trait.GetType())) {
             traitAddCallbacks[trait.GetType()](trait);
         }
+        traitCategoryToTrait[trait.Category] = trait;
+        
     }
 
     private Dictionary<object, Action<IMushroomTrait>> traitRemoveCallbacks = new Dictionary<object, Action<IMushroomTrait>>();
@@ -283,11 +441,11 @@ public static class MushroomDataHelper {
 
     public static MushroomData GetInitialMushroomData() {
         MushroomData data = new MushroomData(
-            Random.Range(0.5f, 1),
-            Random.Range(0.5f, 1),
-            Random.Range(0.5f, 1),
-            Random.Range(0.5f, 1),
-            1,
+            Random.Range(1f, 1.2f),
+            Random.Range(1f, 1.2f),
+            Random.Range(1f, 1.2f),
+            Random.Range(1f, 1.2f),
+            
             new Vector2(Random.Range(0.5f, 1), Random.Range(0.5f, 1)),
             Random.Range(0.5f, 1),
             new Color(Random.value, Random.value, Random.value),
@@ -297,18 +455,17 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
-            Random.Range(0.5f, 1));
+            Random.Range(3f, 4f));
 
         return data;
     }
 
     public static MushroomData GetRandomMushroomData(int initialGrowthDay, int minTraitCount, int maxTraitCount) {
         MushroomData data = new MushroomData(
-            Random.Range(0.3f, 1.8f),
-            Random.Range(0.3f, 1.8f),
-            Random.Range(0.3f, 1.8f),
-            Random.Range(0.3f, 1.8f),
-            1,
+            Random.Range(1f, 1.2f),
+            Random.Range(1f, 1.2f),
+            Random.Range(1f, 1.2f),
+            Random.Range(1f, 1.2f),
             new Vector2(Random.Range(0.8f, 1.3f), Random.Range(0.8f, 1.3f)),
             Random.Range(0.3f, 0.9f),
             new Color(Random.value, Random.value, Random.value),
@@ -318,7 +475,7 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
-            Random.Range(0.8f, 1.6f));
+            Random.Range(3f, 4f));
         data.GrowthDay.Value = initialGrowthDay;
 
         int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);

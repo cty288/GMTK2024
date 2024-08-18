@@ -15,6 +15,9 @@ public static class TraitPool {
 
     private static Dictionary<TraitFlags, List<Func<IMushroomTrait>>> traitsByFlags =
         new Dictionary<TraitFlags, List<Func<IMushroomTrait>>>();
+    
+    private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> traitsByCategory =
+        new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
 
     static TraitPool() {
         RegisterTrait(() => new VeryBlue(), TraitFlags.Good);
@@ -32,6 +35,12 @@ public static class TraitPool {
                 traitsByFlags[flag].Add(traitGetter);
             }
         }
+        
+        MushroomTraitCategory category = traitGetter().Category;
+        if(!traitsByCategory.ContainsKey(category)) {
+            traitsByCategory[category] = new List<Func<IMushroomTrait>>();
+        }
+        traitsByCategory[category].Add(traitGetter);
     }
     
     public static void Shuffle<T>(List<T> list) {
@@ -39,6 +48,17 @@ public static class TraitPool {
             int randomIndex = UnityEngine.Random.Range(i, list.Count);
             (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
         }
+    }
+    public static IMushroomTrait GetRandomTrait(MushroomTraitCategory category) {
+        if(!traitsByCategory.ContainsKey(category)) {
+            return null;
+        }
+        List<Func<IMushroomTrait>> candidates = traitsByCategory[category];
+        if(candidates == null) {
+            return null;
+        }
+        Shuffle(candidates);
+        return candidates[0]();
     }
     
     public static List<IMushroomTrait> GetRandomTraits(int count = 1, TraitFlags flags = TraitFlags.None, bool isOR = true) {

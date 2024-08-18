@@ -12,6 +12,11 @@ public class VeryRed : MushroomTrait{
 		}
 	}
 
+	public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.CapLength;
+	public override IMushroomTrait GetCopy() {
+		return new VeryRed();
+	}
+
 
 	public override string GetTraitName() {
 		return "Very Red";
@@ -29,6 +34,12 @@ public class VeryBlue : MushroomTrait {
 			capColor.RealValue.Value = new Color(0, 0, 1f);
 		}
 	}
+
+	public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.CapLength;
+	public override IMushroomTrait GetCopy() {
+		return new VeryBlue();
+	}
+
 	public override string GetTraitName() {
 		return "Very Blue";
 	}
@@ -39,6 +50,9 @@ public class VeryBlue : MushroomTrait {
 }
 
 public class VeryShy : MushroomTrait {
+	public override IMushroomTrait GetCopy() {
+		return new VeryShy();
+	}
 
 	public override string GetTraitName() {
 		return "Very Shy";
@@ -56,4 +70,6 @@ public class VeryShy : MushroomTrait {
 	public override int GetVisualPartGroupIdx() {
 		return 0;
 	}
+
+	public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.CapWidth;
 }
