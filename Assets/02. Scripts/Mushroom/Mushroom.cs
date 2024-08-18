@@ -95,14 +95,21 @@ public class Mushroom : AbstractMikroController<MainGame> {
         else {
             DestroySelf();
         }
-        ChangeMushroomSizes();
-        RegenerateCollider();
+
         /*this.Delay(0.1f, () => {
             if (this) {
 
             }
 
         });*/
+        UpdateVisual().Forget();
+    }
+
+    private async UniTask UpdateVisual() {
+        await UniTask.NextFrame();
+        if(!this) return;
+        ChangeMushroomSizes();
+        RegenerateCollider();
     }
 
     private void OnStage2() {

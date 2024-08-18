@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MushroomTraitCategory {
-	CapLength,
-	CapWidth,
-	StemLength,
+	Cap,
+	Stem,
+	Ring
 }
 public interface IMushroomTrait{
 	//public HashSet<MushroomPropertyTag> TargetTags { get; }

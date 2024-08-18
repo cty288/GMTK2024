@@ -33,6 +33,7 @@ namespace MikroFramework.BindableProperty
             set => Value = (T) value;
         }
         
+        public bool Locked { get; set; } = false;
 
         
         public BindableProperty(T defaultValue = default) {
@@ -60,6 +61,10 @@ namespace MikroFramework.BindableProperty
                 }
 
                 if (value != null && value.Equals(this.value)) {
+                    return;
+                }
+                
+                if (Locked) {
                     return;
                 }
 

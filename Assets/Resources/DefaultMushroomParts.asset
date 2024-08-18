@@ -32,22 +32,24 @@ MonoBehaviour:
   - {fileID: 4815320148666517607, guid: 763071e8dfb15aa49bca8f39c38968b9, type: 3}
   - {fileID: 4815320148666517607, guid: 857c636b8abc268469885d26ce5c3d8f, type: 3}
   - {fileID: 4815320148666517607, guid: 529a7f29b5614704abb51e65b7fabc84, type: 3}
-  - {fileID: 4815320148666517607, guid: e4ccb122740ab924099b8f744f0ae673, type: 3}
-  - {fileID: 4815320148666517607, guid: 8037e0588a5d4254c81d90caed06f51f, type: 3}
-  - {fileID: 4815320148666517607, guid: 577fe8ab7ab3aa44697ae97803e0e5f7, type: 3}
-  - {fileID: 4815320148666517607, guid: 861865c46b921aa4baa6d11a234d8488, type: 3}
-  - {fileID: 4815320148666517607, guid: f5c382c16f2732845a01f770e93d0498, type: 3}
   pattern:
   - {fileID: 1779987586927323020, guid: 031dbbf16557425469d096389b000033, type: 3}
   - {fileID: 1779987586927323020, guid: d8174ecf2fcefd745837f6e6425d8c2b, type: 3}
   - {fileID: 1779987586927323020, guid: 55403686ffd39e74298a0f0223d389b9, type: 3}
   - {fileID: 1779987586927323020, guid: 0c5938655f02730418290977f0bd9c6b, type: 3}
   traitPartGroups:
-  - Name: ShyParts
+  - Name: BigCap
     parts:
-    - {fileID: 65600953583321910, guid: bf4a257a0f524da40b870cad9bd18d6a, type: 3}
-    - {fileID: 7658846002416210012, guid: 623f8ea9dc5331b4498a99a8c1d2003d, type: 3}
-  - Name: HappyParts
+    - {fileID: 4815320148666517607, guid: f5c382c16f2732845a01f770e93d0498, type: 3}
+  - Name: Splited
     parts:
-    - {fileID: 65600953583321910, guid: bf4a257a0f524da40b870cad9bd18d6a, type: 3}
-    - {fileID: 7658846002416210012, guid: 623f8ea9dc5331b4498a99a8c1d2003d, type: 3}
+    - {fileID: 4815320148666517607, guid: 861865c46b921aa4baa6d11a234d8488, type: 3}
+  - Name: PertifiedCap
+    parts:
+    - {fileID: 4815320148666517607, guid: 577fe8ab7ab3aa44697ae97803e0e5f7, type: 3}
+  - Name: FishyScale
+    parts:
+    - {fileID: 4815320148666517607, guid: 8037e0588a5d4254c81d90caed06f51f, type: 3}
+  - Name: Flowery
+    parts:
+    - {fileID: 4815320148666517607, guid: e4ccb122740ab924099b8f744f0ae673, type: 3}

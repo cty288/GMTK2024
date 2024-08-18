@@ -26,13 +26,19 @@ public class MushroomProperty<T> : IMushroomProperty {
     public T BaseValue { get; set; }
 
     public BindableProperty<T> RealValue { get; }
+    
 
     public HashSet<MushroomPropertyTag> Tags { get; }
+    
+    public T ChildAdditions { get; set; }
+    
+    
 
     public MushroomProperty(T baseValue, params MushroomPropertyTag[] tags) {
         BaseValue = baseValue;
         RealValue = new BindableProperty<T>(baseValue);
         this.Tags = new HashSet<MushroomPropertyTag>(tags);
+        
     }
 
     public override string ToString() {
@@ -41,10 +47,10 @@ public class MushroomProperty<T> : IMushroomProperty {
 }
 
 public class MushroomData {
-    private Dictionary<MushroomTraitCategory, MushroomProperty<float>> traitToPropertyMap =
-        new Dictionary<MushroomTraitCategory, MushroomProperty<float>>();
+    private Dictionary<MushroomTraitCategory, MushroomProperty<float>[]> traitToPropertyMap =
+        new Dictionary<MushroomTraitCategory, MushroomProperty<float>[]>();
 
-    public Dictionary<MushroomTraitCategory, MushroomProperty<float>> TraitToPropertyMap => traitToPropertyMap;
+    public Dictionary<MushroomTraitCategory, MushroomProperty<float>[]> TraitToPropertyMap => traitToPropertyMap;
 
     private Dictionary<MushroomTraitCategory, MushroomData> traitToParentMap =
         new Dictionary<MushroomTraitCategory, MushroomData>();
@@ -148,8 +154,12 @@ public class MushroomData {
         foreach (MushroomTraitCategory category in categories) {
             if (traitCategoryToTrait[category] == null) {
                 if (Random.value <= 0.75) {
-                    MushroomProperty<float> property = traitToPropertyMap[category];
-                    property.RealValue.Value = Mathf.Max(property.RealValue.Value + Random.Range(-1f, 1f), 0.5f);
+                    MushroomProperty<float>[] properties = traitToPropertyMap[category];
+                    foreach (var property in properties) {
+                        property.RealValue.Value = Mathf.Max(property.RealValue.Value + Random.Range(-1f, 1f), 0.5f);
+                    }
+
+                    
                     Debug.Log("Mutated property " + category);
                 }
                 else {
@@ -214,9 +224,14 @@ public class MushroomData {
                  continue;
              }
              MushroomData parent = targetParents.ToList()[Random.Range(0, targetParents.Count)];
-             MushroomProperty<float> selfProperty = traitToPropertyMap[category];
-             MushroomProperty<float> parentProperty = parent.traitToPropertyMap[category];
-             selfProperty.RealValue.Value = parentProperty.RealValue.Value;
+             
+             MushroomProperty<float>[] selfProperties = traitToPropertyMap[category];
+             MushroomProperty<float>[] parentProperties = parent.traitToPropertyMap[category];
+             
+            for (int i = 0; i < selfProperties.Length; i++) {
+                selfProperties[i].RealValue.Value = parentProperties[i].RealValue.Value + parentProperties[i].ChildAdditions;
+            }
+            
              Debug.Log($"Inherited property {category} from parent {parent.GetHashCode()}");
         }
         
@@ -273,17 +288,17 @@ public class MushroomData {
         AddProperty(oscillation);
         AddProperty(oscillationSpeed);
         
-        traitToPropertyMap.Add(MushroomTraitCategory.CapLength, capHeight);
-        traitToPropertyMap.Add(MushroomTraitCategory.CapWidth, capWidth);
-        traitToPropertyMap.Add(MushroomTraitCategory.StemLength, stemHeight);
+        traitToPropertyMap.Add(MushroomTraitCategory.Cap, new MushroomProperty<float>[] {capHeight, capWidth});
+        traitToPropertyMap.Add(MushroomTraitCategory.Stem, new MushroomProperty<float>[] {stemHeight, stemWidth});
+        traitToPropertyMap.Add(MushroomTraitCategory.Ring, new MushroomProperty<float>[] {oscillationSpeed, sporeRange});
         
-        traitToParentMap.Add(MushroomTraitCategory.CapLength, null);
-        traitToParentMap.Add(MushroomTraitCategory.CapWidth, null);
-        traitToParentMap.Add(MushroomTraitCategory.StemLength, null);
+        traitToParentMap.Add(MushroomTraitCategory.Cap, null);
+        traitToParentMap.Add(MushroomTraitCategory.Stem, null);
+        traitToParentMap.Add(MushroomTraitCategory.Ring, null);
         
-        traitCategoryToTrait.Add(MushroomTraitCategory.CapLength, null);
-        traitCategoryToTrait.Add(MushroomTraitCategory.CapWidth, null);
-        traitCategoryToTrait.Add(MushroomTraitCategory.StemLength, null);
+        traitCategoryToTrait.Add(MushroomTraitCategory.Cap, null);
+        traitCategoryToTrait.Add(MushroomTraitCategory.Stem, null);
+        traitCategoryToTrait.Add(MushroomTraitCategory.Ring, null);
 
     }
 
@@ -428,6 +443,7 @@ public class MushroomData {
 
         //filter out those of different types
         result.RemoveWhere(property => property.GetType() != typeof(MushroomProperty<T>));
+        
         return new HashSet<MushroomProperty<T>>(result.Cast<MushroomProperty<T>>());
     }
 }

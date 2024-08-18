@@ -20,9 +20,12 @@ public static class TraitPool {
         new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
 
     static TraitPool() {
-        RegisterTrait(() => new VeryBlue(), TraitFlags.Good);
-        RegisterTrait(() => new VeryRed(), TraitFlags.Bad | TraitFlags.Good);
-        RegisterTrait(() => new VeryShy());
+        RegisterTrait(() => new BigCap());
+        RegisterTrait(() => new SplitedTrait());
+        RegisterTrait(() => new PetrifiedCap());
+        RegisterTrait(() => new FishyScale());
+        RegisterTrait(() => new Flowery());
+        RegisterTrait(() => new AlienBanana());
     }
 
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
