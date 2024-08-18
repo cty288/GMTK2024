@@ -52,6 +52,8 @@ public abstract class MushroomTrait<T> : IMushroomTrait{
 			AddInfluencedProperty(p);
 		}
 	}
+	
+	
 
 	public void OnStartApplyToProperty(IMushroomProperty property) {
 		if (property is MushroomProperty<T> p){

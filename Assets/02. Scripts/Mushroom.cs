@@ -93,7 +93,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
                 
             }
             else { //die
-                DestroySelf();
+                //DestroySelf();
             }
             ChangeMushroomSizes();
             RegenerateCollider();

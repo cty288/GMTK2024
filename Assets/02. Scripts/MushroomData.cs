@@ -50,6 +50,7 @@ public class MushroomData {
 
     private Dictionary<Type, IMushroomTrait> traits = new Dictionary<Type, IMushroomTrait>();
     private Dictionary<Type, Action<IMushroomTrait>> traitAddCallbacks = new Dictionary<Type, Action<IMushroomTrait>>();
+    private Action<IMushroomTrait> onTraitAdd;
 
     public MushroomProperty<float> capHeight;
     public MushroomProperty<float> capWidth;
@@ -216,6 +217,24 @@ public class MushroomData {
                 callback((T) traits[typeof(T)]);
             }
         }
+    }
+    
+    public void RegisterOnTraitAdd(Action<IMushroomTrait> callback, bool callIfExist = true) {
+        if (onTraitAdd == null) {
+            onTraitAdd = callback;
+        }
+        else {
+            onTraitAdd += callback;
+        }
+        if (callIfExist) {
+            foreach (var trait in traits.Values) {
+                callback(trait);
+            }
+        }
+    }
+    
+    public void UnregisterOnTraitAdd(Action<IMushroomTrait> callback) {
+        onTraitAdd -= callback;
     }
     
     public void UnregisterOnTraitAdd<T>(Action<T> callback) where T : IMushroomTrait {
