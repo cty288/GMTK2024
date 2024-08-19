@@ -23,7 +23,7 @@ public interface IMushroomTrait{
 
 	public int GetVisualPartGroupIdx();
 
-	public void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage);
+	public void OnStage2Grow(MushroomData data);
 	
 	public MushroomTraitCategory Category { get; }
 	
@@ -45,7 +45,7 @@ public abstract class MushroomTrait : IMushroomTrait {
 		return -1;
 	}
 
-	public virtual void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
+	public virtual void OnStage2Grow(MushroomData data) {
 		
 	}
 

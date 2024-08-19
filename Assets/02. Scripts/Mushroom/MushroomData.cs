@@ -119,6 +119,12 @@ public class MushroomData {
     public MushroomProperty<int> sellPriceLocker;
     public MushroomProperty<int> baseSellPrice;
 
+    private int neighborCount = 0;
+
+    public int NeighborCount {
+        get => neighborCount;
+        set => neighborCount = value;
+    }
 
     public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(1);
     private bool isOnFarm = false;
@@ -170,12 +176,6 @@ public class MushroomData {
         } else if (newStage == 3) {
             OnStage3();
         }
-
-
-
-        foreach (var trait in traits.Values) {
-            trait.OnNewDay(this, oldDay, newDay, oldStage, newStage);
-        }
     }
 
     private void OnStage3() {
@@ -185,6 +185,13 @@ public class MushroomData {
     private void OnStage2() {
         //growth & mutation
         //for each empty trait slot, mutate a property
+        if (HasTrait<SuperShy>() && neighborCount > 0) {
+            return;
+        }
+        foreach (var trait in traits.Values) {
+            trait.OnStage2Grow(this);
+        }
+        
         MushroomTraitCategory[] categories = traitCategoryToTrait.Keys.ToArray();
 
         foreach (MushroomTraitCategory category in categories) {

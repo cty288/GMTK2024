@@ -47,6 +47,8 @@ public static class TraitPool {
         RegisterTrait(() => new Strangled());
         RegisterTrait(() => new Thorny());
         RegisterTrait(() => new TreeRoot());
+        RegisterTrait(() => new SuperShy());
+        RegisterTrait(() => new Dink());
 
         //Rings
         RegisterTrait(() => new SuppressorRing());

@@ -7,8 +7,7 @@ public class SplitedTrait : MushroomTrait
     public override void OnStartApply(MushroomData data) {
     }
 
-    public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
-        if(newStage != 2) return;
+    public override void OnStage2Grow(MushroomData data) {
         data.capHeight.Value /= 2f;
         data.capWidth.Value /= 2f;
         data.stemHeight.Value /= 2f;

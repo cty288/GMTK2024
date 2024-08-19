@@ -81,7 +81,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     private void OnDayChange(int arg1, int arg2) {
-        if (data != null) {
+        if (data != null && data.IsOnFarm) {
+            data.NeighborCount = GetNeighbors(null).Count;
             data.GrowthDay.Value++;
         }
     }
@@ -198,21 +199,23 @@ public class Mushroom : AbstractMikroController<MainGame> {
         // I wrote the code in data
     }
 
-    private List<MushroomData> GetStage1Neighbors() {
-
+    private List<MushroomData> GetNeighbors(Predicate<MushroomData> predicate) {
         var allMushrooms = entityManager.GetAllMushrooms();
         List<MushroomData> neighbors = new List<MushroomData>();
 
         foreach (Mushroom m1 in allMushrooms) {
             if (m1 != this) {
                 float distance = Vector2.Distance(m1.transform.position, transform.position);
-                if (distance <= this.GetMushroomData().sporeRange && m1.GetMushroomData().GetStage() == 1) {
+                if (distance <= this.GetMushroomData().sporeRange && (predicate == null || predicate(m1.GetMushroomData()))) {
+                    //m1.GetMushroomData().GetStage() == 1) {
                     neighbors.Add(m1.GetMushroomData());
                 }
             }
         }
         return neighbors;
     }
+    
+   
 
 
     private void OnStage1() {
@@ -224,7 +227,10 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnStage3() {
         //parent pass traits to 2 children
-        List<MushroomData> stage1Neighbors = GetStage1Neighbors();
+        if (data.HasTrait<Dink>()) {
+            return;
+        }
+        List<MushroomData> stage1Neighbors = GetNeighbors((m) => m.GetStage() == 1);
 
         int currChildren = stage1Neighbors.Count;
         for (int i = 0; i < 2 - currChildren; i++) {
