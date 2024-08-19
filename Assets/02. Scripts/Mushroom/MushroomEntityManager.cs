@@ -113,6 +113,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     public void CheckLargestMushroom(Mushroom mushroom)
     {
+        if(mushroom.GetMushroomData().GetStage() == 1) return;
         if (mushroom.GetMushroomData().GetSize() > largestSize)
         {
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
@@ -135,7 +136,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             Camera.main.transform.position = new Vector3(0, 0, -10);
             
             // Spawn the copy of the largest mushroom
-            MushroomGenerator.GenerateCustomMushroom(largestMushroom, Vector3.zero);
+            var largest = MushroomGenerator.GenerateCustomMushroom(largestMushroom, Vector3.zero);
             OnEndGame.Invoke();
             
             // Lock data panel and set day to day the mushroom was recorded.

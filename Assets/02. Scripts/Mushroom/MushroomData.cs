@@ -655,6 +655,12 @@ public static class MushroomDataHelper {
 
         mushroom.GrowthDay.Value = data.GrowthDay;
         
+        // Prevent mushroom from instantly destroying itself.
+        if (mushroom.GetStage() > 3)
+        {
+            mushroom.GrowthDay.Value = 5;
+        }
+
         var traits = data.GetTraits();
         foreach (var trait in traits)
         {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9082167845892632372}
   - component: {fileID: 1765958240587373671}
   - component: {fileID: 5968024933373553953}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SeedPhrase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 241630909733572766}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GrowPhrase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: -616642042409352581}
   - component: {fileID: 6059797179125916536}
   - component: {fileID: 8145851920789232771}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,9 +310,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5379418381875069552}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -365,7 +365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5379418382508605364}
   - component: {fileID: 2984897160949561580}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MushroomRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,6 +411,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dust Cloud Self Destroy Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1329205094243475021, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1329205094243475022, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -454,6 +458,18 @@ PrefabInstance:
     - target: {fileID: 1329205094243475022, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1329205094869244696, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629618385656365544, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3599426125735927634, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39821f09cdd2e9046b6e35e63320e17f, type: 3}

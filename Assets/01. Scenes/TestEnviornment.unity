@@ -6055,7 +6055,7 @@ MonoBehaviour:
   currency: {fileID: 478884949}
   sizeUI: {fileID: 969830007}
   sellModeButton: {fileID: 662659279}
-  lastDay: 10
+  lastDay: 100
   mushroomsToSpawn: 3
   rangeX: {x: -9, y: 9}
   rangeY: {x: -5, y: 5}
