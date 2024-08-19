@@ -14,6 +14,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private LargestSize sizeUI;
 
     [SerializeField] private Button sellModeButton;
+    
+    [SerializeField] private int lastDay = 100;
 
     private InputManager inputManager;
     private bool sellMode = false;
@@ -74,6 +76,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         {
             CheckLargestMushroom(mushroom);
         }
+        
+        EndGame();
         //UpdateMushroomNeighbors();
     }
 
@@ -119,6 +123,23 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
             largestSize = largestMushroom.GetSize();
             sizeUI.Modify(largestSize);
+        }
+    }
+
+    public void EndGame()
+    {
+        if (this.GetModel<GameTimeModel>().Day.Value >= lastDay)
+        {
+            // Delete all other mushrooms
+            foreach (var mushroom in GetAllMushrooms())
+            {
+                mushroom.DestroySelf();
+            }
+            // Center the camera
+            Camera.main.transform.position = new Vector3(0, 0, -10);
+            
+            // Spawn the copy of the largest mushroom
+            MushroomGenerator.GenerateCustomMushroom(largestMushroom, Vector3.zero);
         }
     }
 

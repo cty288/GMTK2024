@@ -652,6 +652,9 @@ public static class MushroomDataHelper {
     public static MushroomData CopyMushroomData(MushroomData data)
     {
         var mushroom = new MushroomData(data.capHeight, data.capWidth, data.stemHeight, data.stemWidth, data.oscillation, data.oscillationSpeed, data.capColor, data.stemColor, data.capColor0, data.stemColor0, data.capColor1, data.stemColor1, data.isPoisonous, data.sporeRange, data.baseSellPrice);
+
+        mushroom.GrowthDay.Value = data.GrowthDay;
+        
         var traits = data.GetTraits();
         foreach (var trait in traits)
         {
