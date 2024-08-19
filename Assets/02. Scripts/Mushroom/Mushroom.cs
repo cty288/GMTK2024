@@ -115,12 +115,21 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
         if (newStage == 1) {
             OnStage1();
+            var size = Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue);
+            VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
+                size, size, 1));
         } else if (newStage == 2) {
+            var size = Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue);
+            VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
+                size, size, 1));
             if (newDay == 3) {
                 OnStage2Start();
             }
             OnStage2();
         } else if (newStage == 3) {
+            var size = Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue);
+            VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
+                size, size, 1));
             OnStage3();
         } else {
             DestroySelf();
@@ -141,9 +150,6 @@ public class Mushroom : AbstractMikroController<MainGame> {
         RegenerateMushroomVisuals();
         ChangeMushroomSizes();
         ChangeMushroomColor();
-        VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
-            Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue),
-            Mathf.Max(data.capHeight.RealValue, data.stemHeight.RealValue), 1));
         RegenerateCollider();
     }
 

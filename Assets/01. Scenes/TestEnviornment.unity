@@ -579,6 +579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vfxPrefab: {fileID: 0}
   allocation: 0
+  maxObjects: 0
 --- !u!114 &135745486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,8 +592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af4de3f377a8da4d9c5e45e66bb7098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxPrefab: {fileID: 0}
-  allocation: 0
+  vfxPrefab: {fileID: 2331944338278634707, guid: 0e610337c64c6bf42b123e4d0defe8e3, type: 3}
+  allocation: 20
+  maxObjects: 80
 --- !u!1 &149277908
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,8 +42,6 @@ public class VFXManager : MonoBehaviour
 
     public void PlayGrowth(Vector3 position, Vector3 scale)
     {
-        growVFXPool.UseVFX(position);
+        growVFXPool.UseVFX(position, scale);
     }
-    
-   
 }

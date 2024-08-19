@@ -6,6 +6,9 @@ public class VFXPool : MonoBehaviour
 {
     [SerializeField] private VFXPoolObject vfxPrefab;
     [SerializeField] private int allocation;
+    [SerializeField] private int maxObjects;
+
+    private int allocations = 0;
 
     private Stack<VFXPoolObject> availableVFX = new Stack<VFXPoolObject>();
 
@@ -18,6 +21,7 @@ public class VFXPool : MonoBehaviour
             availableVFX.Push(item);
             item.masterPool = this;
             item.gameObject.SetActive(false);
+            allocations++;
         }
     }
 
@@ -33,10 +37,15 @@ public class VFXPool : MonoBehaviour
         {
             item = availableVFX.Pop();
         }
-        else
+        else if(allocations < maxObjects)
         {
             item = Instantiate(vfxPrefab, transform);
             item.masterPool = this;
+            allocations++;
+        }
+        else
+        {
+            return null;
         }
         item.gameObject.SetActive(true);
         item.transform.position = position;
@@ -47,6 +56,7 @@ public class VFXPool : MonoBehaviour
     public void UseVFX(Vector3 position, Vector3 scale)
     {
         var item = UseVFX(position);
+        if(item == null) return;
         item.transform.localScale = scale;
     }
 
@@ -57,10 +67,15 @@ public class VFXPool : MonoBehaviour
         {
             item = availableVFX.Pop();
         }
-        else
+        else if(allocations < maxObjects)
         {
             item = Instantiate(vfxPrefab, transform);
             item.masterPool = this;
+            allocations++;
+        }
+        else
+        {
+            return;
         }
         item.gameObject.SetActive(true);
         item.startPos = startPos;
