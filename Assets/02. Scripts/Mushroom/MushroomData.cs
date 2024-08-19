@@ -237,6 +237,17 @@ public class MushroomData {
             }
         }
     }
+    
+    public void OnDestroy() {
+        foreach (var trait in traits.Values) {
+            trait.OnEnd(this);
+        }
+        traits.Clear();
+        influencedBy.Clear();
+        traitToParentMap.Clear();
+
+        
+    }
 
     private void OnStage2Start() {
         // for each mappedProperty, get the property from a parent that did not give a trait slot related to the mappedProperty

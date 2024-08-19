@@ -360,7 +360,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         audioSource.clip = destroySFX;
         audioSource.Play();
 
-        await UniTask.WaitUntil(() => !audioSource.isPlaying);
+        await UniTask.WaitUntil(() => !audioSource || !audioSource.isPlaying);
 
         OnMushroomDestroyed?.Invoke(this);
 
@@ -371,5 +371,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private void OnDestroy() {
         data.UnregisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
         data.UnregisterOnUpdateColor(ChangeMushroomColor);
+        
+        data.OnDestroy();
     }
 }

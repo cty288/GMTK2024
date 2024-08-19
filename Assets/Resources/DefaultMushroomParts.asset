@@ -92,3 +92,21 @@ MonoBehaviour:
   - Name: Skirt
     parts:
     - {fileID: 6412275932885880628, guid: 5a9a34dfdfe80344aad1d6a5c5ec2fcb, type: 3}
+  - Name: HighHat
+    parts:
+    - {fileID: 4815320148666517607, guid: 4db5347cae883614b861debf79f6290c, type: 3}
+  - Name: GravityPull
+    parts:
+    - {fileID: 4815320148666517607, guid: d93e6cf13d6113a4bb76e9fc09c38359, type: 3}
+  - Name: A Mouth
+    parts:
+    - {fileID: 4815320148666517607, guid: 3bd0e3d8a5c636342a791fcf29fd04ca, type: 3}
+  - Name: Squeezed
+    parts:
+    - {fileID: 6498925681441679309, guid: fd218f4aab8c2ea4fac06f3173f23d39, type: 3}
+  - Name: SpringTrait
+    parts:
+    - {fileID: 6498925681441679309, guid: 0ad3b403158d4334d8eeb90a29afd03f, type: 3}
+  - Name: StickTrait
+    parts:
+    - {fileID: 6498925681441679309, guid: d59601a9d2b226f42a95539ec1204982, type: 3}

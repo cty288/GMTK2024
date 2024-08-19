@@ -38,6 +38,12 @@ public static class TraitPool {
         RegisterTrait(() => new StandardCap());
         RegisterTrait(() => new TooBlue());
         RegisterTrait(() => new UltraRare());
+        RegisterTrait(() => new HighHat());
+        RegisterTrait(() => new GravityPull());
+        RegisterTrait(() => new AMouth());
+        RegisterTrait(() => new TooTasty());
+        RegisterTrait(() => new Leadership());
+       
 
         //Stems
         RegisterTrait(() => new BigFoot());
@@ -51,14 +57,19 @@ public static class TraitPool {
         RegisterTrait(() => new SuperShy());
         RegisterTrait(() => new Dink());
         RegisterTrait(() => new IsItDead());
+        RegisterTrait(() => new Squeezed());
+        RegisterTrait(() => new SpringTrait());
+        RegisterTrait(() => new StickTrait());
+        RegisterTrait(() => new Poisonous());
+        RegisterTrait(() => new Antisocial());
 
         //Rings
-        /*RegisterTrait(() => new SuppressorRing());
+        RegisterTrait(() => new SuppressorRing());
         RegisterTrait(() => new StandardRing());
         RegisterTrait(() => new Extravagant());
         RegisterTrait(() => new DriedOut());
         RegisterTrait(() => new Skirt());
-        RegisterTrait(() => new Tube());*/
+        RegisterTrait(() => new Tube());
         RegisterTrait(() => new Hallucinogenic());
         
         RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
