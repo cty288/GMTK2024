@@ -202,6 +202,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         TraitPool.Shuffle(stage1Neighbors);
         for (int i = 0; i < Math.Min(stage1Neighbors.Count, 2); i++) {
             bool res = PassTrait(stage1Neighbors[i]);
+            
             if (res) {
                 Debug.Log($"Mushroom {data.GetHashCode()} passed trait to {stage1Neighbors[i].GetHashCode()}");
             }

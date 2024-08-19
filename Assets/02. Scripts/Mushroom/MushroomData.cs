@@ -468,6 +468,16 @@ public class MushroomData {
         return false;
     }
 
+    public float GetSize()
+    {
+        return (capHeight + capWidth + stemHeight + stemWidth) / 4.0f;
+    }
+
+    public void StopGrowth()
+    {
+        GrowthDay.UnRegisterOnValueChanged(OnGrowthDayChanged);
+    }
+
     /// <summary>
     /// AND operation
     /// </summary>
@@ -548,6 +558,20 @@ public static class MushroomDataHelper {
         }
         return data;
 
+    }
+
+    public static MushroomData CopyMushroomData(MushroomData data)
+    {
+        var mushroom = new MushroomData(data.capHeight, data.capWidth, data.stemHeight, data.stemWidth, data.oscillation, data.oscillationSpeed, data.capColor, data.stemColor, data.capColor0, data.stemColor0, data.capColor1, data.stemColor1, data.isPoisonous, data.sporeRange, data.baseSellPrice);
+        var traits = data.GetTraits();
+        foreach (var trait in traits)
+        {
+            mushroom.AddTrait(trait.GetCopy());
+        }
+        
+        mushroom.StopGrowth();
+
+        return mushroom;
     }
 
     public static string ToString(MushroomData data) {

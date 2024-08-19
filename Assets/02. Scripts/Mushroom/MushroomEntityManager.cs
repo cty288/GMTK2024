@@ -26,6 +26,24 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     private int debugCount = 0;
 
+    public MushroomData LargestMushroom
+    {
+        get => largestMushroom;
+    }
+    public Dictionary<ShroomPart, MushroomPart> LargestParts
+    {
+        get => largestParts;
+    }
+
+    public float LargestSize
+    {
+        get => largestSize;
+    }
+
+    private MushroomData largestMushroom;
+    private Dictionary<ShroomPart, MushroomPart> largestParts;
+    [SerializeField] private float largestSize = 0;
+
     public void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -52,6 +70,11 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     public void IncrementDay() {
         this.GetModel<GameTimeModel>().Day.Value++;
+
+        foreach (var mushroom in GetAllMushrooms())
+        {
+            CheckLargestMushroom(mushroom);
+        }
         //UpdateMushroomNeighbors();
     }
 
@@ -89,7 +112,15 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         return allMushrooms;
     }
 
-
+    public void CheckLargestMushroom(Mushroom mushroom)
+    {
+        if (mushroom.GetMushroomData().GetSize() > largestSize)
+        {
+            largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
+            largestParts = MushroomGenerator.RegetParts(largestMushroom, mushroom.Parts);
+            largestSize = largestMushroom.GetSize();
+        }
+    }
 
     public IArchitecture GetArchitecture() {
         return MainGame.Interface;
