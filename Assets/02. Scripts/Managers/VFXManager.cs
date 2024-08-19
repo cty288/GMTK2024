@@ -39,6 +39,11 @@ public class VFXManager : MonoBehaviour
         dustPickUp.transform.position = position;
         dustPickUp.Play();
     }
+
+    public void PlayGrowth(Vector3 position, Vector3 scale)
+    {
+        growVFXPool.UseVFX(position);
+    }
     
    
 }
