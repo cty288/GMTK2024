@@ -24,22 +24,50 @@ public interface IMushroomProperty {
     HashSet<MushroomPropertyTag> Tags { get; }
 }
 public class MushroomProperty<T> : IMushroomProperty {
-    public T BaseValue { get; set; }
+    private T BaseValue { get; set; }
+    
+    private T MinValue { get; set; }
 
-    public BindableProperty<T> RealValue { get; }
+    private BindableProperty<T> RealValue { get; }
 
 
     public HashSet<MushroomPropertyTag> Tags { get; }
 
     public T ChildAdditions { get; set; }
 
+    public bool CompareMin { get; set; } = true;
+    
+    //a == b
+    public static implicit operator T(MushroomProperty<T> property) {
+        return property.RealValue.Value;
+    }
+
+    public bool Locked {
+        get => RealValue.Locked;
+        set => RealValue.Locked = value;
+    }
+    public T Value {
+        get => RealValue.Value;
+        set
+        {
+            if (CompareMin && value is IComparable comparable) {
+                if (comparable.CompareTo(MinValue) < 0) {
+                    RealValue.Value = MinValue;
+                    return;
+                }
+            }
+            RealValue.Value = value;
+        }
+    }
 
 
-    public MushroomProperty(T baseValue, params MushroomPropertyTag[] tags) {
+
+
+    public MushroomProperty(T baseValue, T minValue, params MushroomPropertyTag[] tags) {
         BaseValue = baseValue;
         RealValue = new BindableProperty<T>(baseValue);
         this.Tags = new HashSet<MushroomPropertyTag>(tags);
-
+        MinValue = minValue;
     }
 
     public override string ToString() {
@@ -155,7 +183,7 @@ public class MushroomData {
                 if (Random.value <= 0) {
                     MushroomProperty<float>[] properties = traitToPropertyMap[category];
                     foreach (var property in properties) {
-                        property.RealValue.Value = Mathf.Max(property.RealValue.Value + Random.Range(-1f, 1f), 0.5f);
+                        property.Value = Mathf.Max(property.Value + Random.Range(-1f, 1f), 0.5f);
                     }
 
 
@@ -195,7 +223,7 @@ public class MushroomData {
             var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
             for (int i = 0; i < selfColor.Count; i++) {
                 if (i < parentColor.Count) {
-                    selfColor[i].RealValue.Value = parentColor[i].RealValue.Value;
+                    selfColor[i].Value = parentColor[i].Value;
                 }
             }
         }
@@ -228,7 +256,7 @@ public class MushroomData {
             MushroomProperty<float>[] parentProperties = parent.traitToPropertyMap[category];
 
             for (int i = 0; i < selfProperties.Length; i++) {
-                selfProperties[i].RealValue.Value = parentProperties[i].RealValue.Value + parentProperties[i].ChildAdditions;
+                selfProperties[i].Value = parentProperties[i].Value + parentProperties[i].ChildAdditions;
             }
 
             Debug.Log($"Inherited property {category} from parent {parent.GetHashCode()}");
@@ -236,8 +264,8 @@ public class MushroomData {
 
         //step3: stemwidth and spore range
         int parentCount = influencedBy.Count;
-        stemWidth.RealValue.Value = Mathf.Clamp(stemWidth.RealValue.Value + parentCount * 0.3f, stemWidth.RealValue.Value, 3f);
-        sporeRange.RealValue.Value = Mathf.Clamp(sporeRange.RealValue.Value + parentCount * 0.5f, sporeRange.RealValue.Value, 6f);
+        stemWidth.Value = Mathf.Clamp(stemWidth.Value + parentCount * 0.3f, stemWidth.Value, 3f);
+        sporeRange.Value = Mathf.Clamp(sporeRange.Value + parentCount * 0.5f, sporeRange.Value, 6f);
 
         //step4: clean up
         influencedBy.Clear();
@@ -251,26 +279,30 @@ public class MushroomData {
     }
 
     public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange, int baseSellPrice) {
-        this.capHeight = new MushroomProperty<float>(capHeight, MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
-        this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
-        this.stemHeight = new MushroomProperty<float>(stemHeight, MushroomPropertyTag.Stem, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
-        this.stemWidth = new MushroomProperty<float>(stemWidth, MushroomPropertyTag.Stem, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
-        this.oscillation = new MushroomProperty<Vector2>(oscillation, MushroomPropertyTag.Oscillation);
-        this.oscillationSpeed = new MushroomProperty<float>(oscillationSpeed, MushroomPropertyTag.OscillationSpeed);
-        this.capColor = new MushroomProperty<Color>(capColor, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
-        this.stemColor = new MushroomProperty<Color>(stemColor, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
-        this.capColor0 = new MushroomProperty<Color>(capColor0, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
-        this.stemColor0 = new MushroomProperty<Color>(stemColor0, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
-        this.capColor1 = new MushroomProperty<Color>(capColor1, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
-        this.stemColor1 = new MushroomProperty<Color>(stemColor1, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
-        this.isPoisonous = new MushroomProperty<bool>(isPoisonous, MushroomPropertyTag.Poisonous);
-        this.sporeRange = new MushroomProperty<float>(sporeRange, MushroomPropertyTag.SporeRange);
-        this.extraSellPrice = new MushroomProperty<int>(0);
-        this.sellPriceLocker = new MushroomProperty<int>(-1);
-        this.baseSellPrice = new MushroomProperty<int>(baseSellPrice);
+        this.capHeight = new MushroomProperty<float>(capHeight,0.2f, MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
+        this.capWidth = new MushroomProperty<float>(capWidth, 0.2f, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
+        this.stemHeight = new MushroomProperty<float>(stemHeight, 0.2f, MushroomPropertyTag.Stem, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
+        this.stemWidth = new MushroomProperty<float>(stemWidth,0.2f,  MushroomPropertyTag.Stem, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
+        this.oscillation = new MushroomProperty<Vector2>(oscillation, default, MushroomPropertyTag.Oscillation);
+        this.oscillationSpeed = new MushroomProperty<float>(oscillationSpeed, default, MushroomPropertyTag.OscillationSpeed);
+        this.capColor = new MushroomProperty<Color>(capColor, default, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
+        this.stemColor = new MushroomProperty<Color>(stemColor, default, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
+        this.capColor0 = new MushroomProperty<Color>(capColor0, default, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
+        this.stemColor0 = new MushroomProperty<Color>(stemColor0, default, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
+        this.capColor1 = new MushroomProperty<Color>(capColor1, default, MushroomPropertyTag.Cap, MushroomPropertyTag.Color);
+        this.stemColor1 = new MushroomProperty<Color>(stemColor1, default, MushroomPropertyTag.Stem, MushroomPropertyTag.Color);
+        this.isPoisonous = new MushroomProperty<bool>(isPoisonous, default, MushroomPropertyTag.Poisonous);
+        this.sporeRange = new MushroomProperty<float>(sporeRange, 0.2f,MushroomPropertyTag.SporeRange);
+        this.extraSellPrice = new MushroomProperty<int>(0, 0);
+        this.sellPriceLocker = new MushroomProperty<int>(-1, default);
+        this.sellPriceLocker.CompareMin = false;
+        
+        this.baseSellPrice = new MushroomProperty<int>(baseSellPrice, 1);
+        
         // this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
         //this.stemWidth.RealValue.Value = 2;
         AddBasicProperties();
+        
         GrowthDay.RegisterOnValueChanged(OnGrowthDayChanged);
     }
 
@@ -311,15 +343,15 @@ public class MushroomData {
 
 
         //=================================================
-        int finalPrice = Math.Max(0, extraSellPrice.RealValue.Value + baseSellPrice.RealValue.Value);
-        if (sellPriceLocker.RealValue.Value >= 0) {
-            finalPrice = sellPriceLocker.RealValue.Value;
+        int finalPrice = Math.Max(0, extraSellPrice.Value + baseSellPrice.Value);
+        if (sellPriceLocker.Value >= 0) {
+            finalPrice = sellPriceLocker.Value;
         }
         return finalPrice;
     }
 
     public int GetBuyPrice() { //TODO: later
-        return Mathf.RoundToInt(GetSellPrice() * 1.2f);
+        return Mathf.Max(1, Mathf.RoundToInt(GetSellPrice() * 1.2f));
     }
 
     public void AddProperty(IMushroomProperty property) {

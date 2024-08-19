@@ -8,7 +8,7 @@ public class VeryRed : MushroomTrait{
 	public override void OnStartApply(MushroomData data) {
 		var capColors = data.GetProperties<Color>(MushroomPropertyTag.Color, MushroomPropertyTag.Cap);
 		foreach (var capColor in capColors) {
-			capColor.RealValue.Value += new Color(0.5f, 0, 0);
+			capColor.Value += new Color(0.5f, 0, 0);
 		}
 	}
 
@@ -31,7 +31,7 @@ public class VeryBlue : MushroomTrait {
 	public override void OnStartApply(MushroomData data) {
 		var colors = data.GetProperties<Color>(MushroomPropertyTag.Color, MushroomPropertyTag.Stem);
 		foreach (var capColor in colors) {
-			capColor.RealValue.Value = new Color(0, 0, 1f);
+			capColor.Value = new Color(0, 0, 1f);
 		}
 	}
 

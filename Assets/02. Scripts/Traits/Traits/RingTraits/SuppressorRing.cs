@@ -1,7 +1,7 @@
 public class SuppressorRing : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.RealValue.Locked = true;
-        data.capWidth.RealValue.Locked = true;
+        data.capHeight.Locked = true;
+        data.capWidth.Locked = true;
     }
 
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {

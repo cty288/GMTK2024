@@ -1,7 +1,7 @@
 ﻿public class DriedOut : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.RealValue.Value--;
-        data.capWidth.RealValue.Value += 2;
+        data.capHeight.Value--;
+        data.capWidth.Value += 2;
     }
 
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
