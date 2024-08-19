@@ -1,8 +1,10 @@
+using System;
 using MikroFramework.Architecture;
 using System.Collections.Generic;
 using MikroFramework.AudioKit;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     //Might use this script to keep control of all the mushroom spawned via container
@@ -29,6 +31,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private Texture2D cursor;
 
     private int debugCount = 0;
+
+    public Action OnEndGame;
 
     public MushroomData LargestMushroom
     {
@@ -140,6 +144,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             
             // Spawn the copy of the largest mushroom
             MushroomGenerator.GenerateCustomMushroom(largestMushroom, Vector3.zero);
+            OnEndGame.Invoke();
         }
     }
 

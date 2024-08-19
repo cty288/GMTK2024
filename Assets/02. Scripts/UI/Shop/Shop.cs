@@ -16,6 +16,8 @@ public class Shop : MonoBehaviour, ICanGetModel {
         mushroomGhost.gameObject.SetActive(false);
 
         this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(UpdateShopItems);
+
+        MushroomEntityManager.Instance.OnEndGame += HideUI;
     }
 
     private void UpdateShopItems(int arg1, int arg2) {
@@ -65,6 +67,11 @@ public class Shop : MonoBehaviour, ICanGetModel {
             
             shopSlots[selectedSlot].ResetItem();
         }
+    }
+
+    private void HideUI()
+    {
+        gameObject.SetActive(false);
     }
 
     private void Update() {

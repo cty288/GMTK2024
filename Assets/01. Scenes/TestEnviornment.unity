@@ -5735,6 +5735,7 @@ GameObject:
   - component: {fileID: 1085190645}
   - component: {fileID: 1085190644}
   - component: {fileID: 1085190643}
+  - component: {fileID: 1085190646}
   m_Layer: 5
   m_Name: NextDayButton
   m_TagString: Untagged
@@ -5857,6 +5858,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085190641}
   m_CullTransparentMesh: 1
+--- !u!114 &1085190646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085190641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc4b1dcadcfc784d9619c0531d96aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1090303653
 GameObject:
   m_ObjectHideFlags: 0
@@ -6042,6 +6055,7 @@ MonoBehaviour:
   currency: {fileID: 478884949}
   sizeUI: {fileID: 969830007}
   sellModeButton: {fileID: 662659279}
+  lastDay: 10
   mushroomsToSpawn: 3
   rangeX: {x: -9, y: 9}
   rangeY: {x: -5, y: 5}

@@ -11,6 +11,11 @@ public class PlayerCurrency : MonoBehaviour {
 
     public event Action<PlayerCurrency, int> Modified;
 
+    private void Start()
+    {
+        MushroomEntityManager.Instance.OnEndGame += HideUI;
+    }
+
     private void OnEnable() {
         Text.text = "$" + Amount;
     }
@@ -22,6 +27,11 @@ public class PlayerCurrency : MonoBehaviour {
     public void Modify(int delta) {
         Amount += delta;
         this.Modified?.Invoke(this, delta);
+    }
+    
+    private void HideUI()
+    {
+        gameObject.SetActive(false);
     }
 
     private void Update() {
