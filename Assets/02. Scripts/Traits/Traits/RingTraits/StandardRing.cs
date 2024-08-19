@@ -1,6 +1,6 @@
 ﻿public class StandardRing : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.extraSellPrice.RealValue.Value -= 1;
+        data.extraSellPrice.Value -= 1;
     }
 
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {

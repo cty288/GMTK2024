@@ -30,7 +30,7 @@ public class Shop : MonoBehaviour, ICanGetModel {
         if (!shopSlots[slot].IsEmpty() && currency.Amount >= shopSlots[slot].GetPrice()) {
             selectedSlot = slot;
             isDragging = true;
-            mushroomGhost.color = shopSlots[slot].GetMushroomForSale().capColor.RealValue;
+            mushroomGhost.color = shopSlots[slot].GetMushroomForSale().capColor;
             mushroomGhost.gameObject.SetActive(true);
             inputManager.OnMouseUp += BuyItem;
         }

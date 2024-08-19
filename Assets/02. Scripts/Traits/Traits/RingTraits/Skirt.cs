@@ -1,6 +1,6 @@
 ﻿public class Skirt : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.capWidth.RealValue.Value++;
+        data.capWidth.Value++;
     }
 
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {

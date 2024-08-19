@@ -58,32 +58,32 @@ public class Mushroom : AbstractMikroController<MainGame> {
     /// </summary>
     private void ChangeMushroomSizes() {
         foreach (var stem in mushroomVisualParts.Stem) {
-            stem.SetPartSize(data.stemHeight.RealValue, data.stemWidth.RealValue);
+            stem.SetPartSize(data.stemHeight, data.stemWidth);
         }
         foreach (var ring in mushroomVisualParts.Ring) {
-            float avgWidth = (data.capWidth.RealValue + data.stemWidth.RealValue) / 2;
+            float avgWidth = (data.capWidth + data.stemWidth) / 2;
             ring.SetPartSize(avgWidth, avgWidth);
         }
         foreach (var cap in mushroomVisualParts.Cap) {
-            cap.SetPartSize(data.capHeight.RealValue, data.capWidth.RealValue);
+            cap.SetPartSize(data.capHeight, data.capWidth);
         }
     }
 
     private void ChangeMushroomColor() {
         foreach (var stem in mushroomVisualParts.Stem) {
-            stem.SetPartColor(data.stemColor.RealValue, ColorElement.Primary);
-            stem.SetPartColor(data.stemColor0.RealValue, ColorElement.Secondary);
-            stem.SetPartColor(data.stemColor1.RealValue, ColorElement.Tertiary);
+            stem.SetPartColor(data.stemColor, ColorElement.Primary);
+            stem.SetPartColor(data.stemColor0, ColorElement.Secondary);
+            stem.SetPartColor(data.stemColor1, ColorElement.Tertiary);
         }
         foreach (var ring in mushroomVisualParts.Ring) {
-            ring.SetPartColor(data.stemColor.RealValue, ColorElement.Primary);
-            ring.SetPartColor(data.stemColor0.RealValue, ColorElement.Secondary);
-            ring.SetPartColor(data.stemColor1.RealValue, ColorElement.Tertiary);
+            ring.SetPartColor(data.stemColor, ColorElement.Primary);
+            ring.SetPartColor(data.stemColor0, ColorElement.Secondary);
+            ring.SetPartColor(data.stemColor1, ColorElement.Tertiary);
         }
         foreach (var cap in mushroomVisualParts.Cap) {
-            cap.SetPartColor(data.capColor.RealValue, ColorElement.Primary);
-            cap.SetPartColor(data.capColor0.RealValue, ColorElement.Secondary);
-            cap.SetPartColor(data.capColor1.RealValue, ColorElement.Tertiary);
+            cap.SetPartColor(data.capColor, ColorElement.Primary);
+            cap.SetPartColor(data.capColor0, ColorElement.Secondary);
+            cap.SetPartColor(data.capColor1, ColorElement.Tertiary);
         }
     }
 
@@ -101,8 +101,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
         oscillationSequence = DOTween.Sequence()
-            .Append(RenderGo.transform.DOScale(data.oscillation.RealValue.Value, data.oscillationSpeed.RealValue.Value).SetEase(Ease.InOutSine))
-            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.RealValue.Value))
+            .Append(RenderGo.transform.DOScale(data.oscillation.Value, data.oscillationSpeed.Value).SetEase(Ease.InOutSine))
+            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.Value))
             .SetLoops(-1, LoopType.Restart);
 
         data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
@@ -115,11 +115,11 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
         if (newStage == 1) {
             OnStage1();
-            var size = Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue);
+            var size = Mathf.Max(data.capWidth, data.stemWidth);
             VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
                 size, size, 1));
         } else if (newStage == 2) {
-            var size = Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue);
+            var size = Mathf.Max(data.capWidth, data.stemWidth);
             VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
                 size, size, 1));
             if (newDay == 3) {
@@ -127,7 +127,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             }
             OnStage2();
         } else if (newStage == 3) {
-            var size = Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue);
+            var size = Mathf.Max(data.capWidth, data.stemWidth);
             VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
                 size, size, 1));
             OnStage3();
@@ -172,7 +172,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         foreach (Mushroom m1 in allMushrooms) {
             if (m1 != this) {
                 float distance = Vector2.Distance(m1.transform.position, transform.position);
-                if (distance <= this.GetMushroomData().sporeRange.RealValue && m1.GetMushroomData().GetStage() == 1) {
+                if (distance <= this.GetMushroomData().sporeRange && m1.GetMushroomData().GetStage() == 1) {
                     neighbors.Add(m1.GetMushroomData());
                 }
             }
@@ -194,7 +194,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
         int currChildren = stage1Neighbors.Count;
         for (int i = 0; i < 2 - currChildren; i++) {
-            Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * data.sporeRange.RealValue + (Vector2)transform.position;
+            Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * data.sporeRange + (Vector2)transform.position;
             Mushroom spawnedMushroom = entityManager.SpawnMushroom(spawnPos, 0, 0);
             stage1Neighbors.Add(spawnedMushroom.GetMushroomData());
         }

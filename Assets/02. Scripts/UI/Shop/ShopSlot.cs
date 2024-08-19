@@ -32,7 +32,7 @@ public class ShopSlot : MonoBehaviour {
             traitTexts[count++].text = trait.GetTraitName();
         }
 
-        shopItemImage.color = mushroom.capColor.RealValue;
+        shopItemImage.color = mushroom.capColor;
 
         price = mushroomForSale.GetBuyPrice();
         priceText.text = "$" + price;

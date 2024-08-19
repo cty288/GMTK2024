@@ -200,47 +200,47 @@ public class MushroomGenerator : MonoBehaviour {
 
         if (partType == ShroomPart.Stem) {
             v.Stem.Add(mushroom);
-            mushroom.SetPartSize(shroomParams.stemHeight.RealValue, shroomParams.stemWidth.RealValue);
+            mushroom.SetPartSize(shroomParams.stemHeight, shroomParams.stemWidth);
         }
 
         if (partType == ShroomPart.Ring) {
             v.Ring.Add(mushroom);
-            float avgWidth = (shroomParams.stemWidth.RealValue + shroomParams.capWidth.RealValue) / 2;
+            float avgWidth = (shroomParams.stemWidth + shroomParams.capWidth) / 2;
             mushroom.SetPartSize(avgWidth, avgWidth);
         }
 
         if (partType == ShroomPart.Cap) {
             v.Cap.Add(mushroom);
-            mushroom.SetPartSize(shroomParams.capHeight.RealValue, shroomParams.capWidth.RealValue);
+            mushroom.SetPartSize(shroomParams.capHeight, shroomParams.capWidth);
         }
 
         if (partType == ShroomPart.Volvae) {
             v.Volva = mushroom;
-            mushroom.SetPartSize(shroomParams.stemHeight.RealValue, shroomParams.stemWidth.RealValue);
+            mushroom.SetPartSize(shroomParams.stemHeight, shroomParams.stemWidth);
         }
 
         foreach (var spr in mushroom.primaryColorIn) {
             if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem || partType == ShroomPart.Ring) {
-                spr.color = shroomParams.stemColor.RealValue;
+                spr.color = shroomParams.stemColor;
             } else {
-                spr.color = shroomParams.capColor.RealValue;
+                spr.color = shroomParams.capColor;
             }
 
         }
 
         foreach (var spr in mushroom.secondaryColorIn) {
             if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem || partType == ShroomPart.Ring) {
-                spr.color = shroomParams.stemColor0.RealValue;
+                spr.color = shroomParams.stemColor0;
             } else {
-                spr.color = shroomParams.capColor0.RealValue;
+                spr.color = shroomParams.capColor0;
             }
         }
 
         foreach (var spr in mushroom.tertiaryColorIn) {
             if (partType == ShroomPart.Volvae || partType == ShroomPart.Stem || partType == ShroomPart.Ring) {
-                spr.color = shroomParams.stemColor1.RealValue;
+                spr.color = shroomParams.stemColor1;
             } else {
-                spr.color = shroomParams.capColor1.RealValue;
+                spr.color = shroomParams.capColor1;
             }
         }
 

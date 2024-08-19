@@ -1,6 +1,6 @@
 ﻿public class Tube : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.RealValue.Value++;
+        data.capHeight.Value++;
     }
 
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {

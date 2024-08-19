@@ -10,7 +10,7 @@ public class FishyScale : MushroomTrait
     public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
         base.OnNewDay(data, oldDay, newDay, oldStage, newStage);
         if(newStage != 2) return;
-        data.capHeight.RealValue.Value++;
+        data.capHeight.Value++;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;

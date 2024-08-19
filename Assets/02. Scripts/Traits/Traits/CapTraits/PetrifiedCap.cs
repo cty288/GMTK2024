@@ -5,12 +5,12 @@ using UnityEngine;
 public class PetrifiedCap : MushroomTrait
 {
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.RealValue.Locked = true;
-        data.capWidth.RealValue.Locked = true;
+        data.capHeight.Locked = true;
+        data.capWidth.Locked = true;
 
         var properties = data.GetProperties<Color>(MushroomPropertyTag.Color, MushroomPropertyTag.Cap);
         foreach (var property in properties) {
-            property.RealValue.Value *= Color.gray;
+            property.Value *= Color.gray;
         }
     }
 
