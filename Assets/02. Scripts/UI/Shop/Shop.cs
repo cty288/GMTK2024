@@ -21,7 +21,7 @@ public class Shop : MonoBehaviour, ICanGetModel {
     private void UpdateShopItems(int arg1, int arg2) {
         for (int i = 0; i < 3; i++)
             if (shopSlots[i].IsEmpty() && Random.value < 0.7f) {
-                var mushroomData = MushroomGenerator.GenerateRandomMushroomData(1, 2);
+                var mushroomData = MushroomGenerator.GenerateRandomMushroomData(1, 2, Random.Range(1, 5));
                 shopSlots[i].SetShopItem(mushroomData);
             }
     }
