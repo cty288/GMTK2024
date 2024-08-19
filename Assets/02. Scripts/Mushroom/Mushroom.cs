@@ -36,7 +36,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         return data;
     }
 
-    public Dictionary<ShroomPart, MushroomPart> Parts { get; private set; }
+    //public Dictionary<ShroomPart, MushroomPart> Parts { get; private set; }
     //private List<Mushroom> neighbors = new List<Mushroom>();
 
     public Action<Mushroom> OnMushroomDestroyed;
@@ -47,26 +47,40 @@ public class Mushroom : AbstractMikroController<MainGame> {
         this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(OnDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
         this.RegisterEvent<OnAllMushroomAddProperty>(OnAllMushroomAddProperty).UnRegisterWhenGameObjectDestroyed(gameObject);
         this.RegisterEvent<OnAllMushroomChangeParts>(OnAllMushroomChangeParts).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomReplaceTrait>(OnAllMushroomReplaceTrait).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomUpdateProperties>(OnAllMushroomUpdateProperties).UnRegisterWhenGameObjectDestroyed(gameObject);
+    }
+
+    private void OnAllMushroomUpdateProperties(OnAllMushroomUpdateProperties e) {
+        if (data != null && data.IsOnFarm) {
+            data.capHeight.Value = e.capHeight;
+            data.capWidth.Value = e.capWidth;
+            data.stemHeight.Value = e.stemHeight;
+            data.stemWidth.Value = e.stemWidth;
+            data.oscillation.Value = e.oscillation;
+            data.oscillationSpeed.Value = e.oscillationSpeed;
+            data.capColor.Value = e.capColor;
+            data.stemColor.Value = e.stemColor;
+            data.capColor0.Value = e.capColor0;
+            data.stemColor0.Value = e.stemColor0;
+            data.capColor1.Value = e.capColor1;
+            data.stemColor1.Value = e.stemColor1;
+            data.sporeRange.Value = e.sporeRange;
+            data.extraSellPrice.Value = e.extraSellPrice;
+            
+            UpdateVisual().Forget();
+        }
+    }
+
+    private void OnAllMushroomReplaceTrait(OnAllMushroomReplaceTrait e) {
+        if(data != null && data.IsOnFarm && e.source != data) {
+            data.ReplaceTrait(e.trait);
+            UpdateVisual().Forget();
+        }
     }
 
     private void OnAllMushroomChangeParts(OnAllMushroomChangeParts e) {
-        switch (e.part) {
-            case ShroomPart.Cap: 
-                Parts[e.part] = MushroomPartManager.Instance.partsSO.cap[e.index];
-                break;
-            case ShroomPart.Ring:
-                Parts[e.part] = MushroomPartManager.Instance.partsSO.ring[e.index];
-                break;
-            case ShroomPart.Stem:
-                Parts[e.part] = MushroomPartManager.Instance.partsSO.stem[e.index];
-                break;
-            case ShroomPart.Volvae:
-                Parts[e.part] = MushroomPartManager.Instance.partsSO.volva[e.index];
-                break;
-            case ShroomPart.Pattern:
-                Parts[e.part] = MushroomPartManager.Instance.partsSO.pattern[e.index];
-                break;
-        }
+        data.Parts[e.part] = e.prefab;
         UpdateVisual().Forget();
     }
 
@@ -126,12 +140,11 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     public void ReinitializeMushroom(Dictionary<ShroomPart, MushroomPart> parts) {
-        Parts = parts;
+        data.Parts = parts;
     }
 
     public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
-        Parts = parts;
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
         oscillationSequence = DOTween.Sequence()
@@ -142,6 +155,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
 
         this.data.GrowthDay.RegisterWithInitValue(OnGrowthDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.data.RegisterOnUpdateColor(ChangeMushroomColor);
     }
 
     private void OnGrowthDayChange(int oldDay, int newDay) {
@@ -356,5 +370,6 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnDestroy() {
         data.UnregisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
+        data.UnregisterOnUpdateColor(ChangeMushroomColor);
     }
 }

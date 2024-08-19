@@ -34,6 +34,7 @@ public interface IMushroomTrait{
 	public string GetTraitValueDescription();
 	
 	public void OnMushroomPlantOnFarm(MushroomData data);
+	void OnEnd(MushroomData mushroomData);
 }
 
 
@@ -64,6 +65,10 @@ public abstract class MushroomTrait : IMushroomTrait {
 	public abstract string GetTraitValueDescription();
 	public virtual void OnMushroomPlantOnFarm(MushroomData data) {
 		Debug.Log($"{ToString()} Plant on farm");
+	}
+
+	public virtual void OnEnd(MushroomData mushroomData) {
+		
 	}
 
 	public override string ToString() {

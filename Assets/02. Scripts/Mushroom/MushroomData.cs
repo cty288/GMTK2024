@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Action = Antlr.Runtime.Misc.Action;
 using Random = UnityEngine.Random;
 
 public enum MushroomPropertyTag {
@@ -118,9 +119,11 @@ public class MushroomData {
     public MushroomProperty<int> extraSellPrice;
     public MushroomProperty<int> sellPriceLocker;
     public MushroomProperty<int> baseSellPrice;
+    
+    private Action onUpdateColor;
 
     private int neighborCount = 0;
-
+    public Dictionary<ShroomPart, MushroomPart> Parts { get; set; }
     public int NeighborCount {
         get => neighborCount;
         set => neighborCount = value;
@@ -161,6 +164,19 @@ public class MushroomData {
             trait.OnMushroomPlantOnFarm(this);
         }
     }
+
+    public void SendUpdateColorEvent() {
+        onUpdateColor?.Invoke();
+    }
+    
+    public void RegisterOnUpdateColor(Action callback) {
+        onUpdateColor += callback;
+    }
+    
+    public void UnregisterOnUpdateColor(Action callback) {
+        onUpdateColor -= callback;
+    }
+    
     private void OnGrowthDayChanged(int oldDay, int newDay) {
         int oldStage = GetStage(oldDay);
         int newStage = GetStage(newDay);
@@ -421,10 +437,35 @@ public class MushroomData {
         return result;
     }*/
 
-    public void AddTrait<T>(MushroomTrait trait) {
-        AddTrait((IMushroomTrait)trait);
+    public void AddTrait<T>(IMushroomTrait trait) {
+        AddTrait(trait);
     }
 
+    public void ReplaceTrait(IMushroomTrait trait) {
+        RemoveTrait(trait.Category);
+        AddTrait(trait);
+    }
+    
+    public void RemoveTrait(MushroomTraitCategory category) {
+        if (traitCategoryToTrait[category] == null) {
+            return;
+        }
+        RemoveTrait(traitCategoryToTrait[category].GetType());
+    }
+    
+    public void RemoveTrait(Type traitType) {
+        if (!traits.ContainsKey(traitType)) {
+            return;
+        }
+        IMushroomTrait trait = traits[traitType];
+        trait.OnEnd(this);
+        traits.Remove(traitType);
+        if (traitRemoveCallbacks.ContainsKey(traitType)) {
+            traitRemoveCallbacks[traitType]((IMushroomTrait)trait);
+        }
+        traitCategoryToTrait[trait.Category] = null;
+    }
+    
     public void AddTrait(IMushroomTrait trait) {
         if (traitCategoryToTrait[trait.Category] != null) {
             Debug.LogWarning($"Trait {trait} already exists for category {trait.Category}");

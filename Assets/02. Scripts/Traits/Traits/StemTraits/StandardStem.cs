@@ -7,6 +7,11 @@
         data.sellPriceLocker.Value = 2;
     }
 
+    public override void OnEnd(MushroomData mushroomData) {
+        base.OnEnd(mushroomData);
+        mushroomData.sellPriceLocker.Value = -1;
+    }
+
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Stem;
 
     public override IMushroomTrait GetCopy() {

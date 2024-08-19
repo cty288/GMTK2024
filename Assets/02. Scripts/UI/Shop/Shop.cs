@@ -23,7 +23,7 @@ public class Shop : MonoBehaviour, ICanGetModel {
             if (shopSlots[i].IsEmpty() && Random.value < 0.7f) {
                 var mushroomData = MushroomGenerator.GenerateRandomMushroomData(0, 0, Random.Range(1, 5));
                 
-                if (Random.value < 1f) {
+                if (Random.value < 0.1f) {
                     var specialTrait = TraitPool.GetRandomShopOnlyTrait();
                     if (specialTrait != null) {
                         mushroomData.AddTrait(specialTrait);

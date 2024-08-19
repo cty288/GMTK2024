@@ -53,15 +53,19 @@ public static class TraitPool {
         RegisterTrait(() => new IsItDead());
 
         //Rings
-        RegisterTrait(() => new SuppressorRing());
+        /*RegisterTrait(() => new SuppressorRing());
         RegisterTrait(() => new StandardRing());
         RegisterTrait(() => new Extravagant());
         RegisterTrait(() => new DriedOut());
         RegisterTrait(() => new Skirt());
-        RegisterTrait(() => new Tube());
+        RegisterTrait(() => new Tube());*/
+        RegisterTrait(() => new Hallucinogenic());
         
         RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
+        RegisterSpecialPoolTrait(() => new SporesTrait(), mutationOnlyTraits);
+        
         RegisterSpecialPoolTrait(() => new LazyTrait(), shopOnlyTraits);
+        RegisterSpecialPoolTrait(() => new BetterBreed(), shopOnlyTraits);
     }
 
     private static void RegisterSpecialPoolTrait(Func<IMushroomTrait> traitGetter, Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> pool) {

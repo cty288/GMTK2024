@@ -3,27 +3,19 @@ using System.Collections.Generic;
 using MikroFramework.Architecture;
 using UnityEngine;
 
-public struct OnAllMushroomAddProperty {
-	public MushroomPropertyTag[] tags;
-	public float value;
-}
 
-public struct OnAllMushroomChangeParts {
-	public ShroomPart part;
-	public MushroomPart prefab;
-}
-public class AHatTrait : MushroomTrait , ICanSendEvent{
+public class SporesTrait : MushroomTrait , ICanSendEvent{
 	public override void OnStartApply(MushroomData data) {
 		
 	}
 
-	public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;
+	public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;
 	public override IMushroomTrait GetCopy() {
-		return new AHatTrait();
+		return new SporesTrait();
 	}
 
 	public override string GetTraitName() {
-		return "A Hat";
+		return "SPORES";
 	}
 
 	public override string GetTraitValueDescription() {
@@ -33,21 +25,17 @@ public class AHatTrait : MushroomTrait , ICanSendEvent{
 	public override void OnMushroomPlantOnFarm(MushroomData data) {
 		base.OnMushroomPlantOnFarm(data);
 		this.SendEvent<OnAllMushroomAddProperty>(new OnAllMushroomAddProperty() {
-			tags = new MushroomPropertyTag[] {MushroomPropertyTag.Cap, MushroomPropertyTag.Height},
+			tags = new MushroomPropertyTag[] {MushroomPropertyTag.Cap, MushroomPropertyTag.Width},
 			value = 1
 		});
 		this.SendEvent<OnAllMushroomChangeParts>(new OnAllMushroomChangeParts() {
 			part = ShroomPart.Pattern,
-			//index = 3
-			prefab = MushroomPartManager.Instance.partsSO.pattern[3]
+			prefab = MushroomPartManager.Instance.partsSO.pattern[2]
 		});
 	}
 
 	public IArchitecture GetArchitecture() {
 		return MainGame.Interface;
 	}
-	
-	~AHatTrait() {
-		Debug.Log("AHatTrait is destroyed");
-	}
+
 }

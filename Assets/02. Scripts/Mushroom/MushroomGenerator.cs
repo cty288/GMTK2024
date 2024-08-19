@@ -50,7 +50,9 @@ public class MushroomGenerator : MonoBehaviour {
         Mushroom m = t.GetComponent<Mushroom>();
 
         Dictionary<ShroomPart, MushroomPart> parts = GetPartsFromData(data);
+        data.Parts = parts;
         m.InitializeMushroom(data, parts);
+        
 
 
         GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0, mushroomVisuals);
@@ -68,7 +70,7 @@ public class MushroomGenerator : MonoBehaviour {
 
         m.mushroomVisualParts = mushroomVisuals;
 
-        Dictionary<ShroomPart, MushroomPart> parts = RegetParts(data, m.Parts);
+        Dictionary<ShroomPart, MushroomPart> parts = RegetParts(data, m.GetMushroomData().Parts);
         m.ReinitializeMushroom(parts);
 
 
