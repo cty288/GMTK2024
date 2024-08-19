@@ -150,8 +150,6 @@ public class Mushroom : AbstractMikroController<MainGame> {
         growthGO.SetActive(true);
     }
     private void OnStage2Start() {
-
-
         // for each mappedProperty, get the property from a parent that did not give a trait slot related to the mappedProperty
         // for each other property, get a random parent's trait or mix a few parent's traits together
         // I wrote the code in data

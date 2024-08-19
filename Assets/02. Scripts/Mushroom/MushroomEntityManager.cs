@@ -96,6 +96,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     }
 
     private void CheckSelectMushroom() {
+        if (inputManager.IsMouseOverUI()) return;
+
         RaycastHit2D hit = Physics2D.Raycast(inputManager.GetMouseWorldPosition(), Vector2.zero);
         if (hit.collider != null) {
             Mushroom mushroom = hit.collider.GetComponent<Mushroom>();
