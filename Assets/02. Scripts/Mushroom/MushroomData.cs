@@ -657,6 +657,8 @@ public static class MushroomDataHelper {
         {
             mushroom.AddTrait(trait.GetCopy());
         }
+
+        mushroom.Parts = MushroomGenerator.RegetParts(mushroom, data.Parts);
         
         mushroom.StopGrowth();
 

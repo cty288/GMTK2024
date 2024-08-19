@@ -31,10 +31,6 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     {
         get => largestMushroom;
     }
-    public Dictionary<ShroomPart, MushroomPart> LargestParts
-    {
-        get => largestParts;
-    }
 
     public float LargestSize
     {
@@ -42,7 +38,6 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     }
 
     private MushroomData largestMushroom;
-    private Dictionary<ShroomPart, MushroomPart> largestParts;
     [SerializeField] private float largestSize = 0;
 
     public void Awake() {
@@ -121,7 +116,6 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         if (mushroom.GetMushroomData().GetSize() > largestSize)
         {
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
-            largestParts = MushroomGenerator.RegetParts(largestMushroom, mushroom.Parts);
             largestSize = largestMushroom.GetSize();
         }
     }
