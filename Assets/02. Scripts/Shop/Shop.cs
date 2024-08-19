@@ -1,113 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
+using MikroFramework.Architecture;
 using UnityEngine;
-using DG.Tweening;
-using TMPro;
-//i hate people
-public class Shop : MonoBehaviour
-{
-    
-    
-    public TextMeshProUGUI[] description = new TextMeshProUGUI[3];
-    private bool inAnimation = false;
+using UnityEngine.UI;
 
-    private MushroomData[] mushroomData = new MushroomData[3];
-    private bool sellMode = false;
+public class Shop : MonoBehaviour, ICanGetModel {
     public PlayerCurrency currency;
-    [SerializeField]  TextMeshProUGUI[] babyShroomTrait = new TextMeshProUGUI[3];
-    [SerializeField]  TextMeshProUGUI[] mommyShroomTrait = new TextMeshProUGUI[3];
-    [SerializeField]  TextMeshProUGUI[] daddyShroomTrait = new TextMeshProUGUI[3];
-    [SerializeField] Texture2D cursor;
-    void Start()
-    {
-        
-      
+    private InputManager inputManager;
+
+    [SerializeField] private ShopSlot[] shopSlots;
+    [SerializeField] private Image mushroomGhost;
+    private bool isDragging = false;
+    private int selectedSlot = -1;
+
+    private void Start() {
+        inputManager = InputManager.Instance;
+        mushroomGhost.gameObject.SetActive(false);
+
+        this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(UpdateShopItems);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            
-            UpdateShopUI();
-        }
-    }
-
-    //paramater a -> button 1,2,3. it is set inside the UI Button
-    public void PurchaseMushroom(int a)
-    {
-        var data = mushroomData[a];
-        int mushroomPrice = data.GetBuyPrice();
-        if(currency.CanAfford(mushroomPrice))
-        {
-            currency.Modify(-mushroomPrice);
-        }
-        Debug.Log("wow you bought a fucking shroom");
-    }
-
-    
-    void UpdateShopUI()
-    {
-        foreach(var e in babyShroomTrait)
-        {
-            e.gameObject.SetActive(false);
-        }
-        foreach (var e in mommyShroomTrait)
-        {
-            e.gameObject.SetActive(false);
-        }
-        foreach (var e in daddyShroomTrait)
-        {
-            e.gameObject.SetActive(false);
-        }
+    private void UpdateShopItems(int arg1, int arg2) {
         for (int i = 0; i < 3; i++)
-        {
-
-            var go = MushroomGenerator.GenerateRandomMushroom(1, 2, new Vector3(100, 100, 100));
-            mushroomData[i] = go.GetComponent<Mushroom>().GetMushroomData();
-            var traits = mushroomData[i].GetTraits();
-            for(int j = 0; j< traits.Count; j++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        babyShroomTrait[j].gameObject.SetActive(true);
-                        babyShroomTrait[j].text = traits[j].GetTraitName();
-                        break;
-                    case 1:
-                        mommyShroomTrait[j].gameObject.SetActive(true);
-                        mommyShroomTrait[j].text = traits[j].GetTraitName();
-                        break;
-                    case 2:
-                        daddyShroomTrait[j].gameObject.SetActive(true);
-                        daddyShroomTrait[j].text = traits[j].GetTraitName();
-                        break;
-                }
+            if (shopSlots[i].IsEmpty() && Random.value < 0.7f) {
+                var mushroomData = MushroomGenerator.GenerateRandomMushroomData(1, 2);
+                shopSlots[i].SetShopItem(mushroomData);
             }
+    }
+
+    public void ClickItem(int slot) {
+        if (!shopSlots[slot].IsEmpty() && currency.Amount >= shopSlots[slot].GetPrice()) {
+            selectedSlot = slot;
+            isDragging = true;
+            mushroomGhost.color = shopSlots[slot].GetMushroomForSale().capColor.RealValue;
+            mushroomGhost.gameObject.SetActive(true);
+            inputManager.OnMouseUp += BuyItem;
         }
     }
 
-    //i was playing around with the cursor api but it seems it doesn't really fit. the cursor is to small and the size is not changeable
-    public void ToggleSellMode()
-    {
-        if (!sellMode)
-        {
-            Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
-            sellMode = true;
-        }
-        else
-        {
-            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-            sellMode = false;
-        }
-        
+    private void BuyItem() {
+        isDragging = false;
+        mushroomGhost.gameObject.SetActive(false);
+        inputManager.OnMouseUp -= BuyItem;
 
+        if (inputManager.IsMouseOverUI()) {
+            selectedSlot = -1;
+        } else {
+            currency.Modify(-shopSlots[selectedSlot].GetPrice());
+
+            MushroomEntityManager.Instance.SpawnMushroom(shopSlots[selectedSlot].GetMushroomForSale(), inputManager.GetMouseWorldPosition());
+
+            shopSlots[selectedSlot].ResetItem();
+        }
     }
-  
 
- 
+    private void Update() {
+        if (isDragging) {
+            Vector3 mousePos = inputManager.GetMouseScreenPosition();
+            mousePos.z = 0;
+            mushroomGhost.transform.position = mousePos;
+        }
+    }
 
-
+    public IArchitecture GetArchitecture() {
+        return MainGame.Interface;
+    }
 }
+

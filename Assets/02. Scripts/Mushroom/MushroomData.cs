@@ -60,10 +60,6 @@ public class MushroomData {
 
     private HashSet<MushroomData> influencedBy = new HashSet<MushroomData>();
 
-
-
-
-
     private Dictionary<MushroomPropertyTag, List<IMushroomProperty>> properties =
         new Dictionary<MushroomPropertyTag, List<IMushroomProperty>>();
 
@@ -93,6 +89,7 @@ public class MushroomData {
     public MushroomProperty<float> sporeRange;
     public MushroomProperty<int> extraSellPrice;
     public MushroomProperty<int> sellPriceLocker;
+    public MushroomProperty<int> baseSellPrice;
 
 
     public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(1);
@@ -113,11 +110,10 @@ public class MushroomData {
         return 4;
     }
 
-    public MushroomData() : this(1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
+    public MushroomData() : this(1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1, 0) {
         AddBasicProperties();
-
-
     }
+
     public void AddInfluencedBy(MushroomData parent) {
         influencedBy.Add(parent);
     }
@@ -254,7 +250,7 @@ public class MushroomData {
 
     }
 
-    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
+    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange, int baseSellPrice) {
         this.capHeight = new MushroomProperty<float>(capHeight, MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
         this.capWidth = new MushroomProperty<float>(capWidth, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
         this.stemHeight = new MushroomProperty<float>(stemHeight, MushroomPropertyTag.Stem, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
@@ -271,6 +267,7 @@ public class MushroomData {
         this.sporeRange = new MushroomProperty<float>(sporeRange, MushroomPropertyTag.SporeRange);
         this.extraSellPrice = new MushroomProperty<int>(0);
         this.sellPriceLocker = new MushroomProperty<int>(-1);
+        this.baseSellPrice = new MushroomProperty<int>(baseSellPrice);
         // this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
         //this.stemWidth.RealValue.Value = 2;
         AddBasicProperties();
@@ -310,13 +307,11 @@ public class MushroomData {
     }
 
     public int GetSellPrice() { //TODO: later
-        int basePrice = 0;
-
 
 
 
         //=================================================
-        int finalPrice = Math.Max(0, extraSellPrice.RealValue.Value + basePrice);
+        int finalPrice = Math.Max(0, extraSellPrice.RealValue.Value + baseSellPrice.RealValue.Value);
         if (sellPriceLocker.RealValue.Value >= 0) {
             finalPrice = sellPriceLocker.RealValue.Value;
         }
@@ -324,7 +319,7 @@ public class MushroomData {
     }
 
     public int GetBuyPrice() { //TODO: later
-        return 1;
+        return Mathf.RoundToInt(GetSellPrice() * 1.2f);
     }
 
     public void AddProperty(IMushroomProperty property) {
@@ -488,7 +483,8 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
-            Random.Range(3f, 4f));
+            Random.Range(3f, 4f),
+            Random.Range(0, 2));
 
         return data;
     }
@@ -508,7 +504,8 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
-            Random.Range(3f, 4f));
+            Random.Range(3f, 4f),
+            Random.Range(0, 4));
         data.GrowthDay.Value = initialGrowthDay;
 
         int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);

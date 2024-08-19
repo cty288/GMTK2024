@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -18,6 +17,10 @@ public class MushroomGenerator : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
+
+    public static MushroomData GenerateRandomMushroomData(int minTrait, int maxTrait) {
+        return MushroomDataHelper.GetRandomMushroomData(1, minTrait, maxTrait);
     }
 
     /// <summary>
@@ -57,11 +60,10 @@ public class MushroomGenerator : MonoBehaviour {
     }
 
     public static bool RegenerateMushroomVisuals(MushroomData data, Mushroom m,
-        ShroomPart partType = ShroomPart.Volvae)
-    {
+        ShroomPart partType = ShroomPart.Volvae) {
         //Delete Old Mushroom
         Destroy(m.mushroomVisualParts.Volva.gameObject);
-        
+
         MushroomVisuals mushroomVisuals = new MushroomVisuals();
 
         m.mushroomVisualParts = mushroomVisuals;
@@ -117,7 +119,7 @@ public class MushroomGenerator : MonoBehaviour {
 
         return parts;
     }
-    
+
     public static Dictionary<ShroomPart, MushroomPart> RegetParts(MushroomData data, Dictionary<ShroomPart, MushroomPart> oldParts) {
         List<IMushroomTrait> traits = data.GetTraits();
 

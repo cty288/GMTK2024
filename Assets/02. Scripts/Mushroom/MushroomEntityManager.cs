@@ -9,16 +9,20 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     public static MushroomEntityManager Instance;
 
-    [SerializeField] private Button deleteModeButton;
+    public PlayerCurrency currency;
+
+    [SerializeField] private Button sellModeButton;
 
     private InputManager inputManager;
-    private bool deleteMode = false;
+    private bool sellMode = false;
     private Mushroom selectedMushroom;
     private List<Mushroom> allMushrooms = new List<Mushroom>();
 
     public int mushroomsToSpawn = 3;
     public Vector2 rangeX = new Vector2(-9f, 9f);
     public Vector2 rangeY = new Vector2(-5f, 5f);
+
+    [SerializeField] private Texture2D cursor;
 
     private int debugCount = 0;
 
@@ -41,33 +45,43 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             RandomlySpawnMushrooms();
         }
 
-        if (Input.GetKeyDown(KeyCode.P)) {
-            IncrementDay();
-        }
+        //if (Input.GetKeyDown(KeyCode.P)) {
+        //    IncrementDay();
+        //}
     }
 
-    private void IncrementDay() {
+    public void IncrementDay() {
         this.GetModel<GameTimeModel>().Day.Value++;
         //UpdateMushroomNeighbors();
     }
 
-
-
     private void RandomlySpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
             Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-            SpawnMushroom(randomPosition, 1,1, Random.Range(1, 5));
+            SpawnMushroom(randomPosition, 1, 1, Random.Range(1, 5));
         }
     }
 
     public Mushroom SpawnMushroom(Vector2 position, int minTrait, int maxTrait, int growthDay = 1) {
         GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(minTrait, maxTrait, position, growthDay);
+
+        return RegisterMushroom(mushroomGO); ;
+    }
+
+    public Mushroom SpawnMushroom(MushroomData data, Vector2 position) {
+        GameObject mushroomGO = MushroomGenerator.GenerateCustomMushroom(data, position);
+
+        return RegisterMushroom(mushroomGO); ;
+    }
+
+    private Mushroom RegisterMushroom(GameObject mushroomGO) {
         mushroomGO.name = mushroomGO.name + "_" + debugCount++;
         mushroomGO.transform.SetParent(transform);
         Mushroom mushroom = mushroomGO.GetComponent<Mushroom>();
         mushroom.RegenerateCollider();
         mushroom.OnMushroomDestroyed += OnMushroomDestroyed;
         allMushrooms.Add(mushroom);
+
         return mushroom;
     }
 
@@ -82,7 +96,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     }
 
     private void CheckSelectMushroom() {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(inputManager.GetMouseWorldPosition(), Vector2.zero);
         if (hit.collider != null) {
             Mushroom mushroom = hit.collider.GetComponent<Mushroom>();
             if (mushroom != null) {
@@ -106,6 +120,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         if (hit.collider != null) {
             Mushroom mushroom = hit.collider.GetComponent<Mushroom>();
             if (mushroom != null) {
+                hit.collider.enabled = false;
+                currency.Modify(mushroom.GetMushroomData().GetSellPrice());
                 mushroom.DestroySelf();
             }
         }
@@ -115,14 +131,18 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         allMushrooms.Remove(mushroom);
     }
 
-    public void DeleteMode() {
-        deleteMode = !deleteMode;
-        deleteModeButton.targetGraphic.color = deleteMode ? deleteModeButton.colors.selectedColor : deleteModeButton.colors.normalColor;
+    public void SellModeToggle() {
+        sellMode = !sellMode;
+        sellModeButton.targetGraphic.color = sellMode ? Color.red : Color.white;
 
-        if (deleteMode) {
+        if (sellMode) {
+            Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
+
             inputManager.OnMouseDown -= CheckSelectMushroom;
             inputManager.OnMouseDown += CheckDestroyMushroom;
         } else {
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+
             inputManager.OnMouseDown -= CheckDestroyMushroom;
             inputManager.OnMouseDown += CheckSelectMushroom;
         }

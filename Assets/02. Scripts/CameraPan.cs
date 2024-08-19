@@ -14,6 +14,8 @@ public class CameraPan : MonoBehaviour {
     }
 
     public void StartPan() {
+        if (inputManager.IsMouseOverUI()) return;
+
         RaycastHit2D hit = Physics2D.Raycast(inputManager.GetMouseWorldPosition(), Vector2.zero);
         if (hit.collider == null) {
             isDragging = true;
@@ -27,13 +29,11 @@ public class CameraPan : MonoBehaviour {
         inputManager.OnMouseUp -= EndPan;
     }
 
-    public void ZoomIn()
-    {
+    public void ZoomIn() {
         Camera.main.orthographicSize -= 0.2f;
     }
 
-    public void ZoomOut()
-    {
+    public void ZoomOut() {
         Camera.main.orthographicSize += 0.2f;
     }
 

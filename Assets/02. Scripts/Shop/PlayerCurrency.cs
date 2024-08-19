@@ -1,43 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 using System;
+using TMPro;
+using UnityEngine;
 
-public class PlayerCurrency : MonoBehaviour
-{
-	public int Amount;
+public class PlayerCurrency : MonoBehaviour {
+    public int Amount;
 
-	public TextMeshProUGUI Text;
+    public TextMeshProUGUI Text;
 
-	private float displayCurrency;
+    private float displayCurrency;
 
-	public event Action<PlayerCurrency, int> Modified;
+    public event Action<PlayerCurrency, int> Modified;
 
-	private void OnEnable()
-	{
-		Text.text = "$" + Amount;
-	}
+    private void OnEnable() {
+        Text.text = "$" + Amount;
+    }
 
-	public bool CanAfford(int amount)
-	{
-		return Amount >= amount;
-	}
+    public bool CanAfford(int amount) {
+        return Amount >= amount;
+    }
 
-	public void Modify(int delta)
-	{
-		Amount += delta;
-		this.Modified?.Invoke(this, delta);
-	}
+    public void Modify(int delta) {
+        Amount += delta;
+        this.Modified?.Invoke(this, delta);
+    }
 
-	private void Update()
-	{
-		displayCurrency = Mathf.Lerp(displayCurrency, Amount, Time.deltaTime * 5f);
-		Text.text = "$" + Mathf.RoundToInt(displayCurrency);
+    private void Update() {
+        displayCurrency = Mathf.Lerp(displayCurrency, Amount, Time.deltaTime * 5f);
+        Text.text = "$" + Mathf.RoundToInt(displayCurrency);
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-			Modify(-10);
+        if (Input.GetKeyDown(KeyCode.G)) {
+            Modify(-10);
         }
-	}
+    }
 }

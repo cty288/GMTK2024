@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour {
     private Camera mainCamera;
     private Vector3 mousePos;
     private Vector3 mousePosWorld;
+    private bool isOverUI;
 
     /* Input Actions */
     public event Action OnMouseDown;
@@ -42,7 +43,7 @@ public class InputManager : MonoBehaviour {
     }
 
     private void HandleInput() {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        isOverUI = EventSystem.current.IsPointerOverGameObject();
 
         if (Input.GetMouseButtonDown(0)) {
             OnMouseDown?.Invoke();
@@ -56,18 +57,24 @@ public class InputManager : MonoBehaviour {
             OnEscape?.Invoke();
         }
 
-        if (Input.mouseScrollDelta.y > 0)
-        {
+        if (Input.mouseScrollDelta.y > 0) {
             OnScrollUp?.Invoke();
         }
-        
-        if (Input.mouseScrollDelta.y < 0)
-        {
+
+        if (Input.mouseScrollDelta.y < 0) {
             OnScrollDown?.Invoke();
         }
     }
 
     public Vector3 GetMouseWorldPosition() {
         return mousePosWorld;
+    }
+
+    public Vector3 GetMouseScreenPosition() {
+        return mousePos;
+    }
+
+    public bool IsMouseOverUI() {
+        return isOverUI;
     }
 }

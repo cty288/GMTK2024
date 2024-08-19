@@ -4,7 +4,6 @@ using MikroFramework.Architecture;
 using MikroFramework.Event;
 using System;
 using System.Collections.Generic;
-using MikroFramework;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
@@ -31,6 +30,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private Sequence oscillationSequence;
     [HideInInspector] public bool isSelected = false;
+    private Vector2 originalPosition;
+
     public MushroomData GetMushroomData() {
         return data;
     }
@@ -59,9 +60,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
         foreach (var stem in mushroomVisualParts.Stem) {
             stem.SetPartSize(data.stemHeight.RealValue, data.stemWidth.RealValue);
         }
-        foreach (var ring in mushroomVisualParts.Ring)
-        {
-            float avgWidth = (data.capWidth.RealValue + data.stemWidth.RealValue)/2;
+        foreach (var ring in mushroomVisualParts.Ring) {
+            float avgWidth = (data.capWidth.RealValue + data.stemWidth.RealValue) / 2;
             ring.SetPartSize(avgWidth, avgWidth);
         }
         foreach (var cap in mushroomVisualParts.Cap) {
@@ -69,8 +69,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         }
     }
 
-    private void ChangeMushroomColor()
-    {
+    private void ChangeMushroomColor() {
         foreach (var stem in mushroomVisualParts.Stem) {
             stem.SetPartColor(data.stemColor.RealValue, ColorElement.Primary);
             stem.SetPartColor(data.stemColor0.RealValue, ColorElement.Secondary);
@@ -88,13 +87,11 @@ public class Mushroom : AbstractMikroController<MainGame> {
         }
     }
 
-    public void RegenerateMushroomVisuals()
-    {
+    public void RegenerateMushroomVisuals() {
         MushroomGenerator.RegenerateMushroomVisuals(data, this);
     }
 
-    public void ReinitializeMushroom(Dictionary<ShroomPart, MushroomPart> parts)
-    {
+    public void ReinitializeMushroom(Dictionary<ShroomPart, MushroomPart> parts) {
         Parts = parts;
     }
 
@@ -115,18 +112,17 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnGrowthDayChange(int oldDay, int newDay) {
         int newStage = data.GetStage(newDay);
-        
+
         if (newStage == 1) {
             OnStage1();
-        }else if (newStage == 2) {
+        } else if (newStage == 2) {
             if (newDay == 3) {
                 OnStage2Start();
             }
             OnStage2();
         } else if (newStage == 3) {
             OnStage3();
-        }
-        else {
+        } else {
             DestroySelf();
         }
 
@@ -141,7 +137,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private async UniTask UpdateVisual() {
         await UniTask.NextFrame();
-        if(!this) return;
+        if (!this) return;
         //RegenerateMushroomVisuals();
         ChangeMushroomSizes();
         ChangeMushroomColor();
@@ -162,7 +158,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     private List<MushroomData> GetStage1Neighbors() {
-        
+
         var allMushrooms = entityManager.GetAllMushrooms();
         List<MushroomData> neighbors = new List<MushroomData>();
 
@@ -176,7 +172,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         }
         return neighbors;
     }
-    
+
 
     private void OnStage1() {
         seedGO.SetActive(true);
@@ -188,14 +184,14 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private void OnStage3() {
         //parent pass traits to 2 children
         List<MushroomData> stage1Neighbors = GetStage1Neighbors();
-        
+
         int currChildren = stage1Neighbors.Count;
         for (int i = 0; i < 2 - currChildren; i++) {
             Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * data.sporeRange.RealValue + (Vector2)transform.position;
             Mushroom spawnedMushroom = entityManager.SpawnMushroom(spawnPos, 0, 0);
             stage1Neighbors.Add(spawnedMushroom.GetMushroomData());
         }
-        
+
         TraitPool.Shuffle(stage1Neighbors);
         for (int i = 0; i < Math.Min(stage1Neighbors.Count, 2); i++) {
             bool res = PassTrait(stage1Neighbors[i]);
@@ -212,17 +208,17 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private Boolean PassTrait(MushroomData child) {
         MushroomData data = this.GetMushroomData();
         child.AddInfluencedBy(data);
-        
+
         int categoriesCount = Enum.GetValues(typeof(MushroomTraitCategory)).Length;
         int startIdx = UnityEngine.Random.Range(0, categoriesCount);
         int remainCount = categoriesCount;
-        
+
         while (remainCount > 0) {
             MushroomTraitCategory category = (MushroomTraitCategory)startIdx;
             if (child.TraitToParentMap[category] == null) {
                 child.TraitToParentMap[category] = data;
                 return true;
-            }else if(Random.value < 0.5f) {
+            } else if (Random.value < 0.5f) {
                 child.TraitToParentMap[category] = data;
                 return true;
             }
@@ -273,23 +269,26 @@ public class Mushroom : AbstractMikroController<MainGame> {
         audioSource.Play();
 
         oscillationSequence.Pause();
-        
+
         VFXManager.Instance.PlayPickup(transform.position);
 
         isSelected = true;
+        originalPosition = transform.position;
     }
 
     public void Deselect() {
-        audioSource.clip = plantSFX;
-        audioSource.Play();
+        if (InputManager.Instance.IsMouseOverUI()) {
+            transform.position = originalPosition;
+        } else {
+            audioSource.clip = plantSFX;
+            audioSource.Play();
+
+            VFXManager.Instance.PlayPlace(transform.position);
+        }
 
         oscillationSequence.Play();
-        
-        VFXManager.Instance.PlayPlace(transform.position);
-
         isSelected = false;
     }
-
 
 
     public async void DestroySelf() {
