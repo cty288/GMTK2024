@@ -6,7 +6,7 @@ public class ShopSlot : MonoBehaviour {
     [SerializeField] private GameObject soldOutSign;
     [SerializeField] private GameObject shopItem;
 
-    [SerializeField] private TextMeshProUGUI[] traitText;
+    [SerializeField] private TextMeshProUGUI[] traitTexts;
     [SerializeField] private TextMeshProUGUI priceText;
     [SerializeField] private Image shopItemImage;
 
@@ -23,9 +23,13 @@ public class ShopSlot : MonoBehaviour {
         shopItem.SetActive(true);
         soldOutSign.SetActive(false);
 
+        for (int i = 0; i < traitTexts.Length; i++) {
+            traitTexts[i].text = "--";
+        }
+
         var count = 0;
         foreach (var trait in mushroomForSale.GetTraits()) {
-            traitText[count++].text = trait.GetTraitName();
+            traitTexts[count++].text = trait.GetTraitName();
         }
 
         shopItemImage.color = mushroom.capColor.RealValue;

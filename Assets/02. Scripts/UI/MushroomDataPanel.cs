@@ -13,9 +13,12 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
             Destroy(this);
         }
     }
+
     [SerializeField] private GameObject UIGroup;
     [SerializeField] private TextMeshProUGUI dayText;
     [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI[] traitTexts;
+    [SerializeField] private GameObject[] mushroomLives;
     [SerializeField] private TextMeshProUGUI dataText;
 
     private void Start() {
@@ -27,11 +30,22 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
     }
 
     public void SetPanelDisplay(MushroomData data) {
+        //TODO: handle naming mushrooms
         nameText.text = $"Mushroom: Day {data.GrowthDay.Value}";
+
         dataText.text = MushroomDataHelper.ToString(data);
-        dataText.text += "\nTraits: \n";
+
+        for (int i = 0; i < mushroomLives.Length; i++) {
+            mushroomLives[i].SetActive(i < data.GrowthDay.Value);
+        }
+
+        for (int i = 0; i < traitTexts.Length; i++) {
+            traitTexts[i].text = "--";
+        }
+
+        var count = 0;
         foreach (var trait in data.GetTraits()) {
-            dataText.text += trait.ToString() + "\n";
+            traitTexts[count].text = trait.ToString();
         }
     }
 
@@ -44,12 +58,10 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
         return MainGame.Interface;
     }
 
-    public void TurnOnPanel()
-    {
+    public void TurnOnPanel() {
         UIGroup.SetActive(true);
     }
-    public void TurnOffPanel()
-    {
+    public void TurnOffPanel() {
         UIGroup.SetActive(false);
     }
 }
