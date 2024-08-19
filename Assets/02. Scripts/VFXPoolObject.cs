@@ -7,6 +7,12 @@ public class VFXPoolObject : MonoBehaviour
 {
     private ParticleSystem vfx;
     public VFXPool masterPool;
+
+    public Vector3 startPos;
+    public Vector3 endPos;
+    private float t = 0;
+    [SerializeField] private bool isTimed;
+    [SerializeField] private float timer;
     
     // Start is called before the first frame update
     void Awake()
@@ -20,10 +26,27 @@ public class VFXPoolObject : MonoBehaviour
         {
             masterPool.ReturnVFX(this);
         }
+
+        if (isTimed)
+        {
+            if (t >= timer)
+            {
+                vfx.Stop();
+            }
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPos, endPos, t / timer);
+        }
     }
 
     public void Play()
     {
         vfx.Play();
     }
+
+    public void PlayTimed()
+    {
+        vfx.Play();
+        t = 0;
+    }
 }
+
