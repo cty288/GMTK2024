@@ -121,6 +121,9 @@ public class MushroomData {
 
 
     public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(1);
+    private bool isOnFarm = false;
+
+    public bool IsOnFarm => isOnFarm;
 
     public int GetStage() {
         return GetStage(GrowthDay.Value);
@@ -146,6 +149,12 @@ public class MushroomData {
         influencedBy.Add(parent);
     }
 
+    public void OnPlantToFarm() {
+        this.isOnFarm = true;
+        foreach (IMushroomTrait trait in traits.Values) {
+            trait.OnMushroomPlantOnFarm(this);
+        }
+    }
     private void OnGrowthDayChanged(int oldDay, int newDay) {
         int oldStage = GetStage(oldDay);
         int newStage = GetStage(newDay);
@@ -190,6 +199,13 @@ public class MushroomData {
                     Debug.Log("Mutated property " + category);
                 } else {
                     var trait = TraitPool.GetRandomTrait(category);
+                    if (Random.value < 0.1f && isOnFarm) {
+                        var specialTrait = TraitPool.GetRandomMutationOnlyTrait(category);
+                        if (specialTrait != null) {
+                            trait = specialTrait;
+                        }
+                    }
+                    
                     if (trait != null) {
                         AddTrait(trait);
                         Debug.Log("Mutation Added trait " + trait.GetTraitName());
@@ -214,17 +230,23 @@ public class MushroomData {
             if (Random.value > 0.5f) {
                 continue;
             }
-            //pick a random parent
+            
             if (influencedBy.Count == 0) {
                 break;
             }
-            MushroomData parent = influencedBy.ToList()[Random.Range(0, influencedBy.Count)];
+            //MushroomData parent = influencedBy.ToList()[Random.Range(0, influencedBy.Count)];
             var selfColor = GetProperties<Color>(tagGroup).ToList();
-            var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
+            //var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
             for (int i = 0; i < selfColor.Count; i++) {
-                if (i < parentColor.Count) {
-                    selfColor[i].Value = parentColor[i].Value;
+                Color result = new Color(0, 0, 0);
+                foreach (var parent in influencedBy) {
+                    var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
+                    result += parentColor[i].Value;
                 }
+                result /= influencedBy.Count;
+                result *= Random.Range(0.8f, 1.2f);
+                result.a = 1;
+                selfColor[i].Value = result;
             }
         }
 
@@ -407,6 +429,9 @@ public class MushroomData {
             traitAddCallbacks[trait.GetType()](trait);
         }
         traitCategoryToTrait[trait.Category] = trait;
+        if (isOnFarm) {
+            trait.OnMushroomPlantOnFarm(this);
+        }
 
     }
 
@@ -476,13 +501,13 @@ public class MushroomData {
     /// <returns></returns>
     public HashSet<MushroomProperty<T>> GetProperties<T>(params MushroomPropertyTag[] tags) {
         //find properties that have all the tags
-        HashSet<IMushroomProperty> result = new HashSet<IMushroomProperty>();
+        HashSet<IMushroomProperty> result = new HashSet<IMushroomProperty>(flattenedProperties);
         foreach (var tag in tags) {
             if (!properties.ContainsKey(tag)) {
                 return null;
             }
 
-            result.UnionWith(properties[tag]);
+            result.IntersectWith(properties[tag]);
         }
 
         //filter out those of different types

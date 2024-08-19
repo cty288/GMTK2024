@@ -45,6 +45,39 @@ public class Mushroom : AbstractMikroController<MainGame> {
         entityManager = MushroomEntityManager.Instance;
 
         this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(OnDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomAddProperty>(OnAllMushroomAddProperty).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomChangeParts>(OnAllMushroomChangeParts).UnRegisterWhenGameObjectDestroyed(gameObject);
+    }
+
+    private void OnAllMushroomChangeParts(OnAllMushroomChangeParts e) {
+        switch (e.part) {
+            case ShroomPart.Cap: 
+                Parts[e.part] = MushroomPartManager.Instance.partsSO.cap[e.index];
+                break;
+            case ShroomPart.Ring:
+                Parts[e.part] = MushroomPartManager.Instance.partsSO.ring[e.index];
+                break;
+            case ShroomPart.Stem:
+                Parts[e.part] = MushroomPartManager.Instance.partsSO.stem[e.index];
+                break;
+            case ShroomPart.Volvae:
+                Parts[e.part] = MushroomPartManager.Instance.partsSO.volva[e.index];
+                break;
+            case ShroomPart.Pattern:
+                Parts[e.part] = MushroomPartManager.Instance.partsSO.pattern[e.index];
+                break;
+        }
+        UpdateVisual().Forget();
+    }
+
+    private void OnAllMushroomAddProperty(OnAllMushroomAddProperty e) {
+        if (data != null && data.IsOnFarm) {
+            var properties = data.GetProperties<float>(e.tags);
+            foreach (var property in properties) {
+                property.Value += e.value;
+            }
+        }
+        UpdateVisual().Forget();
     }
 
     private void OnDayChange(int arg1, int arg2) {
@@ -132,6 +165,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             }
 
         });*/
+        
         UpdateVisual().Forget();
     }
 
@@ -191,6 +225,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * data.sporeRange + (Vector2)transform.position;
             Mushroom spawnedMushroom = entityManager.SpawnMushroom(spawnPos, 0, 0);
             stage1Neighbors.Add(spawnedMushroom.GetMushroomData());
+            spawnedMushroom.data.OnPlantToFarm();
         }
 
         TraitPool.Shuffle(stage1Neighbors);

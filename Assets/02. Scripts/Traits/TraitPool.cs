@@ -17,6 +17,14 @@ public static class TraitPool {
     private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> traitsByCategory =
         new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
 
+    private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>
+        mutationOnlyTraits = new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
+    
+    
+    private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>
+        shopOnlyTraits = new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
+     
+
     static TraitPool() {
         //Caps
         RegisterTrait(() => new BigCap());
@@ -27,6 +35,8 @@ public static class TraitPool {
         RegisterTrait(() => new AlienBanana());
         RegisterTrait(() => new OnionCap());
         RegisterTrait(() => new StandardCap());
+        RegisterTrait(() => new TooBlue());
+        RegisterTrait(() => new UltraRare());
 
         //Stems
         RegisterTrait(() => new BigFoot());
@@ -45,8 +55,17 @@ public static class TraitPool {
         RegisterTrait(() => new DriedOut());
         RegisterTrait(() => new Skirt());
         RegisterTrait(() => new Tube());
+        
+        RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
     }
 
+    private static void RegisterSpecialPoolTrait(Func<IMushroomTrait> traitGetter, Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> pool) {
+        MushroomTraitCategory category = traitGetter().Category;
+        if (!pool.ContainsKey(category)) {
+            pool[category] = new List<Func<IMushroomTrait>>();
+        }
+        pool[category].Add(traitGetter);
+    }
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
         traitGetters.Add(traitGetter);
         foreach (TraitFlags flag in Enum.GetValues(typeof(TraitFlags))) {
@@ -71,6 +90,20 @@ public static class TraitPool {
             (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
         }
     }
+
+    public static IMushroomTrait GetRandomMutationOnlyTrait(MushroomTraitCategory category) {
+        if (!mutationOnlyTraits.ContainsKey(category)) {
+            return null;
+        }
+        List<Func<IMushroomTrait>> candidates = mutationOnlyTraits[category];
+        if (candidates == null) {
+            return null;
+        }
+        Shuffle(candidates);
+        return candidates[0]();
+    }
+    
+    
     public static IMushroomTrait GetRandomTrait(MushroomTraitCategory category) {
         if (!traitsByCategory.ContainsKey(category)) {
             return null;
