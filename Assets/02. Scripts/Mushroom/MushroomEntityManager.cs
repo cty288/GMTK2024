@@ -11,6 +11,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     public static MushroomEntityManager Instance;
 
     public PlayerCurrency currency;
+    [SerializeField] private LargestSize sizeUI;
 
     [SerializeField] private Button sellModeButton;
 
@@ -117,6 +118,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         {
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
             largestSize = largestMushroom.GetSize();
+            sizeUI.Modify(largestSize);
         }
     }
 
