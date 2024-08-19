@@ -307,7 +307,10 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void Update() {
         if (isSelected) {
-            transform.position = InputManager.Instance.GetMouseWorldPosition();
+            if (data != null && !data.HasTrait<IsItDead>() && !data.HasTrait<LazyTrait>()) {
+                transform.position = InputManager.Instance.GetMouseWorldPosition();
+            }
+            
             sortLayer.sortingOrder = (int)transform.position.y * -1000;
         }
     }

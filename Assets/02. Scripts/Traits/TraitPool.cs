@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [System.Flags]
 public enum TraitFlags {
@@ -49,6 +50,7 @@ public static class TraitPool {
         RegisterTrait(() => new TreeRoot());
         RegisterTrait(() => new SuperShy());
         RegisterTrait(() => new Dink());
+        RegisterTrait(() => new IsItDead());
 
         //Rings
         RegisterTrait(() => new SuppressorRing());
@@ -59,6 +61,7 @@ public static class TraitPool {
         RegisterTrait(() => new Tube());
         
         RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
+        RegisterSpecialPoolTrait(() => new LazyTrait(), shopOnlyTraits);
     }
 
     private static void RegisterSpecialPoolTrait(Func<IMushroomTrait> traitGetter, Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> pool) {
@@ -101,6 +104,13 @@ public static class TraitPool {
         if (candidates == null) {
             return null;
         }
+        Shuffle(candidates);
+        return candidates[0]();
+    }
+    
+    public static IMushroomTrait GetRandomShopOnlyTrait() {
+        List<Func<IMushroomTrait>> candidates = shopOnlyTraits.Values.SelectMany(x => x).ToList();
+        
         Shuffle(candidates);
         return candidates[0]();
     }
