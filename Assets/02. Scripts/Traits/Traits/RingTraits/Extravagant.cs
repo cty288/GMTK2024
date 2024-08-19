@@ -1,10 +1,11 @@
 ﻿public class Extravagant : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.ChildAdditions += 2;
+       
     }
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capHeight.ChildAdditions += 2;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;

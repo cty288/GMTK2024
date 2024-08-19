@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volva:
   - {fileID: 8908524364441246616, guid: 81a49869ee30757459d068f37b5ba9f6, type: 3}
+  - {fileID: 8908524364441246616, guid: d1c9181d21659944ea89664e9d5d84ec, type: 3}
+  - {fileID: 8908524364441246616, guid: 3f859d26d6958fc48827462755d20d74, type: 3}
+  - {fileID: 8908524364441246616, guid: 8b07cbf6c1d516743b775a2b42e3e307, type: 3}
+  - {fileID: 8908524364441246616, guid: 973bbc9e262645d4da15339cfb41623b, type: 3}
+  - {fileID: 8908524364441246616, guid: 46d894e3892786043a5c2344bac00219, type: 3}
   stem:
   - {fileID: 6498925681441679309, guid: cee0f861ccdb47c47b3ed4049fb9f198, type: 3}
   cap:
@@ -110,3 +115,18 @@ MonoBehaviour:
   - Name: StickTrait
     parts:
     - {fileID: 6498925681441679309, guid: d59601a9d2b226f42a95539ec1204982, type: 3}
+  - Name: StrongNeck
+    parts:
+    - {fileID: 6412275932885880628, guid: 834ae647a103e0d4ab3f949d96093781, type: 3}
+  - Name: Branching
+    parts:
+    - {fileID: 6412275932885880628, guid: f833bb79abecc6a4d9ddcd3ca5b2ef3b, type: 3}
+  - Name: Skinny
+    parts:
+    - {fileID: 6412275932885880628, guid: f8e0baec709b45c47800c8e097181f8d, type: 3}
+  - Name: Giraffe
+    parts:
+    - {fileID: 6412275932885880628, guid: 7baf6004c4316204a9935ecd90e0c7b1, type: 3}
+  - Name: Hyperthyroidism
+    parts:
+    - {fileID: 6412275932885880628, guid: 90809a26e3326324d99267f3d09bfdb2, type: 3}

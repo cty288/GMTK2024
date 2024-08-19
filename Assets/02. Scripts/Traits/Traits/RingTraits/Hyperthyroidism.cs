@@ -1,20 +1,20 @@
-﻿public class StandardRing : MushroomTrait {
+﻿public class Hyperthyroidism : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-       
+        data.oscillation.Value *= 1.2f;
+        data.oscillationSpeed.Value /= 3f;
     }
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
-        data.extraSellPrice.Value -= 1;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;
     public override IMushroomTrait GetCopy() {
-        return new StandardRing();
+        return new Hyperthyroidism();
     }
 
     public override string GetTraitName() {
-        return "Standard Ring";
+        return "Hyperthyroidism";
     }
 
     public override string GetTraitValueDescription() {
@@ -22,6 +22,6 @@
     }
 
     public override int GetVisualPartGroupIdx() {
-        return 18;
+        return 32;
     }
 }

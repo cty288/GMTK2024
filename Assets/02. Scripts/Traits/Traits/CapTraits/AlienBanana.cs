@@ -5,11 +5,12 @@ using UnityEngine;
 public class AlienBanana : MushroomTrait
 {
     public override void OnStartApply(MushroomData data) {
-        data.capWidth.ChildAdditions += 2f;
+        
     }
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capWidth.ChildAdditions += 2f;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;

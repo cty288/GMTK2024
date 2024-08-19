@@ -4,7 +4,7 @@ using UnityEngine;
 public class Hallucinogenic : MushroomTrait {
     private bool isEnd = false;
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.Value++;
+       
         ChangeColor(data).Forget();
     }
 

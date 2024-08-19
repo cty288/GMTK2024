@@ -147,15 +147,22 @@ public class Mushroom : AbstractMikroController<MainGame> {
         this.data = data;
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
-        oscillationSequence = DOTween.Sequence()
-            .Append(RenderGo.transform.DOScale(data.oscillation.Value, data.oscillationSpeed.Value).SetEase(Ease.InOutSine))
-            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.Value))
-            .SetLoops(-1, LoopType.Restart);
 
         data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
 
         this.data.GrowthDay.RegisterWithInitValue(OnGrowthDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
         this.data.RegisterOnUpdateColor(ChangeMushroomColor);
+        this.data.oscillationSpeed.RealValue.RegisterWithInitValue(OnOscillationSpeedChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+    }
+
+    private void OnOscillationSpeedChange(float arg1, float arg2) {
+        if (oscillationSequence != null) {
+            oscillationSequence.Kill();
+        }
+        oscillationSequence = DOTween.Sequence()
+            .Append(RenderGo.transform.DOScale(data.oscillation.Value, data.oscillationSpeed.Value).SetEase(Ease.InOutSine))
+            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.Value))
+            .SetLoops(-1, LoopType.Restart);
     }
 
     private void OnGrowthDayChange(int oldDay, int newDay) {

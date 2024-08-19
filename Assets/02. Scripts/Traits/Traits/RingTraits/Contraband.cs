@@ -1,27 +1,24 @@
-﻿public class StandardRing : MushroomTrait {
+public class Contraband : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
        
     }
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
-        data.extraSellPrice.Value -= 1;
+        data.sellPriceMultiplier.Value *= 2f;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;
     public override IMushroomTrait GetCopy() {
-        return new StandardRing();
+        return new Contraband();
     }
 
     public override string GetTraitName() {
-        return "Standard Ring";
+        return "Contraband";
     }
 
     public override string GetTraitValueDescription() {
         return null;
     }
 
-    public override int GetVisualPartGroupIdx() {
-        return 18;
-    }
 }

@@ -29,7 +29,8 @@ public class MushroomProperty<T> : IMushroomProperty {
     
     private T MinValue { get; set; }
 
-    private BindableProperty<T> RealValue { get; }
+    public BindableProperty<T> RealValue { get; }
+    
 
 
     public HashSet<MushroomPropertyTag> Tags { get; }
@@ -119,6 +120,7 @@ public class MushroomData {
     public MushroomProperty<int> extraSellPrice;
     public MushroomProperty<int> sellPriceLocker;
     public MushroomProperty<int> baseSellPrice;
+    public MushroomProperty<float> sellPriceMultiplier; 
     
     private Action onUpdateColor;
 
@@ -350,6 +352,7 @@ public class MushroomData {
         this.isPoisonous = new MushroomProperty<bool>(isPoisonous, default, MushroomPropertyTag.Poisonous);
         this.sporeRange = new MushroomProperty<float>(sporeRange, 0.2f,MushroomPropertyTag.SporeRange);
         this.extraSellPrice = new MushroomProperty<int>(0, 0);
+        this.sellPriceMultiplier = new MushroomProperty<float>(1, 0);
         this.sellPriceLocker = new MushroomProperty<int>(-1, default);
         this.sellPriceLocker.CompareMin = false;
         
@@ -399,7 +402,9 @@ public class MushroomData {
 
 
         //=================================================
-        int finalPrice = Math.Max(0, extraSellPrice.Value + baseSellPrice.Value);
+        int finalPrice =
+            Mathf.RoundToInt(Math.Max(0, extraSellPrice.Value + baseSellPrice.Value) * sellPriceMultiplier.Value);
+        
         if (sellPriceLocker.Value >= 0) {
             finalPrice = sellPriceLocker.Value;
         }

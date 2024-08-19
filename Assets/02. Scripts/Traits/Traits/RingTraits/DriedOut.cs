@@ -1,11 +1,12 @@
 ﻿public class DriedOut : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-        data.capHeight.Value--;
-        data.capWidth.Value += 2;
+
     }
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capHeight.Value--;
+        data.capWidth.Value += 2;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;

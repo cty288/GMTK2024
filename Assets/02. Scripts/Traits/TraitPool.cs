@@ -71,9 +71,18 @@ public static class TraitPool {
         RegisterTrait(() => new Skirt());
         RegisterTrait(() => new Tube());
         RegisterTrait(() => new Hallucinogenic());
+        RegisterTrait(() => new StrongNeck());
+        RegisterTrait(() => new BranchingTrait());
+        RegisterTrait(() => new SkinnyTrait());
+        RegisterTrait(() => new Giraffe());
+        RegisterTrait(() => new Hyperthyroidism());
+        RegisterTrait(() => new Contraband());
+        RegisterTrait(() => new Smelly());
+        RegisterTrait(() => new FlatEarther());
         
         RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
         RegisterSpecialPoolTrait(() => new SporesTrait(), mutationOnlyTraits);
+        RegisterSpecialPoolTrait(() => new QueenTrait(), mutationOnlyTraits);
         
         RegisterSpecialPoolTrait(() => new LazyTrait(), shopOnlyTraits);
         RegisterSpecialPoolTrait(() => new BetterBreed(), shopOnlyTraits);
