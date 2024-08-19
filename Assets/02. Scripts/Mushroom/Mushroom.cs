@@ -142,8 +142,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ChangeMushroomSizes();
         ChangeMushroomColor();
         VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
-            Mathf.Max(data.capWidth.RealValue, data.stemWidth.RealValue),
-            Mathf.Max(data.capHeight.RealValue, data.stemHeight.RealValue), 1));
+            Mathf.Max(data.capWidth, data.stemWidth),
+            Mathf.Max(data.capHeight, data.stemHeight), 1));
         RegenerateCollider();
     }
 
