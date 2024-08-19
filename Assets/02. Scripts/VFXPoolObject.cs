@@ -6,6 +6,7 @@ using UnityEngine;
 public class VFXPoolObject : MonoBehaviour
 {
     private ParticleSystem vfx;
+    private bool isUsed;
     public VFXPool masterPool;
 
     public Vector3 startPos;
@@ -22,8 +23,9 @@ public class VFXPoolObject : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (vfx.isStopped)
+        if (vfx.isStopped && isUsed)
         {
+            isUsed = false;
             masterPool.ReturnVFX(this);
         }
 
@@ -41,11 +43,13 @@ public class VFXPoolObject : MonoBehaviour
     public void Play()
     {
         vfx.Play();
+        isUsed = true;
     }
 
     public void PlayTimed()
     {
         vfx.Play();
+        isUsed = true;
         t = 0;
     }
 }

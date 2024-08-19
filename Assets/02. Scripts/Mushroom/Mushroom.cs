@@ -104,19 +104,19 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void ChangeMushroomColor() {
         foreach (var stem in mushroomVisualParts.Stem) {
-            stem.SetPartColor(data.stemColor.Value, ColorElement.Primary);
-            stem.SetPartColor(data.stemColor0.Value, ColorElement.Secondary);
-            stem.SetPartColor(data.stemColor1.Value, ColorElement.Tertiary);
+            stem.SetPartColor(data.stemColor, ColorElement.Primary);
+            stem.SetPartColor(data.stemColor0, ColorElement.Secondary);
+            stem.SetPartColor(data.stemColor1, ColorElement.Tertiary);
         }
         foreach (var ring in mushroomVisualParts.Ring) {
-            ring.SetPartColor(data.stemColor.Value, ColorElement.Primary);
-            ring.SetPartColor(data.stemColor0.Value, ColorElement.Secondary);
-            ring.SetPartColor(data.stemColor1.Value, ColorElement.Tertiary);
+            ring.SetPartColor(data.stemColor, ColorElement.Primary);
+            ring.SetPartColor(data.stemColor0, ColorElement.Secondary);
+            ring.SetPartColor(data.stemColor1, ColorElement.Tertiary);
         }
         foreach (var cap in mushroomVisualParts.Cap) {
-            cap.SetPartColor(data.capColor.Value, ColorElement.Primary);
-            cap.SetPartColor(data.capColor0.Value, ColorElement.Secondary);
-            cap.SetPartColor(data.capColor1.Value, ColorElement.Tertiary);
+            cap.SetPartColor(data.capColor, ColorElement.Primary);
+            cap.SetPartColor(data.capColor0, ColorElement.Secondary);
+            cap.SetPartColor(data.capColor1, ColorElement.Tertiary);
         }
     }
 
@@ -148,12 +148,21 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
         if (newStage == 1) {
             OnStage1();
+            var size = Mathf.Max(data.capWidth, data.stemWidth);
+            VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
+                size, size, 1));
         } else if (newStage == 2) {
+            var size = Mathf.Max(data.capWidth, data.stemWidth);
+            VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
+                size, size, 1));
             if (newDay == 3) {
                 OnStage2Start();
             }
             OnStage2();
         } else if (newStage == 3) {
+            var size = Mathf.Max(data.capWidth, data.stemWidth);
+            VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
+                size, size, 1));
             OnStage3();
         } else {
             DestroySelf();
@@ -175,9 +184,6 @@ public class Mushroom : AbstractMikroController<MainGame> {
         RegenerateMushroomVisuals();
         ChangeMushroomSizes();
         ChangeMushroomColor();
-        VFXManager.Instance.PlayGrowth(transform.position, new Vector3(
-            Mathf.Max(data.capWidth, data.stemWidth),
-            Mathf.Max(data.capHeight, data.stemHeight), 1));
         RegenerateCollider();
     }
 
