@@ -19,8 +19,8 @@ public class MushroomGenerator : MonoBehaviour {
         }
     }
 
-    public static MushroomData GenerateRandomMushroomData(int minTrait, int maxTrait) {
-        return MushroomDataHelper.GetRandomMushroomData(1, minTrait, maxTrait);
+    public static MushroomData GenerateRandomMushroomData(int minTrait, int maxTrait, int initialGrowthDay = 1) {
+        return MushroomDataHelper.GetRandomMushroomData(initialGrowthDay, minTrait, maxTrait);
     }
 
     /// <summary>

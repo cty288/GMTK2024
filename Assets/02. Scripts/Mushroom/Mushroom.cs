@@ -138,7 +138,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private async UniTask UpdateVisual() {
         await UniTask.NextFrame();
         if (!this) return;
-        //RegenerateMushroomVisuals();
+        RegenerateMushroomVisuals();
         ChangeMushroomSizes();
         ChangeMushroomColor();
         RegenerateCollider();

@@ -46,6 +46,7 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
         var count = 0;
         foreach (var trait in data.GetTraits()) {
             traitTexts[count].text = trait.ToString();
+            count++;
         }
     }
 

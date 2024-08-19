@@ -152,7 +152,7 @@ public class MushroomData {
 
         foreach (MushroomTraitCategory category in categories) {
             if (traitCategoryToTrait[category] == null) {
-                if (Random.value <= 0.75) {
+                if (Random.value <= 0) {
                     MushroomProperty<float>[] properties = traitToPropertyMap[category];
                     foreach (var property in properties) {
                         property.RealValue.Value = Mathf.Max(property.RealValue.Value + Random.Range(-1f, 1f), 0.5f);
