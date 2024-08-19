@@ -1,5 +1,6 @@
 using MikroFramework.Architecture;
 using System.Collections.Generic;
+using MikroFramework.AudioKit;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,6 +46,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private float largestSize = 0;
 
     public void Awake() {
+        AudioSystem.Singleton.Initialize(null);
         if (Instance == null) {
             Instance = this;
         }
@@ -56,12 +58,13 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     private void Start() {
         inputManager = InputManager.Instance;
         inputManager.OnMouseDown += CheckSelectMushroom;
+        RandomlySpawnMushrooms();
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        /*if (Input.GetKeyDown(KeyCode.Space)) {
             RandomlySpawnMushrooms();
-        }
+        }*/
 
         //if (Input.GetKeyDown(KeyCode.P)) {
         //    IncrementDay();
@@ -81,7 +84,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     private void RandomlySpawnMushrooms() {
         for (int i = 0; i < mushroomsToSpawn; i++) {
             Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
-            SpawnMushroom(randomPosition, 1, 1, Random.Range(1, 5));
+            Mushroom shroom = SpawnMushroom(randomPosition, 1, 1, Random.Range(1, 5));
+            shroom.GetMushroomData().OnPlantToFarm();
         }
     }
 

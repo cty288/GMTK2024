@@ -1,11 +1,10 @@
 ﻿public class PetrifiedStem : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
+        data.stemHeight.Locked = true;
     }
 
-    public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
-        if (newStage != 2) return;
-        base.OnNewDay(data, oldDay, newDay, oldStage, newStage);
-        data.stemHeight.Locked = true;
+    public override void OnStage2Grow(MushroomData data) {
+        
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Stem;

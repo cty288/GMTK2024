@@ -23,7 +23,7 @@ public interface IMushroomTrait{
 
 	public int GetVisualPartGroupIdx();
 
-	public void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage);
+	public void OnStage2Grow(MushroomData data);
 	
 	public MushroomTraitCategory Category { get; }
 	
@@ -32,6 +32,9 @@ public interface IMushroomTrait{
 	public string GetTraitName();
 	
 	public string GetTraitValueDescription();
+	
+	public void OnMushroomPlantOnFarm(MushroomData data);
+	void OnEnd(MushroomData mushroomData);
 }
 
 
@@ -43,7 +46,7 @@ public abstract class MushroomTrait : IMushroomTrait {
 		return -1;
 	}
 
-	public virtual void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
+	public virtual void OnStage2Grow(MushroomData data) {
 		
 	}
 
@@ -60,6 +63,13 @@ public abstract class MushroomTrait : IMushroomTrait {
 	public abstract string GetTraitName();
 	
 	public abstract string GetTraitValueDescription();
+	public virtual void OnMushroomPlantOnFarm(MushroomData data) {
+		Debug.Log($"{ToString()} Plant on farm");
+	}
+
+	public virtual void OnEnd(MushroomData mushroomData) {
+		
+	}
 
 	public override string ToString() {
 		if(GetTraitValueDescription() == null){

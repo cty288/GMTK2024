@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Action = Antlr.Runtime.Misc.Action;
 using Random = UnityEngine.Random;
 
 public enum MushroomPropertyTag {
@@ -28,7 +29,8 @@ public class MushroomProperty<T> : IMushroomProperty {
     
     private T MinValue { get; set; }
 
-    private BindableProperty<T> RealValue { get; }
+    public BindableProperty<T> RealValue { get; }
+    
 
 
     public HashSet<MushroomPropertyTag> Tags { get; }
@@ -118,9 +120,21 @@ public class MushroomData {
     public MushroomProperty<int> extraSellPrice;
     public MushroomProperty<int> sellPriceLocker;
     public MushroomProperty<int> baseSellPrice;
+    public MushroomProperty<float> sellPriceMultiplier; 
+    
+    private Action onUpdateColor;
 
+    private int neighborCount = 0;
+    public Dictionary<ShroomPart, MushroomPart> Parts { get; set; }
+    public int NeighborCount {
+        get => neighborCount;
+        set => neighborCount = value;
+    }
 
     public BindableProperty<int> GrowthDay { get; } = new BindableProperty<int>(1);
+    private bool isOnFarm = false;
+
+    public bool IsOnFarm => isOnFarm;
 
     public int GetStage() {
         return GetStage(GrowthDay.Value);
@@ -146,6 +160,25 @@ public class MushroomData {
         influencedBy.Add(parent);
     }
 
+    public void OnPlantToFarm() {
+        this.isOnFarm = true;
+        foreach (IMushroomTrait trait in traits.Values) {
+            trait.OnMushroomPlantOnFarm(this);
+        }
+    }
+
+    public void SendUpdateColorEvent() {
+        onUpdateColor?.Invoke();
+    }
+    
+    public void RegisterOnUpdateColor(Action callback) {
+        onUpdateColor += callback;
+    }
+    
+    public void UnregisterOnUpdateColor(Action callback) {
+        onUpdateColor -= callback;
+    }
+    
     private void OnGrowthDayChanged(int oldDay, int newDay) {
         int oldStage = GetStage(oldDay);
         int newStage = GetStage(newDay);
@@ -161,12 +194,6 @@ public class MushroomData {
         } else if (newStage == 3) {
             OnStage3();
         }
-
-
-
-        foreach (var trait in traits.Values) {
-            trait.OnNewDay(this, oldDay, newDay, oldStage, newStage);
-        }
     }
 
     private void OnStage3() {
@@ -176,6 +203,13 @@ public class MushroomData {
     private void OnStage2() {
         //growth & mutation
         //for each empty trait slot, mutate a property
+        if (HasTrait<SuperShy>() && neighborCount > 0) {
+            return;
+        }
+        foreach (var trait in traits.Values) {
+            trait.OnStage2Grow(this);
+        }
+        
         MushroomTraitCategory[] categories = traitCategoryToTrait.Keys.ToArray();
 
         foreach (MushroomTraitCategory category in categories) {
@@ -190,6 +224,13 @@ public class MushroomData {
                     Debug.Log("Mutated property " + category);
                 } else {
                     var trait = TraitPool.GetRandomTrait(category);
+                    if (Random.value < 0.1f && isOnFarm) {
+                        var specialTrait = TraitPool.GetRandomMutationOnlyTrait(category);
+                        if (specialTrait != null) {
+                            trait = specialTrait;
+                        }
+                    }
+                    
                     if (trait != null) {
                         AddTrait(trait);
                         Debug.Log("Mutation Added trait " + trait.GetTraitName());
@@ -197,6 +238,17 @@ public class MushroomData {
                 }
             }
         }
+    }
+    
+    public void OnDestroy() {
+        foreach (var trait in traits.Values) {
+            trait.OnEnd(this);
+        }
+        traits.Clear();
+        influencedBy.Clear();
+        traitToParentMap.Clear();
+
+        
     }
 
     private void OnStage2Start() {
@@ -214,17 +266,23 @@ public class MushroomData {
             if (Random.value > 0.5f) {
                 continue;
             }
-            //pick a random parent
+            
             if (influencedBy.Count == 0) {
                 break;
             }
-            MushroomData parent = influencedBy.ToList()[Random.Range(0, influencedBy.Count)];
+            //MushroomData parent = influencedBy.ToList()[Random.Range(0, influencedBy.Count)];
             var selfColor = GetProperties<Color>(tagGroup).ToList();
-            var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
+            //var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
             for (int i = 0; i < selfColor.Count; i++) {
-                if (i < parentColor.Count) {
-                    selfColor[i].Value = parentColor[i].Value;
+                Color result = new Color(0, 0, 0);
+                foreach (var parent in influencedBy) {
+                    var parentColor = parent.GetProperties<Color>(tagGroup).ToList();
+                    result += parentColor[i].Value;
                 }
+                result /= influencedBy.Count;
+                result *= Random.Range(0.8f, 1.2f);
+                result.a = 1;
+                selfColor[i].Value = result;
             }
         }
 
@@ -294,6 +352,7 @@ public class MushroomData {
         this.isPoisonous = new MushroomProperty<bool>(isPoisonous, default, MushroomPropertyTag.Poisonous);
         this.sporeRange = new MushroomProperty<float>(sporeRange, 0.2f,MushroomPropertyTag.SporeRange);
         this.extraSellPrice = new MushroomProperty<int>(0, 0);
+        this.sellPriceMultiplier = new MushroomProperty<float>(1, 0);
         this.sellPriceLocker = new MushroomProperty<int>(-1, default);
         this.sellPriceLocker.CompareMin = false;
         
@@ -343,7 +402,9 @@ public class MushroomData {
 
 
         //=================================================
-        int finalPrice = Math.Max(0, extraSellPrice.Value + baseSellPrice.Value);
+        int finalPrice =
+            Mathf.RoundToInt(Math.Max(0, extraSellPrice.Value + baseSellPrice.Value) * sellPriceMultiplier.Value);
+        
         if (sellPriceLocker.Value >= 0) {
             finalPrice = sellPriceLocker.Value;
         }
@@ -392,10 +453,35 @@ public class MushroomData {
         return result;
     }*/
 
-    public void AddTrait<T>(MushroomTrait trait) {
-        AddTrait((IMushroomTrait)trait);
+    public void AddTrait<T>(IMushroomTrait trait) {
+        AddTrait(trait);
     }
 
+    public void ReplaceTrait(IMushroomTrait trait) {
+        RemoveTrait(trait.Category);
+        AddTrait(trait);
+    }
+    
+    public void RemoveTrait(MushroomTraitCategory category) {
+        if (traitCategoryToTrait[category] == null) {
+            return;
+        }
+        RemoveTrait(traitCategoryToTrait[category].GetType());
+    }
+    
+    public void RemoveTrait(Type traitType) {
+        if (!traits.ContainsKey(traitType)) {
+            return;
+        }
+        IMushroomTrait trait = traits[traitType];
+        trait.OnEnd(this);
+        traits.Remove(traitType);
+        if (traitRemoveCallbacks.ContainsKey(traitType)) {
+            traitRemoveCallbacks[traitType]((IMushroomTrait)trait);
+        }
+        traitCategoryToTrait[trait.Category] = null;
+    }
+    
     public void AddTrait(IMushroomTrait trait) {
         if (traitCategoryToTrait[trait.Category] != null) {
             Debug.LogWarning($"Trait {trait} already exists for category {trait.Category}");
@@ -407,6 +493,9 @@ public class MushroomData {
             traitAddCallbacks[trait.GetType()](trait);
         }
         traitCategoryToTrait[trait.Category] = trait;
+        if (isOnFarm) {
+            trait.OnMushroomPlantOnFarm(this);
+        }
 
     }
 
@@ -486,13 +575,13 @@ public class MushroomData {
     /// <returns></returns>
     public HashSet<MushroomProperty<T>> GetProperties<T>(params MushroomPropertyTag[] tags) {
         //find properties that have all the tags
-        HashSet<IMushroomProperty> result = new HashSet<IMushroomProperty>();
+        HashSet<IMushroomProperty> result = new HashSet<IMushroomProperty>(flattenedProperties);
         foreach (var tag in tags) {
             if (!properties.ContainsKey(tag)) {
                 return null;
             }
 
-            result.UnionWith(properties[tag]);
+            result.IntersectWith(properties[tag]);
         }
 
         //filter out those of different types

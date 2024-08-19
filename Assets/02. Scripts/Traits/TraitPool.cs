@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [System.Flags]
 public enum TraitFlags {
@@ -17,6 +18,14 @@ public static class TraitPool {
     private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> traitsByCategory =
         new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
 
+    private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>
+        mutationOnlyTraits = new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
+    
+    
+    private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>
+        shopOnlyTraits = new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
+     
+
     static TraitPool() {
         //Caps
         RegisterTrait(() => new BigCap());
@@ -27,6 +36,14 @@ public static class TraitPool {
         RegisterTrait(() => new AlienBanana());
         RegisterTrait(() => new OnionCap());
         RegisterTrait(() => new StandardCap());
+        RegisterTrait(() => new TooBlue());
+        RegisterTrait(() => new UltraRare());
+        RegisterTrait(() => new HighHat());
+        RegisterTrait(() => new GravityPull());
+        RegisterTrait(() => new AMouth());
+        RegisterTrait(() => new TooTasty());
+        RegisterTrait(() => new Leadership());
+       
 
         //Stems
         RegisterTrait(() => new BigFoot());
@@ -37,6 +54,14 @@ public static class TraitPool {
         RegisterTrait(() => new Strangled());
         RegisterTrait(() => new Thorny());
         RegisterTrait(() => new TreeRoot());
+        RegisterTrait(() => new SuperShy());
+        RegisterTrait(() => new Dink());
+        RegisterTrait(() => new IsItDead());
+        RegisterTrait(() => new Squeezed());
+        RegisterTrait(() => new SpringTrait());
+        RegisterTrait(() => new StickTrait());
+        RegisterTrait(() => new Poisonous());
+        RegisterTrait(() => new Antisocial());
 
         //Rings
         RegisterTrait(() => new SuppressorRing());
@@ -45,8 +70,31 @@ public static class TraitPool {
         RegisterTrait(() => new DriedOut());
         RegisterTrait(() => new Skirt());
         RegisterTrait(() => new Tube());
+        RegisterTrait(() => new Hallucinogenic());
+        RegisterTrait(() => new StrongNeck());
+        RegisterTrait(() => new BranchingTrait());
+        RegisterTrait(() => new SkinnyTrait());
+        RegisterTrait(() => new Giraffe());
+        RegisterTrait(() => new Hyperthyroidism());
+        RegisterTrait(() => new Contraband());
+        RegisterTrait(() => new Smelly());
+        RegisterTrait(() => new FlatEarther());
+        
+        RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
+        RegisterSpecialPoolTrait(() => new SporesTrait(), mutationOnlyTraits);
+        RegisterSpecialPoolTrait(() => new QueenTrait(), mutationOnlyTraits);
+        
+        RegisterSpecialPoolTrait(() => new LazyTrait(), shopOnlyTraits);
+        RegisterSpecialPoolTrait(() => new BetterBreed(), shopOnlyTraits);
     }
 
+    private static void RegisterSpecialPoolTrait(Func<IMushroomTrait> traitGetter, Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>> pool) {
+        MushroomTraitCategory category = traitGetter().Category;
+        if (!pool.ContainsKey(category)) {
+            pool[category] = new List<Func<IMushroomTrait>>();
+        }
+        pool[category].Add(traitGetter);
+    }
     public static void RegisterTrait(Func<IMushroomTrait> traitGetter, TraitFlags flags = TraitFlags.None) {
         traitGetters.Add(traitGetter);
         foreach (TraitFlags flag in Enum.GetValues(typeof(TraitFlags))) {
@@ -71,6 +119,27 @@ public static class TraitPool {
             (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
         }
     }
+
+    public static IMushroomTrait GetRandomMutationOnlyTrait(MushroomTraitCategory category) {
+        if (!mutationOnlyTraits.ContainsKey(category)) {
+            return null;
+        }
+        List<Func<IMushroomTrait>> candidates = mutationOnlyTraits[category];
+        if (candidates == null) {
+            return null;
+        }
+        Shuffle(candidates);
+        return candidates[0]();
+    }
+    
+    public static IMushroomTrait GetRandomShopOnlyTrait() {
+        List<Func<IMushroomTrait>> candidates = shopOnlyTraits.Values.SelectMany(x => x).ToList();
+        
+        Shuffle(candidates);
+        return candidates[0]();
+    }
+    
+    
     public static IMushroomTrait GetRandomTrait(MushroomTraitCategory category) {
         if (!traitsByCategory.ContainsKey(category)) {
             return null;

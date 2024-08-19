@@ -36,7 +36,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         return data;
     }
 
-    public Dictionary<ShroomPart, MushroomPart> Parts { get; private set; }
+    //public Dictionary<ShroomPart, MushroomPart> Parts { get; private set; }
     //private List<Mushroom> neighbors = new List<Mushroom>();
 
     public Action<Mushroom> OnMushroomDestroyed;
@@ -45,10 +45,58 @@ public class Mushroom : AbstractMikroController<MainGame> {
         entityManager = MushroomEntityManager.Instance;
 
         this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(OnDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomAddProperty>(OnAllMushroomAddProperty).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomChangeParts>(OnAllMushroomChangeParts).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomReplaceTrait>(OnAllMushroomReplaceTrait).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.RegisterEvent<OnAllMushroomUpdateProperties>(OnAllMushroomUpdateProperties).UnRegisterWhenGameObjectDestroyed(gameObject);
+    }
+
+    private void OnAllMushroomUpdateProperties(OnAllMushroomUpdateProperties e) {
+        if (data != null && data.IsOnFarm) {
+            data.capHeight.Value = e.capHeight;
+            data.capWidth.Value = e.capWidth;
+            data.stemHeight.Value = e.stemHeight;
+            data.stemWidth.Value = e.stemWidth;
+            data.oscillation.Value = e.oscillation;
+            data.oscillationSpeed.Value = e.oscillationSpeed;
+            data.capColor.Value = e.capColor;
+            data.stemColor.Value = e.stemColor;
+            data.capColor0.Value = e.capColor0;
+            data.stemColor0.Value = e.stemColor0;
+            data.capColor1.Value = e.capColor1;
+            data.stemColor1.Value = e.stemColor1;
+            data.sporeRange.Value = e.sporeRange;
+            data.extraSellPrice.Value = e.extraSellPrice;
+            
+            UpdateVisual().Forget();
+        }
+    }
+
+    private void OnAllMushroomReplaceTrait(OnAllMushroomReplaceTrait e) {
+        if(data != null && data.IsOnFarm && e.source != data) {
+            data.ReplaceTrait(e.trait);
+            UpdateVisual().Forget();
+        }
+    }
+
+    private void OnAllMushroomChangeParts(OnAllMushroomChangeParts e) {
+        data.Parts[e.part] = e.prefab;
+        UpdateVisual().Forget();
+    }
+
+    private void OnAllMushroomAddProperty(OnAllMushroomAddProperty e) {
+        if (data != null && data.IsOnFarm) {
+            var properties = data.GetProperties<float>(e.tags);
+            foreach (var property in properties) {
+                property.Value += e.value;
+            }
+        }
+        UpdateVisual().Forget();
     }
 
     private void OnDayChange(int arg1, int arg2) {
-        if (data != null) {
+        if (data != null && data.IsOnFarm) {
+            data.NeighborCount = GetNeighbors(null).Count;
             data.GrowthDay.Value++;
         }
     }
@@ -92,22 +140,29 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     public void ReinitializeMushroom(Dictionary<ShroomPart, MushroomPart> parts) {
-        Parts = parts;
+        data.Parts = parts;
     }
 
     public void InitializeMushroom(MushroomData data, Dictionary<ShroomPart, MushroomPart> parts) {
         this.data = data;
-        Parts = parts;
 
         sortLayer.sortingOrder = (int)transform.position.y * -1000;
-        oscillationSequence = DOTween.Sequence()
-            .Append(RenderGo.transform.DOScale(data.oscillation.Value, data.oscillationSpeed.Value).SetEase(Ease.InOutSine))
-            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.Value))
-            .SetLoops(-1, LoopType.Restart);
 
         data.RegisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
 
         this.data.GrowthDay.RegisterWithInitValue(OnGrowthDayChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+        this.data.RegisterOnUpdateColor(ChangeMushroomColor);
+        this.data.oscillationSpeed.RealValue.RegisterWithInitValue(OnOscillationSpeedChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+    }
+
+    private void OnOscillationSpeedChange(float arg1, float arg2) {
+        if (oscillationSequence != null) {
+            oscillationSequence.Kill();
+        }
+        oscillationSequence = DOTween.Sequence()
+            .Append(RenderGo.transform.DOScale(data.oscillation.Value, data.oscillationSpeed.Value).SetEase(Ease.InOutSine))
+            .Append(RenderGo.transform.DOScale(Vector2.one, data.oscillationSpeed.Value))
+            .SetLoops(-1, LoopType.Restart);
     }
 
     private void OnGrowthDayChange(int oldDay, int newDay) {
@@ -141,6 +196,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             }
 
         });*/
+        
         UpdateVisual().Forget();
     }
 
@@ -164,21 +220,23 @@ public class Mushroom : AbstractMikroController<MainGame> {
         // I wrote the code in data
     }
 
-    private List<MushroomData> GetStage1Neighbors() {
-
+    private List<MushroomData> GetNeighbors(Predicate<MushroomData> predicate) {
         var allMushrooms = entityManager.GetAllMushrooms();
         List<MushroomData> neighbors = new List<MushroomData>();
 
         foreach (Mushroom m1 in allMushrooms) {
             if (m1 != this) {
                 float distance = Vector2.Distance(m1.transform.position, transform.position);
-                if (distance <= this.GetMushroomData().sporeRange && m1.GetMushroomData().GetStage() == 1) {
+                if (distance <= this.GetMushroomData().sporeRange && (predicate == null || predicate(m1.GetMushroomData()))) {
+                    //m1.GetMushroomData().GetStage() == 1) {
                     neighbors.Add(m1.GetMushroomData());
                 }
             }
         }
         return neighbors;
     }
+    
+   
 
 
     private void OnStage1() {
@@ -190,13 +248,17 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnStage3() {
         //parent pass traits to 2 children
-        List<MushroomData> stage1Neighbors = GetStage1Neighbors();
+        if (data.HasTrait<Dink>()) {
+            return;
+        }
+        List<MushroomData> stage1Neighbors = GetNeighbors((m) => m.GetStage() == 1);
 
         int currChildren = stage1Neighbors.Count;
         for (int i = 0; i < 2 - currChildren; i++) {
             Vector2 spawnPos = UnityEngine.Random.insideUnitCircle * data.sporeRange + (Vector2)transform.position;
             Mushroom spawnedMushroom = entityManager.SpawnMushroom(spawnPos, 0, 0);
             stage1Neighbors.Add(spawnedMushroom.GetMushroomData());
+            spawnedMushroom.data.OnPlantToFarm();
         }
 
         TraitPool.Shuffle(stage1Neighbors);
@@ -267,7 +329,10 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void Update() {
         if (isSelected) {
-            transform.position = InputManager.Instance.GetMouseWorldPosition();
+            if (data != null && !data.HasTrait<IsItDead>() && !data.HasTrait<LazyTrait>()) {
+                transform.position = InputManager.Instance.GetMouseWorldPosition();
+            }
+            
             sortLayer.sortingOrder = (int)transform.position.y * -1000;
         }
     }
@@ -303,7 +368,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         audioSource.clip = destroySFX;
         audioSource.Play();
 
-        await UniTask.WaitUntil(() => !audioSource.isPlaying);
+        await UniTask.WaitUntil(() => !audioSource || !audioSource.isPlaying);
 
         OnMushroomDestroyed?.Invoke(this);
 
@@ -313,5 +378,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
     private void OnDestroy() {
         data.UnregisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
+        data.UnregisterOnUpdateColor(ChangeMushroomColor);
+        
+        data.OnDestroy();
     }
 }

@@ -7,9 +7,7 @@ public class OnionCap : MushroomTrait
     public override void OnStartApply(MushroomData data) {
     }
 
-    public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
-        base.OnNewDay(data, oldDay, newDay, oldStage, newStage);
-        if(newStage != 2) return;
+    public override void OnStage2Grow(MushroomData data) {
         data.capHeight.Value--;
         data.capWidth.Value += 2;
     }

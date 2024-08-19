@@ -2,9 +2,7 @@ public class Thorny : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
     }
 
-    public override void OnNewDay(MushroomData data, int oldDay, int newDay, int oldStage, int newStage) {
-        if (newStage != 2) return;
-        base.OnNewDay(data, oldDay, newDay, oldStage, newStage);
+    public override void OnStage2Grow(MushroomData data) {
         data.capHeight.Value++;
         data.capWidth.Value++;
         data.stemHeight.Value -= 3;

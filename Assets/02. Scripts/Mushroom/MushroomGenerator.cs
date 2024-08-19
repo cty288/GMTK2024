@@ -50,7 +50,9 @@ public class MushroomGenerator : MonoBehaviour {
         Mushroom m = t.GetComponent<Mushroom>();
 
         Dictionary<ShroomPart, MushroomPart> parts = GetPartsFromData(data);
+        data.Parts = parts;
         m.InitializeMushroom(data, parts);
+        
 
 
         GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0, mushroomVisuals);
@@ -68,11 +70,11 @@ public class MushroomGenerator : MonoBehaviour {
 
         m.mushroomVisualParts = mushroomVisuals;
 
-        Dictionary<ShroomPart, MushroomPart> parts = RegetParts(data, m.Parts);
+        Dictionary<ShroomPart, MushroomPart> parts = RegetParts(data, m.GetMushroomData().Parts);
         m.ReinitializeMushroom(parts);
 
 
-        var shroom = GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0, mushroomVisuals);
+        var shroom = GenerateCustomMushroomR(parts, data, partType, m.RenderGo.transform, 0, mushroomVisuals, true);
         m.mushroomVisualParts = mushroomVisuals;
 
         return shroom != null;
@@ -153,10 +155,8 @@ public class MushroomGenerator : MonoBehaviour {
         }
 
         foreach (ShroomPart part in unselectedParts) {
-            MushroomPart[] arr = MushroomPartManager.Instance.partsSO.GetParts(part);
-            if (arr.Length > 0) {
-                parts[part] = oldParts[part];
-            }
+            //MushroomPart[] arr = MushroomPartManager.Instance.partsSO.GetParts(part);
+            parts[part] = oldParts[part];
         }
 
         return parts;
@@ -187,7 +187,8 @@ public class MushroomGenerator : MonoBehaviour {
     }
 
 
-    private static MushroomPart GenerateCustomMushroomR(Dictionary<ShroomPart, MushroomPart> parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i, MushroomVisuals v) {
+    private static MushroomPart GenerateCustomMushroomR(Dictionary<ShroomPart, MushroomPart> parts, MushroomData shroomParams, ShroomPart partType, Transform t, int i, MushroomVisuals v,
+        bool forceGenPattern = false) {
         if (i >= 20) return null;
         MushroomPart mushroom = Instantiate<MushroomPart>(FindMushroomPartOfType(parts, partType), t.position, t.rotation);
         mushroom.transform.SetParent(t);
@@ -246,8 +247,8 @@ public class MushroomGenerator : MonoBehaviour {
 
         if (partType == ShroomPart.Cap) {
             float r = Random.Range(0.0f, 1.0f);
-            if (r >= 0.5f) {
-                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, mushroom.transform, i + 1, v);
+            if (r >= 0.5f || forceGenPattern) {
+                GenerateCustomMushroomR(parts, shroomParams, ShroomPart.Pattern, mushroom.transform, i + 1, v, forceGenPattern);
             }
         }
 
@@ -257,7 +258,7 @@ public class MushroomGenerator : MonoBehaviour {
 
 
         foreach (var connector in mushroom.connectors) {
-            connector.child = GenerateCustomMushroomR(parts, shroomParams, connector.shroomPart, connector.transform, i + 1, v).transform;
+            connector.child = GenerateCustomMushroomR(parts, shroomParams, connector.shroomPart, connector.transform, i + 1, v, forceGenPattern).transform;
         }
 
         return mushroom;

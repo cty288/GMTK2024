@@ -21,7 +21,21 @@ public class Shop : MonoBehaviour, ICanGetModel {
     private void UpdateShopItems(int arg1, int arg2) {
         for (int i = 0; i < 3; i++)
             if (shopSlots[i].IsEmpty() && Random.value < 0.7f) {
-                var mushroomData = MushroomGenerator.GenerateRandomMushroomData(1, 2, Random.Range(1, 5));
+                var mushroomData = MushroomGenerator.GenerateRandomMushroomData(0, 0, Random.Range(1, 5));
+                
+                if (Random.value < 0.1f) {
+                    var specialTrait = TraitPool.GetRandomShopOnlyTrait();
+                    if (specialTrait != null) {
+                        mushroomData.AddTrait(specialTrait);
+                    }
+                }
+                
+                int traitCount = Random.Range(0, 3);
+                var traits = TraitPool.GetRandomTraits(traitCount);
+                foreach (var trait in traits) {
+                    mushroomData.AddTrait(trait);
+                }
+
                 shopSlots[i].SetShopItem(mushroomData);
             }
     }
@@ -46,8 +60,9 @@ public class Shop : MonoBehaviour, ICanGetModel {
         } else {
             currency.Modify(-shopSlots[selectedSlot].GetPrice());
 
-            MushroomEntityManager.Instance.SpawnMushroom(shopSlots[selectedSlot].GetMushroomForSale(), inputManager.GetMouseWorldPosition());
-
+            Mushroom shroom = MushroomEntityManager.Instance.SpawnMushroom(shopSlots[selectedSlot].GetMushroomForSale(), inputManager.GetMouseWorldPosition());
+            shroom.GetMushroomData().OnPlantToFarm();
+            
             shopSlots[selectedSlot].ResetItem();
         }
     }
