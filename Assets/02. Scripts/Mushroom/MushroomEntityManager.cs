@@ -34,17 +34,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
     public Action OnEndGame;
 
-    public MushroomData LargestMushroom
-    {
-        get => largestMushroom;
-    }
-
-    public float LargestSize
-    {
-        get => largestSize;
-    }
-
     private MushroomData largestMushroom;
+    private int dayLargest;
     [SerializeField] private float largestSize = 0;
 
     public void Awake() {
@@ -126,6 +117,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         {
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
             largestSize = largestMushroom.GetSize();
+            dayLargest = this.GetModel<GameTimeModel>().Day.Value;
             sizeUI.Modify(largestSize);
         }
     }
@@ -145,6 +137,12 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             // Spawn the copy of the largest mushroom
             MushroomGenerator.GenerateCustomMushroom(largestMushroom, Vector3.zero);
             OnEndGame.Invoke();
+            
+            // Lock data panel and set day to day the mushroom was recorded.
+            MushroomDataPanel.Instance.TurnOnPanel();
+            MushroomDataPanel.Instance.SetPanelDisplay(largestMushroom);
+            MushroomDataPanel.Instance.UpdateDayText(lastDay, dayLargest);
+            MushroomDataPanel.Instance.ToggleLock(true);
         }
     }
 

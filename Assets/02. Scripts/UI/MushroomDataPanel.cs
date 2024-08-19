@@ -5,6 +5,8 @@ using UnityEngine;
 public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
     public static MushroomDataPanel Instance;
 
+    private bool isLocked = false;
+
     public void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -25,11 +27,13 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
         this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(UpdateDayText);
     }
 
-    private void UpdateDayText(int oldDay, int newDay) {
+    public void UpdateDayText(int oldDay, int newDay) {
+        if(isLocked) return;
         dayText.text = $"Day: {newDay}";
     }
 
     public void SetPanelDisplay(MushroomData data) {
+        if(isLocked) return;
         //TODO: handle naming mushrooms
         nameText.text = $"Mushroom: Day {data.GrowthDay.Value}";
 
@@ -51,6 +55,7 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
     }
 
     public void ResetPanelDisplay() {
+        if(isLocked) return;
         nameText.text = "No MusHRoom sEleCTED";
         dataText.text = "data here lmao";
     }
@@ -60,9 +65,16 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
     }
 
     public void TurnOnPanel() {
+        if(isLocked) return;
         UIGroup.SetActive(true);
     }
     public void TurnOffPanel() {
+        if(isLocked) return;
         UIGroup.SetActive(false);
+    }
+
+    public void ToggleLock(bool isLock)
+    {
+        isLocked = isLock;
     }
 }
