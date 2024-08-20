@@ -1,0 +1,224 @@
+{
+  "Version": "1.0",
+  "ABMD5List": [
+    {
+      "AssetName": "audios",
+      "MD5": "d7a2b9702a60c037dfa8ab7ccde9b858",
+      "FileSize": 2030.85547,
+      "assetDatas": [
+        {
+          "Name": "pvz",
+          "OwnerBundleName": "audios",
+          "AssetType": "UnityEngine.AudioClip"
+        },
+        {
+          "Name": "Lose",
+          "OwnerBundleName": "audios",
+          "AssetType": "UnityEngine.AudioClip"
+        },
+        {
+          "Name": "War loop",
+          "OwnerBundleName": "audios",
+          "AssetType": "UnityEngine.AudioClip"
+        }
+      ]
+    },
+    {
+      "AssetName": "mftest",
+      "MD5": "4720e3478fb58928452a5cd27d24673c",
+      "FileSize": 683.998047,
+      "assetDatas": [
+        {
+          "Name": "Asteroid_1",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.Texture2D"
+        },
+        {
+          "Name": "Cylinder",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.GameObject"
+        },
+        {
+          "Name": "TestABObj",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.GameObject"
+        },
+        {
+          "Name": "AboutPanel",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.GameObject"
+        },
+        {
+          "Name": "OpenFilesSubPanel",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.GameObject"
+        }
+      ]
+    },
+    {
+      "AssetName": "mftest2",
+      "MD5": "d69c2b447e224bb55c71e14e94612b90",
+      "FileSize": 4.05273438,
+      "assetDatas": [
+        {
+          "Name": "War loop",
+          "OwnerBundleName": "mftest2",
+          "AssetType": "UnityEngine.GameObject"
+        },
+        {
+          "Name": "TestABObj",
+          "OwnerBundleName": "mftest2",
+          "AssetType": "UnityEngine.GameObject"
+        }
+      ]
+    },
+    {
+      "AssetName": "mushroomlist",
+      "MD5": "ae5016f9e80de1b4f27adcbb9b959b08",
+      "FileSize": 1348.0498,
+      "assetDatas": [
+        {
+          "Name": "DefaultMushroomParts",
+          "OwnerBundleName": "mushroomlist",
+          "AssetType": "MushroomPartsSO"
+        }
+      ]
+    },
+    {
+      "AssetName": "others",
+      "MD5": "01ba3a165e411e8b8109eec6dc3672b0",
+      "FileSize": 97.93262,
+      "assetDatas": [
+        {
+          "Name": "2DSound",
+          "OwnerBundleName": "others",
+          "AssetType": "UnityEngine.GameObject"
+        },
+        {
+          "Name": "3DSound",
+          "OwnerBundleName": "others",
+          "AssetType": "UnityEngine.GameObject"
+        },
+        {
+          "Name": "Mushroom",
+          "OwnerBundleName": "others",
+          "AssetType": "UnityEngine.GameObject"
+        }
+      ]
+    },
+    {
+      "AssetName": "scene",
+      "MD5": "3d771b1219a92cbe0c72a3e4c091e224",
+      "FileSize": 110.588867,
+      "assetDatas": [
+        {
+          "Name": "HotUpdateExampleScene",
+          "OwnerBundleName": "scene",
+          "AssetType": "UnityEditor.SceneAsset"
+        }
+      ]
+    },
+    {
+      "AssetName": "test_sphere",
+      "MD5": "0ae7fafdc4af77b5fcbf3b78fdf5110d",
+      "FileSize": 42.7822266,
+      "assetDatas": [
+        {
+          "Name": "Sphere",
+          "OwnerBundleName": "test_sphere",
+          "AssetType": "UnityEngine.GameObject"
+        }
+      ]
+    },
+    {
+      "AssetName": "Windows",
+      "MD5": "f4b5468a89549a540363d9a7c819ce58",
+      "FileSize": 1.80664063,
+      "assetDatas": []
+    },
+    {
+      "AssetName": "assets/fonts",
+      "MD5": "283ecd56690b49736be74a852b9ead47",
+      "FileSize": 23771.9844,
+      "assetDatas": [
+        {
+          "Name": "SourceHanSansHW-VF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        },
+        {
+          "Name": "Orbitron-Black SDF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "TMPro.TMP_FontAsset"
+        },
+        {
+          "Name": "Orbitron-Black",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        },
+        {
+          "Name": "Orbitron-Bold SDF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "TMPro.TMP_FontAsset"
+        },
+        {
+          "Name": "Orbitron-Bold",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        },
+        {
+          "Name": "Orbitron-ExtraBold SDF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "TMPro.TMP_FontAsset"
+        },
+        {
+          "Name": "Orbitron-ExtraBold",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        },
+        {
+          "Name": "Orbitron-Medium SDF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "TMPro.TMP_FontAsset"
+        },
+        {
+          "Name": "Orbitron-Medium",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        },
+        {
+          "Name": "Orbitron-Regular SDF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "TMPro.TMP_FontAsset"
+        },
+        {
+          "Name": "Orbitron-Regular",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        },
+        {
+          "Name": "Orbitron-SemiBold SDF",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "TMPro.TMP_FontAsset"
+        },
+        {
+          "Name": "Orbitron-SemiBold",
+          "OwnerBundleName": "assets/fonts",
+          "AssetType": "UnityEngine.Font"
+        }
+      ]
+    },
+    {
+      "AssetName": "test/scene_test.ab",
+      "MD5": "b500aebdb8915e6a43f37774d74bbbc1",
+      "FileSize": 133.248047,
+      "assetDatas": [
+        {
+          "Name": "TestABScene",
+          "OwnerBundleName": "test/scene_test.ab",
+          "AssetType": "UnityEditor.SceneAsset"
+        }
+      ]
+    }
+  ]
+}

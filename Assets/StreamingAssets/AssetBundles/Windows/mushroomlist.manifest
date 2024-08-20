@@ -1,0 +1,51 @@
+ManifestFileVersion: 0
+CRC: 4202277254
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0194845545c4442e4caa4c9b7940df45
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1d7bcf5634f2e9693a33215190344f85
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: ab07d08b8c7098b428a6b86960ea980c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6104af69ff681bb41b0ecc05caa4c28f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9a7c7158be69d5c4999498d876187c41, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e661c035f2c4834088f1562966fceaf, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 210
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 331
+  Script: {instanceID: 0}
+- Class: 687078895
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: MushroomPartConnector
+- AssemblyName: Assembly-CSharp
+  ClassName: TraitPartGroup
+Assets:
+- Assets/Resources/DefaultMushroomParts.asset
+Dependencies: []

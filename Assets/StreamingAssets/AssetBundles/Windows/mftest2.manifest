@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 805828584
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 759637571898a273774e28b348a57163
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7d1b7ff97ed40b49288970aba493b650
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MikroFramework/Runtime/Examples/ResKit/04. HotUpdateExample/TestABObj.prefab
+- Assets/MikroFramework/Runtime/Examples/AudioKit/01. BasicExample/Resources/War
+  loop.prefab
+Dependencies:
+- D:/Unity Projects/GMTK2024/Assets/StreamingAssets/AssetBundles/Windows/audios
+- D:/Unity Projects/GMTK2024/Assets/StreamingAssets/AssetBundles/Windows/mftest
