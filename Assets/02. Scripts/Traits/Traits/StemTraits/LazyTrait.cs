@@ -17,11 +17,11 @@ public class LazyTrait : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return "<b>This trait is gained only through the shop</b>\n" +
+        return "<b>(Shop Only)</b>\n" +
                "The mushroom is too lazy to move.";
     }
-    
-    
+
+
     public override int GetVisualPartGroupIdx() {
         return 44;
     }

@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class StandardCap : MushroomTrait
-{
+public class StandardCap : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
     }
 
@@ -21,7 +16,7 @@ public class StandardCap : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return "Gain extra price when you sell this mushroom.";
+        return "Gain extra money when you sell this mushroom.";
     }
 
     public override int GetVisualPartGroupIdx() {

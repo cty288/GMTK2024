@@ -1,28 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using MikroFramework.Architecture;
-using UnityEngine;
 
 
-public class SporesTrait : MushroomTrait , ICanSendEvent{
-	public override void OnStartApply(MushroomData data) {
-		
-	}
+public class SporesTrait : MushroomTrait, ICanSendEvent {
+    public override void OnStartApply(MushroomData data) {
 
-	public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;
-	public override IMushroomTrait GetCopy() {
-		return new SporesTrait();
-	}
+    }
 
-	public override string GetTraitName() {
-		return "SPORES";
-	}
+    public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;
+    public override IMushroomTrait GetCopy() {
+        return new SporesTrait();
+    }
 
-	public override string GetTraitValueDescription() {
-		return "<b>This trait is gained only through mutation</b>" +
-		              "\n When the mushroom is planted, all existing mushrooms gain extra cap width and they will have a same pattern.";
-		;
-	}
+    public override string GetTraitName() {
+        return "SPORES";
+    }
+
+    public override string GetTraitValueDescription() {
+        return "<b>(Mutation Only)</b>" +
+                      "\n When the mushroom is planted, all existing mushrooms gain cap width and the same pattern.";
+        ;
+    }
 
 	public override void OnMushroomPlantOnFarm(MushroomData data) {
 		base.OnMushroomPlantOnFarm(data);
@@ -36,11 +33,11 @@ public class SporesTrait : MushroomTrait , ICanSendEvent{
 		});
 	}
 
-	public IArchitecture GetArchitecture() {
-		return MainGame.Interface;
-	}
+    public IArchitecture GetArchitecture() {
+        return MainGame.Interface;
+    }
 
-	public override int GetVisualPartGroupIdx() {
-		return 38;
-	}
+    public override int GetVisualPartGroupIdx() {
+        return 38;
+    }
 }

@@ -23,7 +23,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return "Sell price stays at 2.";
+        return "Sell price is always 2.";
     }
 
     public override int GetVisualPartGroupIdx() {

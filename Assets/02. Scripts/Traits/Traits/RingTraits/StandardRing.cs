@@ -1,6 +1,6 @@
 ﻿public class StandardRing : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
-       
+
     }
 
     public override void OnStage2Grow(MushroomData data) {
@@ -18,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return "Gain extra price when the mushroom is sold.";
+        return "Gain extra money when the mushroom is sold.";
     }
 
     public override int GetVisualPartGroupIdx() {
