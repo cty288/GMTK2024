@@ -12,6 +12,11 @@ public class Shop : MonoBehaviour, ICanGetModel {
     private bool isDragging = false;
     private int selectedSlot = -1;
 
+    [SerializeField] private AudioSource shopAudioSource;
+    [SerializeField] private AudioClip buySound;
+    [SerializeField] private AudioClip woodSound;
+    [SerializeField] private AudioClip errorSound;
+
     private void Start() {
         inputManager = InputManager.Instance;
         mushroomGhost.gameObject.SetActive(false);
@@ -21,22 +26,23 @@ public class Shop : MonoBehaviour, ICanGetModel {
         MushroomEntityManager.Instance.OnEndGame += HideUI;
         MushroomEntityManager.Instance.OnEndGame += ShowEndingUI;
     }
-    void ShowEndingUI()
-    {
+
+    void ShowEndingUI() {
         endingPanel.SetActive(true);
     }
+
     private void UpdateShopItems(int arg1, int arg2) {
         for (int i = 0; i < 3; i++)
             if (shopSlots[i].IsEmpty() && Random.value < 0.7f) {
                 var mushroomData = MushroomGenerator.GenerateRandomMushroomData(0, 0, Random.Range(1, 5));
-                
+
                 if (Random.value < 0.1f) {
                     var specialTrait = TraitPool.GetRandomShopOnlyTrait();
                     if (specialTrait != null) {
                         mushroomData.AddTrait(specialTrait);
                     }
                 }
-                
+
                 int traitCount = Random.Range(0, 3);
                 var traits = TraitPool.GetRandomTraits(traitCount);
                 foreach (var trait in traits) {
@@ -48,12 +54,20 @@ public class Shop : MonoBehaviour, ICanGetModel {
     }
 
     public void ClickItem(int slot) {
-        if (!shopSlots[slot].IsEmpty() && currency.Amount >= shopSlots[slot].GetPrice()) {
-            selectedSlot = slot;
-            isDragging = true;
-            mushroomGhost.color = shopSlots[slot].GetMushroomForSale().capColor;
-            mushroomGhost.gameObject.SetActive(true);
-            inputManager.OnMouseUp += BuyItem;
+        if (!shopSlots[slot].IsEmpty()) {
+            if (currency.Amount >= shopSlots[slot].GetPrice()) {
+                shopAudioSource.clip = woodSound;
+                shopAudioSource.Play();
+
+                selectedSlot = slot;
+                isDragging = true;
+                mushroomGhost.color = shopSlots[slot].GetMushroomForSale().capColor;
+                mushroomGhost.gameObject.SetActive(true);
+                inputManager.OnMouseUp += BuyItem;
+            } else {
+                shopAudioSource.clip = errorSound;
+                shopAudioSource.Play();
+            }
         }
     }
 
@@ -65,17 +79,19 @@ public class Shop : MonoBehaviour, ICanGetModel {
         if (inputManager.IsMouseOverUI()) {
             selectedSlot = -1;
         } else {
+            shopAudioSource.clip = buySound;
+            shopAudioSource.Play();
+
             currency.Modify(-shopSlots[selectedSlot].GetPrice());
 
             Mushroom shroom = MushroomEntityManager.Instance.SpawnMushroom(shopSlots[selectedSlot].GetMushroomForSale(), inputManager.GetMouseWorldPosition());
             shroom.GetMushroomData().OnPlantToFarm();
-            
+
             shopSlots[selectedSlot].ResetItem();
         }
     }
 
-    private void HideUI()
-    {
+    private void HideUI() {
         gameObject.SetActive(false);
     }
 
