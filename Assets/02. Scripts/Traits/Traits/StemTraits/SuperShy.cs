@@ -20,4 +20,7 @@ public class SuperShy : MushroomTrait {
         return null;
     }
     
+    public override int GetVisualPartGroupIdx() {
+        return 40;
+    }
 }

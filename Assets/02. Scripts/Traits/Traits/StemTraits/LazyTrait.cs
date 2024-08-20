@@ -20,4 +20,8 @@ public class LazyTrait : MushroomTrait {
         return null;
     }
     
+    
+    public override int GetVisualPartGroupIdx() {
+        return 44;
+    }
 }
