@@ -9466,7 +9466,7 @@ MonoBehaviour:
   currency: {fileID: 478884949}
   sizeUI: {fileID: 969830007}
   sellModeButton: {fileID: 662659279}
-  lastDay: 5
+  lastDay: 100
   restartButton: {fileID: 376432621}
   nextDayButton: {fileID: 1085190641}
   mushroomsToSpawn: 3

@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 8908524364441246616, guid: 8b07cbf6c1d516743b775a2b42e3e307, type: 3}
   - {fileID: 8908524364441246616, guid: 973bbc9e262645d4da15339cfb41623b, type: 3}
   - {fileID: 8908524364441246616, guid: 46d894e3892786043a5c2344bac00219, type: 3}
+  - {fileID: 8908524364441246616, guid: 66d87ad95e0b410438416de12d2213d1, type: 3}
   stem:
   - {fileID: 6498925681441679309, guid: cee0f861ccdb47c47b3ed4049fb9f198, type: 3}
   cap:
@@ -28,6 +29,7 @@ MonoBehaviour:
   - {fileID: 1779987586927323020, guid: d8174ecf2fcefd745837f6e6425d8c2b, type: 3}
   - {fileID: 1779987586927323020, guid: 55403686ffd39e74298a0f0223d389b9, type: 3}
   - {fileID: 1779987586927323020, guid: 0c5938655f02730418290977f0bd9c6b, type: 3}
+  - {fileID: 1779987586927323020, guid: abe12a956b590014fb51f0e3bf358221, type: 3}
   ring:
   - {fileID: 6316439987758955979, guid: 4ec929fa30aebe3448dd207ea2baa87b, type: 3}
   traitPartGroups:
@@ -166,3 +168,18 @@ MonoBehaviour:
   - Name: Lazy
     parts:
     - {fileID: 6498925681441679309, guid: 98e3169ad63213e4eb3cafae8b834df5, type: 3}
+  - Name: BLUE
+    parts:
+    - {fileID: 4815320148666517607, guid: 23f0f76e39c2d90488b1a6f14330fb96, type: 3}
+  - Name: Contraband
+    parts:
+    - {fileID: 6412275932885880628, guid: be793b72761e2624ca55caa164708e8a, type: 3}
+  - Name: Flat-earther
+    parts:
+    - {fileID: 6412275932885880628, guid: 45f232e07aa32fb43a64a354a4b86cb9, type: 3}
+  - Name: Smelly
+    parts:
+    - {fileID: 6412275932885880628, guid: d1a477224a199d443a47b313f345c52a, type: 3}
+  - Name: Poisonous
+    parts:
+    - {fileID: 6498925681441679309, guid: c160840972f38ae4faf028e69621a795, type: 3}
