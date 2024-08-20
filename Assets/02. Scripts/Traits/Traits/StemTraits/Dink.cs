@@ -20,4 +20,8 @@ public class Dink : MushroomTrait {
         return "The mushroom will not have any children.";
     }
     
+    
+    public override int GetVisualPartGroupIdx() {
+        return 41;
+    }
 }

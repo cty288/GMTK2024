@@ -20,4 +20,9 @@ public class IsItDead : MushroomTrait {
         return "The mushroom doesn't want to move.";
     }
     
+    
+    public override int GetVisualPartGroupIdx() {
+        return 42;
+    }
+    
 }

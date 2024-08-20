@@ -21,4 +21,8 @@ public class LazyTrait : MushroomTrait {
                "The mushroom is too lazy to move.";
     }
     
+    
+    public override int GetVisualPartGroupIdx() {
+        return 44;
+    }
 }

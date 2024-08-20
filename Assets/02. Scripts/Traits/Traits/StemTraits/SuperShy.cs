@@ -20,4 +20,7 @@ public class SuperShy : MushroomTrait {
         return "The mushroom doesn't grow if there are other mushrooms nearby.";
     }
     
+    public override int GetVisualPartGroupIdx() {
+        return 40;
+    }
 }

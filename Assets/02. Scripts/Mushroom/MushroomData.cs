@@ -645,12 +645,12 @@ public static class MushroomDataHelper {
             Random.Range(1f, 1.2f),
             new Vector2(Random.Range(0.8f, 1.3f), Random.Range(0.8f, 1.3f)),
             Random.Range(0.3f, 0.9f),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
+            RandomSuperLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
             Random.value > 0.5f,
             Random.Range(3f, 4f));
         data.GrowthDay.Value = initialGrowthDay;
@@ -663,6 +663,57 @@ public static class MushroomDataHelper {
         }
         return data;
 
+    }
+    
+    // Reduces likelihood of getting a phallic color combo.
+    public static Color RandomLimitedColor()
+    {
+        float h = Random.Range(0.0f, 1.0f);
+        float s;
+        float v;
+        if (h >= 0.65f || h <= 0.16f)
+        {
+            s = Random.Range(0.7f, 1.0f);
+            v = Random.Range(0.8f, 1.0f);
+        }
+        else
+        {
+            s = Random.Range(0.3f, 1.0f);
+            v = Random.Range(0.4f, 1.0f);
+        }
+
+        return Color.HSVToRGB(h, s, v);
+    }
+
+    public static Color RandomSuperLimitedColor()
+    {
+        float h = Random.Range(0.0f, 1.0f);
+
+        if (h >= 0.65f || h <= 0.16f)
+        {
+            Color[] prePickedColors = new[]
+            {
+                new Color(1, 0, 0),
+                new Color(1f, 0.2f, 0.2f),
+                new Color(1, 0, 1),
+                new Color(1, 0.6f, 0),
+                new Color(1, 0.3f, 0),
+                new Color(1, 0.2f, 0),
+                new Color(1, 0.4f, 0),
+                new Color(1, 0, 0.6f),
+                new Color(0.6f, 0, 0.6f),
+                new Color(0.4f, 0, 0.6f),
+                new Color(0.8f, 0, 0.8f),
+                new Color(1f, 1, 1f),
+            };
+
+            return prePickedColors[Random.Range(0, prePickedColors.Length)];
+        }
+
+        float s = Random.Range(0.3f, 1.0f);
+        float v = Random.Range(0.4f, 1.0f);
+        
+        return Color.HSVToRGB(h, s, v);
     }
 
     public static MushroomData CopyMushroomData(MushroomData data)

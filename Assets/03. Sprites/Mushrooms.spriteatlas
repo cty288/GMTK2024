@@ -59,6 +59,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bca3899083b40e74287d5bc2a0ba5ce2, type: 3}
   - {fileID: 21300000, guid: e14ad7316cdcecd49b18e7002a196aed, type: 3}
   - {fileID: 21300000, guid: 35dad94119cd7ac488a2ecf85c428a50, type: 3}
+  - {fileID: 21300000, guid: 5468ac418edb09e4f81ca33e07e8d3aa, type: 3}
   - {fileID: 21300000, guid: f5ea62612a87fba4587c64fb6a128de2, type: 3}
   - {fileID: 21300000, guid: 1a39f9d1a344f4f44abbefafa1a5f9f5, type: 3}
   - {fileID: 21300000, guid: a3ccaaf1c8c266946a5b12bc389a49e7, type: 3}
@@ -82,14 +83,18 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d4ee5927ed3d5e1419417df6ee62a476, type: 3}
   - {fileID: 21300000, guid: d6e96d27913b2d241b38b26ed1e610da, type: 3}
   - {fileID: 21300000, guid: a3f23a7750760bf4fa81cdfa92519a84, type: 3}
+  - {fileID: 21300000, guid: 484b5c7729bbffa489b9cd7d98478cc2, type: 3}
   - {fileID: 21300000, guid: 316fa3b74164a4548879d0f4489fd311, type: 3}
   - {fileID: 21300000, guid: 5eda7cf78527a44498c910fbca377037, type: 3}
+  - {fileID: 21300000, guid: afac7138a9c986b4b9f6bc032b7c7bda, type: 3}
   - {fileID: 21300000, guid: 51d3b9486c618174ebdabcf6e4bebb9e, type: 3}
   - {fileID: 21300000, guid: 3f831ca8bca6799468befb95b92d8166, type: 3}
   - {fileID: 21300000, guid: 71a08de8d7adc1c46bd55dae01139d55, type: 3}
+  - {fileID: 21300000, guid: f88ecde8e5412284e9355f8cd760d37f, type: 3}
   - {fileID: 21300000, guid: 8da5a089b6bf6224285b12599c54d79b, type: 3}
   - {fileID: 21300000, guid: dd876f89ccb4ad947b199c1b9c7cac8e, type: 3}
   - {fileID: 21300000, guid: 88f5350a899b7694e88e16cdf96416fe, type: 3}
+  - {fileID: 21300000, guid: 6c28a82a18fe0e044b82d351e4bf973e, type: 3}
   - {fileID: 21300000, guid: 075a297a239ec1148810df457ab19fe2, type: 3}
   - {fileID: 21300000, guid: efb6c39a6882c57448b838ac825d0549, type: 3}
   - {fileID: 21300000, guid: d29670da07ddec44d993d37f7a1eb9d3, type: 3}
@@ -102,6 +107,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e33766ecf42d5284cb3a532cd428712b, type: 3}
   - {fileID: 21300000, guid: a07ae8ec407c9924ebccd756c56b34fa, type: 3}
   - {fileID: 21300000, guid: a0af7f1d2b783934597406bfa4a47558, type: 3}
+  - {fileID: 21300000, guid: 9178c62d414be344b976e36a5fd436fd, type: 3}
   - {fileID: 21300000, guid: 887dda3deeae41d49ab35dd1b608b8f5, type: 3}
   - {fileID: 21300000, guid: b0e6c75d4194aa941ac6bb2e8187f4e1, type: 3}
   - {fileID: 21300000, guid: 5701c0edad3aa8243bb17ba31c8d44b1, type: 3}
@@ -118,6 +124,7 @@ SpriteAtlas:
   - Root 1
   - Ring 2
   - Stem 1
+  - Stem 12
   - Stem 3
   - Ring 7
   - Root 4
@@ -141,14 +148,18 @@ SpriteAtlas:
   - Ring 5
   - Cap 9
   - Cap 14
+  - Stem 14
   - ShroomTest_volva
   - ShroomTest_Stem
+  - Stem 15
   - Stem 4
   - Stem 8
   - Root 5
+  - Stem 13
   - Cap 13
   - Ring 12
   - Pattern 3
+  - Stem 16
   - Stem 5
   - Cap 6
   - Stem 11
@@ -161,6 +172,7 @@ SpriteAtlas:
   - Cap 1
   - Cap 3
   - ShroomTest_Cap
+  - Stem 17
   - Stem 6
   - Cap 5
   - Stem 10
