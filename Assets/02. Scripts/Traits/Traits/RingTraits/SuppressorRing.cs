@@ -18,7 +18,7 @@ public class SuppressorRing : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap size will no longer increase.";
     }
 
     public override int GetVisualPartGroupIdx() {

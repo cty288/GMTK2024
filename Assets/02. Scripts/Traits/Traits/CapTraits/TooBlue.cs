@@ -20,6 +20,6 @@ public class TooBlue : MushroomTrait {
 	}
 
 	public override string GetTraitValueDescription() {
-		return null;
+		return "The mushroom will become TOO <color=blue>BLUE</color>.";
 	}
 }

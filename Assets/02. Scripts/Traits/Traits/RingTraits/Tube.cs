@@ -18,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap length increases.";
     }
 
     public override int GetVisualPartGroupIdx() {

@@ -35,7 +35,7 @@ public class AMouth : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Nobody can stop the mushroom from singing (except zombies and shovels).";
     }
 
     public override int GetVisualPartGroupIdx() {

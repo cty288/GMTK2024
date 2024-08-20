@@ -27,7 +27,8 @@ public class AHatTrait : MushroomTrait , ICanSendEvent{
 	}
 
 	public override string GetTraitValueDescription() {
-		return null;
+		return "<b>This trait is gained only through mutation</b>" +
+		       "\n When the mushroom is planted, all existing mushrooms gain extra cap length and they will have a same pattern.";
 	}
 
 	public override void OnMushroomPlantOnFarm(MushroomData data) {

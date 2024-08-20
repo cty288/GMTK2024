@@ -19,7 +19,7 @@ public class StrongNeck : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap size increases, stem width decreases.";
     }
 
     public override int GetVisualPartGroupIdx() {

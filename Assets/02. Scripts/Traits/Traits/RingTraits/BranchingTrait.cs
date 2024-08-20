@@ -18,7 +18,7 @@ public class BranchingTrait : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Reduce cap size by half.";
     }
 
     public override int GetVisualPartGroupIdx() {

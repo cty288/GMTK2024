@@ -16,7 +16,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "No effects.";
     }
 
 }

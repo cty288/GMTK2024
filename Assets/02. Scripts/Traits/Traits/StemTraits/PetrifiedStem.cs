@@ -18,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Stem length will no longer increase.";
     }
 
     public override int GetVisualPartGroupIdx() {

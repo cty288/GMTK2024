@@ -21,7 +21,7 @@ public class Flowery : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap width increases";
     }
 
     public override int GetVisualPartGroupIdx() {
