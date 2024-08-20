@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Leadership : MushroomTrait
-{
+public class Leadership : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
     }
 
@@ -21,7 +16,7 @@ public class Leadership : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return "Cap width decreases";
+        return "Cap width decreases.";
     }
 
     public override int GetVisualPartGroupIdx() {

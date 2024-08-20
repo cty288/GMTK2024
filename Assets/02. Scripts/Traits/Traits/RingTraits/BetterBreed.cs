@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using MikroFramework.Architecture;
+﻿using MikroFramework.Architecture;
+using System.Linq;
 using UnityEngine;
 
 public struct OnAllMushroomReplaceTrait {
@@ -44,7 +44,7 @@ public class BetterBreed : MushroomTrait, ICanSendEvent {
                     source = data
                 });
             }
-            
+
             ShroomPart[] parts = data.Parts.Keys.ToArray();
             foreach (ShroomPart part in parts) {
                 this.SendEvent<OnAllMushroomChangeParts>(new OnAllMushroomChangeParts() {
@@ -52,7 +52,7 @@ public class BetterBreed : MushroomTrait, ICanSendEvent {
                     prefab = data.Parts[part]
                 });
             }
-            
+
             this.SendEvent<OnAllMushroomUpdateProperties>(new OnAllMushroomUpdateProperties() {
                 capHeight = data.capHeight.Value,
                 capWidth = data.capWidth.Value,
@@ -85,7 +85,7 @@ public class BetterBreed : MushroomTrait, ICanSendEvent {
     }
 
     public override string GetTraitValueDescription() {
-        return "<b>This trait is gained only through the shop</b>\n" +
+        return "<b>(Shop Only)</b>\n" +
                "After this mushroom is planted, all other existing mushrooms will become this mushroom.";
     }
 

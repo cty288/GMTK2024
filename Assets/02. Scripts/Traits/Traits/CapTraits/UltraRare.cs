@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class UltraRare : MushroomTrait
-{
+public class UltraRare : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
         var colors = data.GetProperties<Color>(MushroomPropertyTag.Color);
         foreach (var capColor in colors) {
             capColor.Value *= Color.yellow;
-            ;
         }
     }
 
@@ -26,12 +22,12 @@ public class UltraRare : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return "Gain extra price when the mushroom is sold";
+        return "Gain extra money when the mushroom is sold.";
     }
 
     public override int GetVisualPartGroupIdx() {
         return 33;
     }
-    
-    
+
+
 }

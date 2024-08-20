@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SplitedTrait : MushroomTrait
-{
+public class SplitedTrait : MushroomTrait {
     public override void OnStartApply(MushroomData data) {
     }
 
@@ -23,11 +18,11 @@ public class SplitedTrait : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return "Reduce cap size by half";
+        return "Reduce cap size by half.";
     }
 
     public override int GetVisualPartGroupIdx() {
         return 1;
     }
-    
+
 }

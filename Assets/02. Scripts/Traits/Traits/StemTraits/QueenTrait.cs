@@ -12,7 +12,7 @@ public class QueenTrait : MushroomTrait, ICanSendEvent {
     public override void OnMushroomPlantOnFarm(MushroomData data) {
         base.OnMushroomPlantOnFarm(data);
         this.SendEvent<OnAllMushroomAddProperty>(new OnAllMushroomAddProperty() {
-            tags = new MushroomPropertyTag[] {MushroomPropertyTag.Stem, MushroomPropertyTag.Height},
+            tags = new MushroomPropertyTag[] { MushroomPropertyTag.Stem, MushroomPropertyTag.Height },
             value = 1
         });
         this.SendEvent<OnAllMushroomChangeParts>(new OnAllMushroomChangeParts() {
@@ -33,15 +33,15 @@ public class QueenTrait : MushroomTrait, ICanSendEvent {
     }
 
     public override string GetTraitValueDescription() {
-        return "<b>This trait is gained only through mutation</b>" +
-               "\n When the mushroom is planted, all existing mushrooms gain extra stem length and they will have a same volva.";
+        return "<b>(Mutation Only)<b>" +
+               "\n When the mushroom is planted, all existing mushrooms gain stem length and the same volva.";
     }
 
     public IArchitecture GetArchitecture() {
         return MainGame.Interface;
     }
-    
-    
+
+
     public override int GetVisualPartGroupIdx() {
         return 43;
     }

@@ -19,7 +19,7 @@ public class Thorny : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return "Cap size increases, stem length decreases";
+        return "Cap size increases, stem length decreases.";
     }
 
     public override int GetVisualPartGroupIdx() {
