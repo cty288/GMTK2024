@@ -6,6 +6,7 @@ public class MushroomFollowCamera : MonoBehaviour
 {
     public static MushroomFollowCamera instance;
     private Camera c;
+    public Transform target;
     //public RawImage image;
     private void Awake()
     {
@@ -15,6 +16,13 @@ public class MushroomFollowCamera : MonoBehaviour
     private void Start()
     {
         
+    }
+    private void Update()
+    {
+        if(target != null)
+        {
+            c.transform.position = new Vector3(target.position.x, target.position.y, -3);
+        }
     }
     public void UpdateCameraPosition(float x, float y)
     {
