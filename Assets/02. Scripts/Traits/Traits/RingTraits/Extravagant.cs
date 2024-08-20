@@ -18,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "The children of the mushroom will gain extra cap length.";
     }
 
     public override int GetVisualPartGroupIdx() {

@@ -23,7 +23,7 @@ public class HighHat : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap length increases, cap width decreases.";
     }
 
     public override int GetVisualPartGroupIdx() {

@@ -119,7 +119,7 @@ public class MushroomData {
     public MushroomProperty<float> sporeRange;
     public MushroomProperty<int> extraSellPrice;
     public MushroomProperty<int> sellPriceLocker;
-    public MushroomProperty<int> baseSellPrice;
+  //  public MushroomProperty<int> baseSellPrice;
     public MushroomProperty<float> sellPriceMultiplier; 
     
     private Action onUpdateColor;
@@ -152,7 +152,7 @@ public class MushroomData {
         return 4;
     }
 
-    public MushroomData() : this(1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1, 0) {
+    public MushroomData() : this(1, 1, 1, 1, new Vector2(1, 1), 1, Color.white, Color.white, Color.white, Color.white, Color.white, Color.white, false, 1) {
         AddBasicProperties();
     }
 
@@ -336,7 +336,7 @@ public class MushroomData {
 
     }
 
-    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange, int baseSellPrice) {
+    public MushroomData(float capHeight, float capWidth, float stemHeight, float stemWidth, Vector2 oscillation, float oscillationSpeed, Color capColor, Color stemColor, Color capColor0, Color stemColor0, Color capColor1, Color stemColor1, bool isPoisonous, float sporeRange) {
         this.capHeight = new MushroomProperty<float>(capHeight,0.2f, MushroomPropertyTag.Cap, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
         this.capWidth = new MushroomProperty<float>(capWidth, 0.2f, MushroomPropertyTag.Cap, MushroomPropertyTag.Width, MushroomPropertyTag.Size);
         this.stemHeight = new MushroomProperty<float>(stemHeight, 0.2f, MushroomPropertyTag.Stem, MushroomPropertyTag.Height, MushroomPropertyTag.Size);
@@ -356,7 +356,7 @@ public class MushroomData {
         this.sellPriceLocker = new MushroomProperty<int>(-1, default);
         this.sellPriceLocker.CompareMin = false;
         
-        this.baseSellPrice = new MushroomProperty<int>(baseSellPrice, 1);
+      //  this.baseSellPrice = new MushroomProperty<int>(baseSellPrice, 1);
         
         // this.growthSpeed = new MushroomProperty<float>(growthSpeed, MushroomPropertyTag.Growth);
         //this.stemWidth.RealValue.Value = 2;
@@ -398,12 +398,21 @@ public class MushroomData {
     }
 
     public int GetSellPrice() { //TODO: later
+        int basePrice = 0;
+        if (GrowthDay <= 2) {
+            basePrice = 0;
+        }else if (GrowthDay <= 4) {
+            basePrice = 2;
+        }else if (GrowthDay == 5) {
+            basePrice = 3;
+        }
 
+        basePrice += Mathf.CeilToInt(GetSize());
 
 
         //=================================================
         int finalPrice =
-            Mathf.RoundToInt(Math.Max(0, extraSellPrice.Value + baseSellPrice.Value) * sellPriceMultiplier.Value);
+            Mathf.RoundToInt(Math.Max(0, extraSellPrice.Value + basePrice) * sellPriceMultiplier.Value);
         
         if (sellPriceLocker.Value >= 0) {
             finalPrice = sellPriceLocker.Value;
@@ -411,8 +420,15 @@ public class MushroomData {
         return finalPrice;
     }
 
-    public int GetBuyPrice() { //TODO: later
-        return Mathf.Max(1, Mathf.RoundToInt(GetSellPrice() * 1.2f));
+    public int GetBuyPrice() {
+        int stage = GetStage();
+        if (stage <= 1) {
+            return 3;
+        }else if (stage <= 2) {
+            return 4;
+        }
+
+        return 5;
     }
 
     public void AddProperty(IMushroomProperty property) {
@@ -557,8 +573,10 @@ public class MushroomData {
         return false;
     }
 
-    public float GetSize()
-    {
+    public float GetSize() {
+        if (GetStage() == 1) {
+            return 0;
+        }
         return (capHeight + capWidth + stemHeight + stemWidth) / 4.0f;
     }
 
@@ -614,8 +632,7 @@ public static class MushroomDataHelper {
             new Color(Random.value, Random.value, Random.value),
             new Color(Random.value, Random.value, Random.value),
             Random.value > 0.5f,
-            Random.Range(3f, 4f),
-            Random.Range(0, 2));
+            Random.Range(3f, 4f));
 
         return data;
     }
@@ -628,15 +645,14 @@ public static class MushroomDataHelper {
             Random.Range(1f, 1.2f),
             new Vector2(Random.Range(0.8f, 1.3f), Random.Range(0.8f, 1.3f)),
             Random.Range(0.3f, 0.9f),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
-            new Color(Random.value, Random.value, Random.value),
+            RandomSuperLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
+            RandomLimitedColor(),
             Random.value > 0.5f,
-            Random.Range(3f, 4f),
-            Random.Range(0, 4));
+            Random.Range(3f, 4f));
         data.GrowthDay.Value = initialGrowthDay;
 
         int traitCount = Random.Range(minTraitCount, maxTraitCount + 1);
@@ -648,10 +664,61 @@ public static class MushroomDataHelper {
         return data;
 
     }
+    
+    // Reduces likelihood of getting a phallic color combo.
+    public static Color RandomLimitedColor()
+    {
+        float h = Random.Range(0.0f, 1.0f);
+        float s;
+        float v;
+        if (h >= 0.65f || h <= 0.16f)
+        {
+            s = Random.Range(0.7f, 1.0f);
+            v = Random.Range(0.8f, 1.0f);
+        }
+        else
+        {
+            s = Random.Range(0.3f, 1.0f);
+            v = Random.Range(0.4f, 1.0f);
+        }
+
+        return Color.HSVToRGB(h, s, v);
+    }
+
+    public static Color RandomSuperLimitedColor()
+    {
+        float h = Random.Range(0.0f, 1.0f);
+
+        if (h >= 0.65f || h <= 0.16f)
+        {
+            Color[] prePickedColors = new[]
+            {
+                new Color(1, 0, 0),
+                new Color(1f, 0.2f, 0.2f),
+                new Color(1, 0, 1),
+                new Color(1, 0.6f, 0),
+                new Color(1, 0.3f, 0),
+                new Color(1, 0.2f, 0),
+                new Color(1, 0.4f, 0),
+                new Color(1, 0, 0.6f),
+                new Color(0.6f, 0, 0.6f),
+                new Color(0.4f, 0, 0.6f),
+                new Color(0.8f, 0, 0.8f),
+                new Color(1f, 1, 1f),
+            };
+
+            return prePickedColors[Random.Range(0, prePickedColors.Length)];
+        }
+
+        float s = Random.Range(0.3f, 1.0f);
+        float v = Random.Range(0.4f, 1.0f);
+        
+        return Color.HSVToRGB(h, s, v);
+    }
 
     public static MushroomData CopyMushroomData(MushroomData data)
     {
-        var mushroom = new MushroomData(data.capHeight, data.capWidth, data.stemHeight, data.stemWidth, data.oscillation, data.oscillationSpeed, data.capColor, data.stemColor, data.capColor0, data.stemColor0, data.capColor1, data.stemColor1, data.isPoisonous, data.sporeRange, data.baseSellPrice);
+        var mushroom = new MushroomData(data.capHeight, data.capWidth, data.stemHeight, data.stemWidth, data.oscillation, data.oscillationSpeed, data.capColor, data.stemColor, data.capColor0, data.stemColor0, data.capColor1, data.stemColor1, data.isPoisonous, data.sporeRange);
 
         mushroom.GrowthDay.Value = data.GrowthDay;
         
@@ -676,17 +743,17 @@ public static class MushroomDataHelper {
 
     public static string ToString(MushroomData data) {
         return
-            $"Cap Height: {data.capHeight}\n" +
+            $"<b><size=110%>Average Size:</size></b> \n{data.GetSize():f2}\n" +
+            /*$"Cap Height: {data.capHeight}\n" +
             $"Cap Width: {data.capWidth}\n" +
             $"Stem Height: {data.stemHeight}\n" +
             $"Stem Width: {data.stemWidth}\n" +
-            $"Oscillation: {data.oscillation}\n" +
-            $"Oscillation Speed: {data.oscillationSpeed}\n" +
-            $"Cap Color: {data.capColor}\n" +
-            $"Stem Color: {data.stemColor}\n" +
-            $"Is Poisonous: {data.isPoisonous}\n" +
-            $"Spore Range: {data.sporeRange}\n" +
-            $"Sell Price: {data.GetSellPrice()}\n";
+            $"Sell Price: {data.GetSellPrice()}\n";*/
+            $"<b><size=110%>Cap Height:</size></b> \n{data.capHeight.Value:f2}\n" +
+            $"<b><size=110%>Cap Width:</size></b> \n{data.capWidth.Value:f2}\n\n" +
+            $"<b><size=110%>Stem Height:</size></b> \n{data.stemHeight.Value:f2}\n" +
+            $"<b><size=110%>Stem Width:</size></b> \n{data.stemWidth.Value:f2}\n" +
+            $"<b><size=110%>Sell Price:</size></b> \n{data.GetSellPrice()}\n";
     }
 
 

@@ -18,7 +18,7 @@ public class Strangled : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Reduce stem length by half.";
     }
 
     public override int GetVisualPartGroupIdx() {

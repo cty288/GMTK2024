@@ -19,7 +19,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap width decreases, stem length increases.";
     }
 
     public override int GetVisualPartGroupIdx() {

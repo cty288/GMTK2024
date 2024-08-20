@@ -18,7 +18,7 @@ public class Contraband : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Sell price doubled.";
     }
 
 }

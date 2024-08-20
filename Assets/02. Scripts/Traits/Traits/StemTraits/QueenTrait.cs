@@ -33,10 +33,16 @@ public class QueenTrait : MushroomTrait, ICanSendEvent {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "<b>This trait is gained only through mutation</b>" +
+               "\n When the mushroom is planted, all existing mushrooms gain extra stem length and they will have a same volva.";
     }
 
     public IArchitecture GetArchitecture() {
         return MainGame.Interface;
+    }
+    
+    
+    public override int GetVisualPartGroupIdx() {
+        return 43;
     }
 }

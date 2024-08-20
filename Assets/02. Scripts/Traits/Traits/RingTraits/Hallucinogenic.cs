@@ -42,7 +42,7 @@ public class Hallucinogenic : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "The mushroom will keep changing its color.";
     }
 
     public override int GetVisualPartGroupIdx() {

@@ -17,7 +17,10 @@ public class SuperShy : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "The mushroom doesn't grow if there are other mushrooms nearby.";
     }
     
+    public override int GetVisualPartGroupIdx() {
+        return 40;
+    }
 }

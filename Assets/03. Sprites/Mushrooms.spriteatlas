@@ -59,13 +59,16 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bca3899083b40e74287d5bc2a0ba5ce2, type: 3}
   - {fileID: 21300000, guid: e14ad7316cdcecd49b18e7002a196aed, type: 3}
   - {fileID: 21300000, guid: 35dad94119cd7ac488a2ecf85c428a50, type: 3}
+  - {fileID: 21300000, guid: 5468ac418edb09e4f81ca33e07e8d3aa, type: 3}
   - {fileID: 21300000, guid: f5ea62612a87fba4587c64fb6a128de2, type: 3}
   - {fileID: 21300000, guid: 1a39f9d1a344f4f44abbefafa1a5f9f5, type: 3}
   - {fileID: 21300000, guid: a3ccaaf1c8c266946a5b12bc389a49e7, type: 3}
+  - {fileID: 21300000, guid: df774922197293a448831d7aee8905e3, type: 3}
   - {fileID: 21300000, guid: b5fa2532522f6e848b41e260347592b6, type: 3}
   - {fileID: 21300000, guid: 0b080d32334b3434aab70a42baf843a0, type: 3}
   - {fileID: 21300000, guid: 53c7904290a32b34e845a1991ad76291, type: 3}
   - {fileID: 21300000, guid: 696300a215a47f748b5b7b1e85772140, type: 3}
+  - {fileID: 21300000, guid: 325344d2c5650524f8c61a0d05de8db7, type: 3}
   - {fileID: 21300000, guid: a2467853e71112944aa238ced05791bf, type: 3}
   - {fileID: 1230449657, guid: 8494e5a3416f4194c9eb63ebd627b2f8, type: 3}
   - {fileID: -1289529737, guid: 8494e5a3416f4194c9eb63ebd627b2f8, type: 3}
@@ -82,14 +85,20 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d4ee5927ed3d5e1419417df6ee62a476, type: 3}
   - {fileID: 21300000, guid: d6e96d27913b2d241b38b26ed1e610da, type: 3}
   - {fileID: 21300000, guid: a3f23a7750760bf4fa81cdfa92519a84, type: 3}
+  - {fileID: 21300000, guid: 484b5c7729bbffa489b9cd7d98478cc2, type: 3}
   - {fileID: 21300000, guid: 316fa3b74164a4548879d0f4489fd311, type: 3}
+  - {fileID: 21300000, guid: 8a739fe7d9beb3e4987b66374a3c9eb5, type: 3}
   - {fileID: 21300000, guid: 5eda7cf78527a44498c910fbca377037, type: 3}
+  - {fileID: 21300000, guid: afac7138a9c986b4b9f6bc032b7c7bda, type: 3}
   - {fileID: 21300000, guid: 51d3b9486c618174ebdabcf6e4bebb9e, type: 3}
+  - {fileID: 21300000, guid: e7604278bbaea5644b88a9cc34447198, type: 3}
   - {fileID: 21300000, guid: 3f831ca8bca6799468befb95b92d8166, type: 3}
   - {fileID: 21300000, guid: 71a08de8d7adc1c46bd55dae01139d55, type: 3}
+  - {fileID: 21300000, guid: f88ecde8e5412284e9355f8cd760d37f, type: 3}
   - {fileID: 21300000, guid: 8da5a089b6bf6224285b12599c54d79b, type: 3}
   - {fileID: 21300000, guid: dd876f89ccb4ad947b199c1b9c7cac8e, type: 3}
   - {fileID: 21300000, guid: 88f5350a899b7694e88e16cdf96416fe, type: 3}
+  - {fileID: 21300000, guid: 6c28a82a18fe0e044b82d351e4bf973e, type: 3}
   - {fileID: 21300000, guid: 075a297a239ec1148810df457ab19fe2, type: 3}
   - {fileID: 21300000, guid: efb6c39a6882c57448b838ac825d0549, type: 3}
   - {fileID: 21300000, guid: d29670da07ddec44d993d37f7a1eb9d3, type: 3}
@@ -102,8 +111,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e33766ecf42d5284cb3a532cd428712b, type: 3}
   - {fileID: 21300000, guid: a07ae8ec407c9924ebccd756c56b34fa, type: 3}
   - {fileID: 21300000, guid: a0af7f1d2b783934597406bfa4a47558, type: 3}
+  - {fileID: 21300000, guid: 9178c62d414be344b976e36a5fd436fd, type: 3}
   - {fileID: 21300000, guid: 887dda3deeae41d49ab35dd1b608b8f5, type: 3}
   - {fileID: 21300000, guid: b0e6c75d4194aa941ac6bb2e8187f4e1, type: 3}
+  - {fileID: 21300000, guid: e9f32a8df0dc20f44a3f95a46b9d1870, type: 3}
   - {fileID: 21300000, guid: 5701c0edad3aa8243bb17ba31c8d44b1, type: 3}
   - {fileID: 21300000, guid: 85d0e5fd5b257c349ad7022f4603496b, type: 3}
   - {fileID: 21300000, guid: 0b993f8e7b83c7f42bb933dd57fae5bd, type: 3}
@@ -112,19 +123,23 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3ab6040f23789cd46808fb5ea9a68589, type: 3}
   - {fileID: 21300000, guid: 4a606e5fcb1abc74481c0669ae6c5792, type: 3}
   - {fileID: 21300000, guid: 224f5b9f2ce7fe74482a5cb4cbefd72c, type: 3}
+  - {fileID: 21300000, guid: 359ce2bfd33588547a1c70ac50ab5b2b, type: 3}
   - {fileID: 21300000, guid: 7320d5bf590ac2140b66fa45f2f5404c, type: 3}
   m_PackedSpriteNamesToIndex:
   - Cap 2
   - Root 1
   - Ring 2
   - Stem 1
+  - Stem 12
   - Stem 3
   - Ring 7
   - Root 4
+  - Stem 18
   - Ring 11
   - Ring 13
   - Stem 9
   - Ring 1
+  - Cap 17
   - Ring 6
   - Cap 7_1
   - Cap 7_0
@@ -141,14 +156,20 @@ SpriteAtlas:
   - Ring 5
   - Cap 9
   - Cap 14
+  - Stem 14
   - ShroomTest_volva
+  - Pattern 6
   - ShroomTest_Stem
+  - Stem 15
   - Stem 4
+  - Ring 16
   - Stem 8
   - Root 5
+  - Stem 13
   - Cap 13
   - Ring 12
   - Pattern 3
+  - Stem 16
   - Stem 5
   - Cap 6
   - Stem 11
@@ -161,8 +182,10 @@ SpriteAtlas:
   - Cap 1
   - Cap 3
   - ShroomTest_Cap
+  - Stem 17
   - Stem 6
   - Cap 5
+  - Ring 15
   - Stem 10
   - Pattern 5
   - ShroomTest_gills
@@ -171,6 +194,7 @@ SpriteAtlas:
   - Cap 8
   - Root 6
   - Ring 10
+  - Ring 17
   - Ring 9
   m_RenderDataMap: {}
   m_Tag: Mushrooms

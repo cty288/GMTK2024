@@ -18,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "SHAKES FASTER!";
     }
 
     public override int GetVisualPartGroupIdx() {

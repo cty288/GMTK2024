@@ -151,3 +151,18 @@ MonoBehaviour:
   - Name: Better Breed
     parts:
     - {fileID: 6412275932885880628, guid: 1f42ecec81c033e4586ad79a12ce50aa, type: 3}
+  - Name: Super Shy
+    parts:
+    - {fileID: 6498925681441679309, guid: c70cb08f5295cdb429a6450db2d2fda4, type: 3}
+  - Name: DINK
+    parts:
+    - {fileID: 6498925681441679309, guid: d8c52adac326b574cbcc2ae64fa9e2f5, type: 3}
+  - Name: Is it dead?
+    parts:
+    - {fileID: 6498925681441679309, guid: 57c028afe8d36d54cb570d5c64c1e09b, type: 3}
+  - Name: Queen
+    parts:
+    - {fileID: 6498925681441679309, guid: c71d38d8f79846e4a83a7d649f214a49, type: 3}
+  - Name: Lazy
+    parts:
+    - {fileID: 6498925681441679309, guid: 98e3169ad63213e4eb3cafae8b834df5, type: 3}
