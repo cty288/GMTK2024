@@ -1,0 +1,61 @@
+ManifestFileVersion: 0
+CRC: 2370924056
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9c82af4bcb0172c84b6856e8c1d8f0d9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2e9fdd29d934aa1df2347addb249bb74
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 50
+  Script: {instanceID: 0}
+- Class: 61
+  Script: {instanceID: 0}
+- Class: 66
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: f5f870245e7796642b3a38ae058342c6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 441b4f283dfffef498d138b74d6d5224, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2a981deb35e4963449ad105da60d731d, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 210
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: MushroomVisuals
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+Assets:
+- Assets/MikroFramework/Runtime/Framework/AudioKit/2DSound.prefab
+- Assets/MikroFramework/Runtime/Framework/AudioKit/3DSound.prefab
+- Assets/Resources/Mushroom.prefab
+Dependencies: []

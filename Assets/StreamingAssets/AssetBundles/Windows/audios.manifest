@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 2416949726
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bf08e7814df2cc919709d9ba164a2473
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9a2ca7bdbd1871f7131daf57de908e0c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MikroFramework/Runtime/Examples/AudioKit/01. BasicExample/Resources/Lose.wav
+- Assets/06. Audios/pvz.mp3
+- Assets/MikroFramework/Runtime/Examples/AudioKit/01. BasicExample/Resources/War
+  loop.wav
+Dependencies: []
