@@ -17,8 +17,9 @@ public class AMouth : MushroomTrait {
         base.OnMushroomPlantOnFarm(data);
         AudioSystem.Singleton.StopSound("pvz");
         AudioSystem.Singleton.PauseMusic();
+        AudioClip clip = Resources.Load<AudioClip>("pvz");
         
-        audio = AudioSystem.Singleton.Play2DSound("pvz", 0.1f, true);
+        audio = AudioSystem.Singleton.Play2DSound(clip, 0.1f, true);
     }
 
     public override void OnEnd(MushroomData mushroomData) {
