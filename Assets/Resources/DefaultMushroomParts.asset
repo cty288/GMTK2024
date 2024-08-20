@@ -151,8 +151,6 @@ MonoBehaviour:
   - Name: Better Breed
     parts:
     - {fileID: 6412275932885880628, guid: 1f42ecec81c033e4586ad79a12ce50aa, type: 3}
-<<<<<<< Updated upstream
-=======
   - Name: Super Shy
     parts:
     - {fileID: 6498925681441679309, guid: c70cb08f5295cdb429a6450db2d2fda4, type: 3}
@@ -168,4 +166,3 @@ MonoBehaviour:
   - Name: Lazy
     parts:
     - {fileID: 6498925681441679309, guid: 98e3169ad63213e4eb3cafae8b834df5, type: 3}
->>>>>>> Stashed changes
