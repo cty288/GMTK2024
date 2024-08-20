@@ -21,7 +21,7 @@ public class TooTasty : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap length decreases.";
     }
 
     public override int GetVisualPartGroupIdx() {

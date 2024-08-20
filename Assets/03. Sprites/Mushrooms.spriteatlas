@@ -114,6 +114,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9178c62d414be344b976e36a5fd436fd, type: 3}
   - {fileID: 21300000, guid: 887dda3deeae41d49ab35dd1b608b8f5, type: 3}
   - {fileID: 21300000, guid: b0e6c75d4194aa941ac6bb2e8187f4e1, type: 3}
+  - {fileID: 21300000, guid: fb36088d44d906a4ba69025c62a08c4d, type: 3}
   - {fileID: 21300000, guid: e9f32a8df0dc20f44a3f95a46b9d1870, type: 3}
   - {fileID: 21300000, guid: 5701c0edad3aa8243bb17ba31c8d44b1, type: 3}
   - {fileID: 21300000, guid: 85d0e5fd5b257c349ad7022f4603496b, type: 3}
@@ -185,6 +186,7 @@ SpriteAtlas:
   - Stem 17
   - Stem 6
   - Cap 5
+  - Root 7
   - Ring 15
   - Stem 10
   - Pattern 5

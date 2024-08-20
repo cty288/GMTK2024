@@ -24,11 +24,11 @@ public class PetrifiedCap : MushroomTrait
     }
 
     public override string GetTraitName() {
-        return "Cap size no longer increases.";
+        return "Petrified Cap";
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap size no longer increases.";
     }
 
     public override int GetVisualPartGroupIdx() {

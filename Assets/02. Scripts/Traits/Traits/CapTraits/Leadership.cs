@@ -21,7 +21,7 @@ public class Leadership : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Cap width decreases";
     }
 
     public override int GetVisualPartGroupIdx() {
