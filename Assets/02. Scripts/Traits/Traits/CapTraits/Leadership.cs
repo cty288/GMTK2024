@@ -4,6 +4,7 @@ public class Leadership : MushroomTrait {
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capWidth.Value--;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;

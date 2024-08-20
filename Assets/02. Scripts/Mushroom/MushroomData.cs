@@ -217,7 +217,7 @@ public class MushroomData {
                 if (Random.value <= 0) {
                     MushroomProperty<float>[] properties = traitToPropertyMap[category];
                     foreach (var property in properties) {
-                        property.Value = Mathf.Max(property.Value + Random.Range(-1f, 1f), 0.5f);
+                        property.Value += Random.Range(-1f, 1f);
                     }
 
 
@@ -314,7 +314,7 @@ public class MushroomData {
             MushroomProperty<float>[] parentProperties = parent.traitToPropertyMap[category];
 
             for (int i = 0; i < selfProperties.Length; i++) {
-                selfProperties[i].Value = parentProperties[i].Value + parentProperties[i].ChildAdditions;
+                selfProperties[i].Value = parentProperties[i].Value * Random.Range(0.5f, 0.75f) + parentProperties[i].ChildAdditions;
             }
 
             Debug.Log($"Inherited property {category} from parent {parent.GetHashCode()}");

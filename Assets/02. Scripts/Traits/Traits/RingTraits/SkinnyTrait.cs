@@ -4,7 +4,7 @@ public class SkinnyTrait : MushroomTrait {
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
-        data.capHeight.Value += 2;
+        data.capHeight.Value += 1;
         data.capWidth.Value--;
     }
 

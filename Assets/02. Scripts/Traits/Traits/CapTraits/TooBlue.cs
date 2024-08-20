@@ -7,7 +7,10 @@ public class TooBlue : MushroomTrait {
             capColor.Value = new Color(0, 0, 1f);
         }
     }
-
+    public override void OnStage2Grow(MushroomData data) {
+        base.OnStage2Grow(data);
+        data.capWidth.Value--;
+    }
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;
     public override IMushroomTrait GetCopy() {
         return new TooBlue();
@@ -18,7 +21,7 @@ public class TooBlue : MushroomTrait {
     }
 
 	public override string GetTraitValueDescription() {
-        return "The mushroom will become <color=blue>BLUE</color> (duh).";
+        return "Cap width decreases. The mushroom will become <color=blue>BLUE</color> (duh).";
 	}
     public override int GetVisualPartGroupIdx() {
         return 45;

@@ -36,7 +36,7 @@ public class AMouth : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return "Nobody can stop the mushroom from singing (except zombies and shovels).";
+        return "Cap length decreases. Nobody can stop the mushroom from singing (except zombies and shovels).";
     }
 
     public override int GetVisualPartGroupIdx() {

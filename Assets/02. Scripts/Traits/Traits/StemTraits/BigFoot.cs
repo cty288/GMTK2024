@@ -6,7 +6,7 @@ public class BigFoot : MushroomTrait {
         base.OnStage2Grow(data);
         data.capHeight.Value--;
         data.capWidth.Value--;
-        data.stemHeight.Value += 3;
+        data.stemHeight.Value += 2;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Stem;

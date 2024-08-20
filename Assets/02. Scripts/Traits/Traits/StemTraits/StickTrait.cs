@@ -5,7 +5,7 @@
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
         data.capWidth.Value--;
-        data.stemHeight.Value += 2;
+        data.stemHeight.Value += 1;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Stem;

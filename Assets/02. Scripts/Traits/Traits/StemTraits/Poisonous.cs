@@ -4,6 +4,7 @@
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.stemHeight.Value--;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Stem;
@@ -17,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return "No effects.";
+        return "Stem length decreases.";
     }
 
     public override int GetVisualPartGroupIdx() {

@@ -9,6 +9,8 @@ public class UltraRare : MushroomTrait {
     }
 
     public override void OnStage2Grow(MushroomData data) {
+        data.capHeight.Value--;
+        data.capWidth.Value--;
         data.extraSellPrice.Value += 3;
     }
 
@@ -22,7 +24,7 @@ public class UltraRare : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return "Gain extra money when the mushroom is sold.";
+        return "Cap size decreases. Gain extra money when the mushroom is sold.";
     }
 
     public override int GetVisualPartGroupIdx() {

@@ -6,6 +6,7 @@
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capHeight.Value--;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;
@@ -18,7 +19,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return "SHAKES FASTER!";
+        return "Cap length decreases and SHAKES FASTER!";
     }
 
     public override int GetVisualPartGroupIdx() {

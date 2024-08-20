@@ -6,7 +6,7 @@ public class StrongNeck : MushroomTrait {
         base.OnStage2Grow(data);
         data.capHeight.Value++;
         data.capWidth.Value++;
-        data.stemWidth.Value--;
+        data.stemWidth.Value -= 2;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Ring;

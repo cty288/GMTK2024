@@ -3,7 +3,7 @@ public class SuperShy : MushroomTrait {
     }
 
     public override void OnStage2Grow(MushroomData data) {
-
+        data.stemHeight.Value--;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Stem;
@@ -17,7 +17,7 @@ public class SuperShy : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return "The mushroom doesn't grow if there are other mushrooms nearby.";
+        return "Stem length decreases. The mushroom doesn't grow if there are other mushrooms nearby.";
     }
     
     public override int GetVisualPartGroupIdx() {

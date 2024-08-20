@@ -10,6 +10,7 @@ public class Hallucinogenic : MushroomTrait {
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capWidth.Value--;
     }
 
     public override void OnEnd(MushroomData mushroomData) {
@@ -42,7 +43,7 @@ public class Hallucinogenic : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return "The mushroom will keep changing its color.";
+        return "Cap width decreases. The mushroom will keep changing its color.";
     }
 
     public override int GetVisualPartGroupIdx() {
