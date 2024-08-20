@@ -331,6 +331,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ChangeLayersRecursively(this.gameObject, 6);
         Bounds b = this.gameObject.GetComponent<CompositeCollider2D>().bounds;
         MushroomFollowCamera.instance.UpdateCameraPosition(b.center.x, b.center.y);
+        
     }
     public void ChangeLayersRecursively(GameObject baseObject, int newLayer)
     {
@@ -364,6 +365,9 @@ public class Mushroom : AbstractMikroController<MainGame> {
         if (isSelected) {
             if (data != null && !data.HasTrait<IsItDead>() && !data.HasTrait<LazyTrait>()) {
                 transform.position = InputManager.Instance.GetMouseWorldPosition();
+                Bounds b = this.gameObject.GetComponent<CompositeCollider2D>().bounds;
+                MushroomFollowCamera.instance.UpdateCameraPosition(b.center.x, b.center.y);
+
             }
 
             sortLayer.sortingOrder = (int)transform.position.y * -1000;
