@@ -325,13 +325,27 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ChangeOutlineColor(Color.white);
         MushroomDataPanel.Instance.TurnOnPanel();
         MushroomDataPanel.Instance.SetPanelDisplay(data);
-
+        ChangeLayersRecursively(this.gameObject, 6);
         Bounds b = this.gameObject.GetComponent<CompositeCollider2D>().bounds;
         MushroomFollowCamera.instance.UpdateCameraPosition(b.center.x, b.center.y);
     }
+    public void ChangeLayersRecursively(GameObject baseObject, int newLayer)
+    {
+        if (baseObject == null)
+            return;
 
+     
+        baseObject.layer = newLayer;
+
+    
+        foreach (Transform child in baseObject.transform)
+        {
+            ChangeLayersRecursively(child.gameObject, newLayer);
+        }
+    }
     private void OnMouseExit() {
 
+        ChangeLayersRecursively(this.gameObject, 3);
         ChangeOutlineColor(Color.black);
         MushroomDataPanel.Instance.TurnOffPanel();
         MushroomDataPanel.Instance.ResetPanelDisplay();
