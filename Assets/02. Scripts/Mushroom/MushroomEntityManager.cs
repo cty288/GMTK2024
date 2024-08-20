@@ -123,6 +123,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         if (mushroom.GetMushroomData().GetSize() > largestSize)
         {
             mushroom.RegenerateCollider();
+            /*
             Texture2D mushroomTexture = CaptureMushroomImage(mushroom.gameObject);
             if(mushroomTexture != null)
             {
@@ -155,6 +156,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
                 }
 
             }
+            */
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
             largestSize = largestMushroom.GetSize();
             dayLargest = this.GetModel<GameTimeModel>().Day.Value;
