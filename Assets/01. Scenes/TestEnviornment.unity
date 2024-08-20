@@ -10251,6 +10251,7 @@ MonoBehaviour:
   captureCamera: {fileID: 0}
   menuUI: {fileID: 2106665686}
   gameUI: {fileID: 544031905}
+  cameraPan: {fileID: 1203714472}
   displayImage: {fileID: 0}
   mushroomsToSpawn: 3
   rangeX: {x: -9, y: 9}
@@ -11453,7 +11454,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203714466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b37d212107aadba47b700fe9ea705fcf, type: 3}
   m_Name: 

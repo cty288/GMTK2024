@@ -30,7 +30,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private Camera captureCamera;
     [SerializeField] private GameObject menuUI;
     [SerializeField] private GameObject gameUI;
-    
+    [SerializeField] private CameraPan cameraPan;
+
     public RawImage displayImage;
     private InputManager inputManager;
     private bool sellMode = false;
@@ -51,7 +52,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     private int dayLargest;
     [SerializeField] private float largestSize = 0;
     public bool IsGameStart = false;
-    
+
     private List<GameObject> initialMushrooms = new List<GameObject>();
 
     public void Awake() {
@@ -73,34 +74,22 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             Mushroom mushroom = mushroomGO.GetComponent<Mushroom>();
             MushroomData data = mushroom.GetMushroomData();
             data.RemoveTrait(typeof(AMouth));
-            
+
             data.capWidth.Value = Random.Range(1f, 10f);
             data.capHeight.Value = data.capWidth;
             data.stemWidth.Value = Random.Range(1f, 10f);
             data.stemHeight.Value = data.stemWidth;
 
             mushroom.UpdateVisual();
-            
+
             initialMushrooms.Add(mushroomGO);
         }
-        
-       
     }
 
     private void Start() {
         inputManager = InputManager.Instance;
         inputManager.OnMouseDown += CheckSelectMushroom;
         RandomlySpawnMushrooms();
-    }
-
-    private void Update() {
-        /*if (Input.GetKeyDown(KeyCode.Space)) {
-            RandomlySpawnMushrooms();
-        }*/
-
-        //if (Input.GetKeyDown(KeyCode.P)) {
-        //    IncrementDay();
-        //}
     }
 
     public void IncrementDay() {
@@ -120,13 +109,15 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     public void StartGame() {
         IsGameStart = true;
         menuUI.SetActive(false);
+        BGMAudioInstance.Singleton.Stop();
+        cameraPan.enabled = true;
         gameUI.SetActive(true);
         foreach (var mushroom in initialMushrooms) {
             Destroy(mushroom);
         }
         initialMushrooms.Clear();
     }
-    
+
     public void ExitGame() {
         Application.Quit();
     }
