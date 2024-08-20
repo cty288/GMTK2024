@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MikroFramework.AudioKit;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
@@ -18,6 +19,9 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private Button sellModeButton;
     
     [SerializeField] private int lastDay = 100;
+
+    [SerializeField] private GameObject restartButton;
+    [SerializeField] private GameObject nextDayButton;
 
     private InputManager inputManager;
     private bool sellMode = false;
@@ -144,7 +148,17 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             MushroomDataPanel.Instance.SetPanelDisplay(largestMushroom);
             MushroomDataPanel.Instance.UpdateDayText(lastDay, dayLargest);
             MushroomDataPanel.Instance.ToggleLock(true);
+            Camera.main.transform.position = new Vector3(0, 5, -10);
+            restartButton.SetActive(true);
+            nextDayButton.SetActive(false);
+            
         }
+    }
+
+    public void RestartGame()
+    {
+        this.GetModel<GameTimeModel>().Day.Value = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public IArchitecture GetArchitecture() {
