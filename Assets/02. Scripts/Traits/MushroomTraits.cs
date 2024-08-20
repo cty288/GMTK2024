@@ -72,10 +72,7 @@ public abstract class MushroomTrait : IMushroomTrait {
 	}
 
 	public override string ToString() {
-		if(GetTraitValueDescription() == null){
-			return GetTraitName();
-		}
-		return GetTraitName() + " : " + GetTraitValueDescription();
+		return GetTraitName();
 	}
 }
 
