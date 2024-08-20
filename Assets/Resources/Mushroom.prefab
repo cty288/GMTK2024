@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9082167845892632372}
   - component: {fileID: 1765958240587373671}
   - component: {fileID: 5968024933373553953}
+  - component: {fileID: 2785294497437557516}
   m_Layer: 3
   m_Name: SeedPhrase
   m_TagString: Untagged
@@ -111,6 +112,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &2785294497437557516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7184755784372057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4275b2595727b4d8ebef17054c2abf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 068bec413e819c247957e1d2a565787b, type: 3}
+  - {fileID: 21300000, guid: 58f103f8dad81694b874a6fd30010fd8, type: 3}
+  - {fileID: 21300000, guid: 8e6e92715ac40284c95c1f2a00391516, type: 3}
+  renderer: {fileID: 1765958240587373671}
 --- !u!1 &3265130595370687007
 GameObject:
   m_ObjectHideFlags: 0
