@@ -21,7 +21,7 @@ public class StandardCap : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Gain extra price when you sell this mushroom.";
     }
 
     public override int GetVisualPartGroupIdx() {

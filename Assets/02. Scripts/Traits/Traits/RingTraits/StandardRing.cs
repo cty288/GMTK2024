@@ -18,7 +18,7 @@
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "Gain extra price when the mushroom is sold.";
     }
 
     public override int GetVisualPartGroupIdx() {

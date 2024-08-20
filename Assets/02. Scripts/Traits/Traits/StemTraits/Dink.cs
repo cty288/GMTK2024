@@ -17,7 +17,7 @@ public class Dink : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "The mushroom will not have any children.";
     }
     
     

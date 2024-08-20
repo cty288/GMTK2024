@@ -17,7 +17,7 @@ public class IsItDead : MushroomTrait {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "The mushroom doesn't want to move.";
     }
     
     

@@ -23,7 +23,7 @@ public class AlienBanana : MushroomTrait
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "The children of this mushroom will gain extra cap width.";
     }
 
     public override int GetVisualPartGroupIdx() {

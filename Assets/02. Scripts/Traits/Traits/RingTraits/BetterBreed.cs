@@ -85,7 +85,8 @@ public class BetterBreed : MushroomTrait, ICanSendEvent {
     }
 
     public override string GetTraitValueDescription() {
-        return null;
+        return "<b>This trait is gained only through the shop</b>\n" +
+               "After this mushroom is planted, all other existing mushrooms will become this mushroom.";
     }
 
     public IArchitecture GetArchitecture() {
