@@ -171,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 5379418381875069552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2459618, y: 1.2459618, z: 1.2459618}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5379418382508605364}
@@ -343,14 +343,14 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 5968024933373553953}
     m_ColliderPaths:
-    - - X: 1106976
-        Y: 1106976
-      - X: -1106976
-        Y: 1106976
-      - X: -1106976
-        Y: -1106976
-      - X: 1106976
-        Y: -1106976
+    - - X: 1379249
+        Y: 1379249
+      - X: -1379249
+        Y: 1379249
+      - X: -1379249
+        Y: -1379249
+      - X: 1379249
+        Y: -1379249
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
