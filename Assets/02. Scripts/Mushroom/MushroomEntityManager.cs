@@ -122,6 +122,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         if(mushroom.GetMushroomData().GetStage() == 1) return;
         if (mushroom.GetMushroomData().GetSize() > largestSize)
         {
+            mushroom.RegenerateCollider();
             Texture2D mushroomTexture = CaptureMushroomImage(mushroom.gameObject);
             if(mushroomTexture != null)
             {
