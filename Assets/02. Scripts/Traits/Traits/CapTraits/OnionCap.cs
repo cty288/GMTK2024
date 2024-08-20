@@ -9,7 +9,7 @@ public class OnionCap : MushroomTrait
 
     public override void OnStage2Grow(MushroomData data) {
         data.capHeight.Value--;
-        data.capWidth.Value += 2;
+        data.capWidth.Value += 1;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;

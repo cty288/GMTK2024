@@ -10,7 +10,7 @@ public class AlienBanana : MushroomTrait
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
-        data.capWidth.ChildAdditions += 2f;
+        data.capWidth.ChildAdditions += 1f;
     }
 
     public override MushroomTraitCategory Category { get; } = MushroomTraitCategory.Cap;

@@ -10,6 +10,7 @@ public class AMouth : MushroomTrait {
 
     public override void OnStage2Grow(MushroomData data) {
         base.OnStage2Grow(data);
+        data.capHeight.Value--;
     }
 
     public override void OnMushroomPlantOnFarm(MushroomData data) {

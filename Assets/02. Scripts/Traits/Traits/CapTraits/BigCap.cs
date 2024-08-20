@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BigCap : MushroomTrait {
-    private float[] parms = new[] {1f, 1f, -1f};
+    private float[] parms = new[] {1f, 1f, -2f};
     
     public override void OnStartApply(MushroomData data) {
     }
