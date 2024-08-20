@@ -14,6 +14,7 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
         if (Instance != this) {
             Destroy(this);
         }
+        gameObject.SetActive(false);
     }
 
     [SerializeField] private GameObject UIGroup;

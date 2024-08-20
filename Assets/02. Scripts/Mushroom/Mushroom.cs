@@ -205,7 +205,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         UpdateVisual().Forget();
     }
 
-    private async UniTask UpdateVisual() {
+    public async UniTask UpdateVisual() {
         await UniTask.NextFrame();
         if (!this) return;
         RegenerateMushroomVisuals();
@@ -322,19 +322,29 @@ public class Mushroom : AbstractMikroController<MainGame> {
     }
 
     private void OnMouseEnter() {
+        if (!MushroomEntityManager.Instance.IsGameStart) {
+            return;
+        }
         ChangeOutlineColor(Color.white);
         MushroomDataPanel.Instance.TurnOnPanel();
         MushroomDataPanel.Instance.SetPanelDisplay(data);
+        
+        this.gameObject.layer = LayerMask.NameToLayer("secret");
 
         Bounds b = this.gameObject.GetComponent<CompositeCollider2D>().bounds;
         MushroomFollowCamera.instance.UpdateCameraPosition(b.center.x, b.center.y);
     }
 
     private void OnMouseExit() {
-
+        if (!MushroomEntityManager.Instance.IsGameStart) {
+            return;
+        }
         ChangeOutlineColor(Color.black);
         MushroomDataPanel.Instance.TurnOffPanel();
         MushroomDataPanel.Instance.ResetPanelDisplay();
+        
+        
+        this.gameObject.layer = LayerMask.NameToLayer("Mushroom");
     }
 
     private void Update() {

@@ -28,6 +28,9 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private AudioClip nextDaySound;
 
     [SerializeField] private Camera captureCamera;
+    [SerializeField] private GameObject menuUI;
+    [SerializeField] private GameObject gameUI;
+    
     public RawImage displayImage;
     private InputManager inputManager;
     private bool sellMode = false;
@@ -47,15 +50,41 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     private MushroomData largestMushroom;
     private int dayLargest;
     [SerializeField] private float largestSize = 0;
+    public bool IsGameStart = false;
+    
+    private List<GameObject> initialMushrooms = new List<GameObject>();
 
     public void Awake() {
         AudioSystem.Singleton.Initialize(null);
+        SpawnInitialMushrooms();
         if (Instance == null) {
             Instance = this;
         }
         if (Instance != this) {
             Destroy(this);
         }
+    }
+
+    private void SpawnInitialMushrooms() {
+        int spawnCount = 40;
+        for (int i = 0; i < spawnCount; i++) {
+            Vector2 randomPosition = new Vector2(Random.Range(rangeX.x, rangeX.y), Random.Range(rangeY.x, rangeY.y));
+            GameObject mushroomGO = MushroomGenerator.GenerateRandomMushroom(0, 3, randomPosition, 4);
+            Mushroom mushroom = mushroomGO.GetComponent<Mushroom>();
+            MushroomData data = mushroom.GetMushroomData();
+            data.RemoveTrait(typeof(AMouth));
+            
+            data.capWidth.Value = Random.Range(1f, 10f);
+            data.capHeight.Value = data.capWidth;
+            data.stemWidth.Value = Random.Range(1f, 10f);
+            data.stemHeight.Value = data.stemWidth;
+
+            mushroom.UpdateVisual();
+            
+            initialMushrooms.Add(mushroomGO);
+        }
+        
+       
     }
 
     private void Start() {
@@ -86,6 +115,20 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
 
         EndGame();
         //UpdateMushroomNeighbors();
+    }
+
+    public void StartGame() {
+        IsGameStart = true;
+        menuUI.SetActive(false);
+        gameUI.SetActive(true);
+        foreach (var mushroom in initialMushrooms) {
+            Destroy(mushroom);
+        }
+        initialMushrooms.Clear();
+    }
+    
+    public void ExitGame() {
+        Application.Quit();
     }
 
     private void RandomlySpawnMushrooms() {
