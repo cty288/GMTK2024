@@ -130,3 +130,24 @@ MonoBehaviour:
   - Name: Hyperthyroidism
     parts:
     - {fileID: 6412275932885880628, guid: 90809a26e3326324d99267f3d09bfdb2, type: 3}
+  - Name: Ultra Rare
+    parts:
+    - {fileID: 4815320148666517607, guid: 00b3784f3d2fa8a42a0e0684c1857c98, type: 3}
+  - Name: Too Tasty
+    parts:
+    - {fileID: 4815320148666517607, guid: 23f0f76e39c2d90488b1a6f14330fb96, type: 3}
+  - Name: Leadership
+    parts:
+    - {fileID: 4815320148666517607, guid: efed6705c41611f4bae10836749729d0, type: 3}
+  - Name: AHat
+    parts:
+    - {fileID: 4815320148666517607, guid: 06039daa8aff1864f8863c788eb0031f, type: 3}
+  - Name: Hallucinogenic
+    parts:
+    - {fileID: 6412275932885880628, guid: 1f42ecec81c033e4586ad79a12ce50aa, type: 3}
+  - Name: Spores
+    parts:
+    - {fileID: 6412275932885880628, guid: 612fd0a3c155a87449e4c1aea0932d6f, type: 3}
+  - Name: Better Breed
+    parts:
+    - {fileID: 6412275932885880628, guid: 1f42ecec81c033e4586ad79a12ce50aa, type: 3}

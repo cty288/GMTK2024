@@ -44,5 +44,8 @@ public class Hallucinogenic : MushroomTrait {
     public override string GetTraitValueDescription() {
         return null;
     }
-    
+
+    public override int GetVisualPartGroupIdx() {
+        return 37;
+    }
 }

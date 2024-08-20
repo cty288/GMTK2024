@@ -38,4 +38,7 @@ public class SporesTrait : MushroomTrait , ICanSendEvent{
 		return MainGame.Interface;
 	}
 
+	public override int GetVisualPartGroupIdx() {
+		return 38;
+	}
 }

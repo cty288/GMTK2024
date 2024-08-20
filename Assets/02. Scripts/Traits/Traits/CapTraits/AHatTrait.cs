@@ -50,4 +50,8 @@ public class AHatTrait : MushroomTrait , ICanSendEvent{
 	~AHatTrait() {
 		Debug.Log("AHatTrait is destroyed");
 	}
+
+	public override int GetVisualPartGroupIdx() {
+		return 36;
+	}
 }

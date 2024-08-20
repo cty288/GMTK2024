@@ -91,4 +91,8 @@ public class BetterBreed : MushroomTrait, ICanSendEvent {
     public IArchitecture GetArchitecture() {
         return MainGame.Interface;
     }
+
+    public override int GetVisualPartGroupIdx() {
+        return 39;
+    }
 }

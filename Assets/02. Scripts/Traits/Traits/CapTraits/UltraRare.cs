@@ -30,6 +30,8 @@ public class UltraRare : MushroomTrait
     }
 
     public override int GetVisualPartGroupIdx() {
-        return -1;
+        return 33;
     }
+    
+    
 }
