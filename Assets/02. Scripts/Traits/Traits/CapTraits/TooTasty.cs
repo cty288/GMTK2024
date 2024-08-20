@@ -23,4 +23,8 @@ public class TooTasty : MushroomTrait
     public override string GetTraitValueDescription() {
         return null;
     }
+
+    public override int GetVisualPartGroupIdx() {
+        return 34;
+    }
 }

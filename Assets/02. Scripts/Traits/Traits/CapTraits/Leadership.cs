@@ -24,5 +24,7 @@ public class Leadership : MushroomTrait
         return null;
     }
 
-
+    public override int GetVisualPartGroupIdx() {
+        return 35;
+    }
 }

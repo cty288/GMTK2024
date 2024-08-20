@@ -57,7 +57,7 @@ public class MushroomDataPanel : MonoBehaviour, ICanGetModel {
     public void ResetPanelDisplay() {
         if(isLocked) return;
         nameText.text = "No MusHRoom sEleCTED";
-        dataText.text = "data here lmao";
+        /*dataText.text = "data here lmao";*/
     }
 
     public IArchitecture GetArchitecture() {
