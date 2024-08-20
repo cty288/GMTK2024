@@ -23,6 +23,8 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private GameObject restartButton;
     [SerializeField] private GameObject nextDayButton;
 
+    [SerializeField] private Camera captureCamera;
+    public RawImage displayImage;
     private InputManager inputManager;
     private bool sellMode = false;
     private Mushroom selectedMushroom;
@@ -120,11 +122,90 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         if(mushroom.GetMushroomData().GetStage() == 1) return;
         if (mushroom.GetMushroomData().GetSize() > largestSize)
         {
+            Texture2D mushroomTexture = CaptureMushroomImage(mushroom.gameObject);
+            if(mushroomTexture != null)
+            {
+                
+                Debug.Log("success");
+                displayImage.texture = mushroomTexture;
+
+                // Get the RectTransform of the RawImage
+                RectTransform imageRect = displayImage.rectTransform;
+
+                // Calculate the aspect ratio of the texture
+                float textureAspect = (float)mushroomTexture.width / mushroomTexture.height;
+
+                // Calculate the aspect ratio of the RawImage
+                float imageAspect = imageRect.rect.width / imageRect.rect.height;
+
+                if (textureAspect > imageAspect)
+                {
+                    // Texture is wider, so we'll fit to width
+                    displayImage.uvRect = new Rect(0, 0, 1, 1);
+                    float newHeight = imageRect.rect.width / textureAspect;
+                    imageRect.sizeDelta = new Vector2(imageRect.rect.width, newHeight);
+                }
+                else
+                {
+                    // Texture is taller, so we'll fit to height
+                    displayImage.uvRect = new Rect(0, 0, 1, 1);
+                    float newWidth = imageRect.rect.height * textureAspect;
+                    imageRect.sizeDelta = new Vector2(newWidth, imageRect.rect.height);
+                }
+
+            }
             largestMushroom = MushroomDataHelper.CopyMushroomData(mushroom.GetMushroomData());
             largestSize = largestMushroom.GetSize();
             dayLargest = this.GetModel<GameTimeModel>().Day.Value;
             sizeUI.Modify(largestSize);
         }
+    }
+    public Texture2D CaptureMushroomImage(GameObject mushroom)
+    {
+        
+        CompositeCollider2D collider = mushroom.GetComponent<CompositeCollider2D>();
+        if (collider == null)
+        {
+            
+            return null;
+        }
+
+        Bounds mushroomBounds = collider.bounds;
+
+       
+        Vector3 originalPosition = captureCamera.transform.position;
+        float originalOrthographicSize = captureCamera.orthographicSize;
+        RenderTexture originalTargetTexture = captureCamera.targetTexture;
+
+        // Position the camera to frame the mushroom
+        captureCamera.transform.position = new Vector3(mushroomBounds.center.x, mushroomBounds.center.y, captureCamera.transform.position.z);
+
+        // Calculate the required orthographic size to fit the mushroom
+        float orthographicSize = Mathf.Max(mushroomBounds.extents.x * Screen.height / Screen.width, mushroomBounds.extents.y);
+        captureCamera.orthographicSize = orthographicSize;
+
+        // Create a render texture and set it as the camera's target
+        RenderTexture renderTexture = new RenderTexture(512, 512, 24);
+        captureCamera.targetTexture = renderTexture;
+
+        captureCamera.gameObject.SetActive(true);
+        captureCamera.Render();
+
+       
+        Texture2D capturedTexture = new Texture2D(512, 512, TextureFormat.RGB24, false);
+        RenderTexture.active = renderTexture;
+        capturedTexture.ReadPixels(new Rect(0, 0, 512, 512), 0, 0);
+        capturedTexture.Apply();
+
+        captureCamera.transform.position = originalPosition;
+        captureCamera.orthographicSize = originalOrthographicSize;
+        captureCamera.targetTexture = originalTargetTexture;
+
+        // Clean up
+        RenderTexture.active = null;
+        Destroy(renderTexture);
+        captureCamera.gameObject.SetActive(false);
+        return capturedTexture;
     }
 
     public void EndGame()
