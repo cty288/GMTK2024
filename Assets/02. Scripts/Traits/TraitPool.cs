@@ -20,11 +20,11 @@ public static class TraitPool {
 
     private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>
         mutationOnlyTraits = new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
-    
-    
+
+
     private static Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>
         shopOnlyTraits = new Dictionary<MushroomTraitCategory, List<Func<IMushroomTrait>>>();
-     
+
 
     static TraitPool() {
         //Caps
@@ -43,7 +43,7 @@ public static class TraitPool {
         RegisterTrait(() => new AMouth());
         RegisterTrait(() => new TooTasty());
         RegisterTrait(() => new Leadership());
-       
+
 
         //Stems
         RegisterTrait(() => new BigFoot());
@@ -79,11 +79,11 @@ public static class TraitPool {
         RegisterTrait(() => new Contraband());
         RegisterTrait(() => new Smelly());
         RegisterTrait(() => new FlatEarther());
-        
+
         RegisterSpecialPoolTrait(() => new AHatTrait(), mutationOnlyTraits);
         RegisterSpecialPoolTrait(() => new SporesTrait(), mutationOnlyTraits);
         RegisterSpecialPoolTrait(() => new QueenTrait(), mutationOnlyTraits);
-        
+
         RegisterSpecialPoolTrait(() => new LazyTrait(), shopOnlyTraits);
         RegisterSpecialPoolTrait(() => new BetterBreed(), shopOnlyTraits);
     }
@@ -131,15 +131,15 @@ public static class TraitPool {
         Shuffle(candidates);
         return candidates[0]();
     }
-    
+
     public static IMushroomTrait GetRandomShopOnlyTrait() {
         List<Func<IMushroomTrait>> candidates = shopOnlyTraits.Values.SelectMany(x => x).ToList();
-        
+
         Shuffle(candidates);
         return candidates[0]();
     }
-    
-    
+
+
     public static IMushroomTrait GetRandomTrait(MushroomTraitCategory category) {
         if (!traitsByCategory.ContainsKey(category)) {
             return null;
@@ -192,5 +192,18 @@ public static class TraitPool {
         return resultTraits;
     }
 
+    public static List<IMushroomTrait> GetAllTraits() {
+        List<IMushroomTrait> traits = new List<IMushroomTrait>();
+        foreach (var trait in traitGetters) {
+            traits.Add(trait());
+        }
+        foreach (var trait in mutationOnlyTraits.Values.SelectMany(x => x)) {
+            traits.Add(trait());
+        }
+        foreach (var trait in shopOnlyTraits.Values.SelectMany(x => x)) {
+            traits.Add(trait());
+        }
 
+        return traits;
+    }
 }
