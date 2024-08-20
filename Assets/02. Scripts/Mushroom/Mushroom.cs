@@ -23,6 +23,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     [SerializeField] private AudioClip pickupSFX;
     [SerializeField] private AudioClip plantSFX;
     [SerializeField] private AudioClip destroySFX;
+    [SerializeField] private AudioClip growthSFX;
 
     public MushroomVisuals mushroomVisualParts; // A class containing references to all the parts of a mushroom for modification.
 
@@ -67,13 +68,13 @@ public class Mushroom : AbstractMikroController<MainGame> {
             data.stemColor1.Value = e.stemColor1;
             data.sporeRange.Value = e.sporeRange;
             data.extraSellPrice.Value = e.extraSellPrice;
-            
+
             UpdateVisual().Forget();
         }
     }
 
     private void OnAllMushroomReplaceTrait(OnAllMushroomReplaceTrait e) {
-        if(data != null && data.IsOnFarm && e.source != data) {
+        if (data != null && data.IsOnFarm && e.source != data) {
             data.ReplaceTrait(e.trait);
             UpdateVisual().Forget();
         }
@@ -94,10 +95,14 @@ public class Mushroom : AbstractMikroController<MainGame> {
         UpdateVisual().Forget();
     }
 
-    private void OnDayChange(int arg1, int arg2) {
+    private async void OnDayChange(int arg1, int arg2) {
         if (data != null && data.IsOnFarm) {
             data.NeighborCount = GetNeighbors(null).Count;
             data.GrowthDay.Value++;
+
+            await UniTask.WaitForSeconds(Random.Range(0.0f, 0.2f));
+            audioSource.clip = growthSFX;
+            audioSource.Play();
         }
     }
 
@@ -196,7 +201,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             }
 
         });*/
-        
+
         UpdateVisual().Forget();
     }
 
@@ -214,7 +219,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         seedGO.SetActive(false);
         growthGO.SetActive(true);
     }
-    
+
     private void OnStage2Start() {
         // for each mappedProperty, get the property from a parent that did not give a trait slot related to the mappedProperty
         // for each other property, get a random parent's trait or mix a few parent's traits together
@@ -236,8 +241,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
         }
         return neighbors;
     }
-    
-   
+
+
 
 
     private void OnStage1() {
@@ -265,7 +270,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
         TraitPool.Shuffle(stage1Neighbors);
         for (int i = 0; i < Math.Min(stage1Neighbors.Count, 2); i++) {
             bool res = PassTrait(stage1Neighbors[i]);
-            
+
             if (res) {
                 Debug.Log($"Mushroom {data.GetHashCode()} passed trait to {stage1Neighbors[i].GetHashCode()}");
             }
@@ -320,13 +325,13 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ChangeOutlineColor(Color.white);
         MushroomDataPanel.Instance.TurnOnPanel();
         MushroomDataPanel.Instance.SetPanelDisplay(data);
-       
+
         Bounds b = this.gameObject.GetComponent<CompositeCollider2D>().bounds;
         MushroomFollowCamera.instance.UpdateCameraPosition(b.center.x, b.center.y);
     }
-   
+
     private void OnMouseExit() {
-        
+
         ChangeOutlineColor(Color.black);
         MushroomDataPanel.Instance.TurnOffPanel();
         MushroomDataPanel.Instance.ResetPanelDisplay();
@@ -337,7 +342,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
             if (data != null && !data.HasTrait<IsItDead>() && !data.HasTrait<LazyTrait>()) {
                 transform.position = InputManager.Instance.GetMouseWorldPosition();
             }
-            
+
             sortLayer.sortingOrder = (int)transform.position.y * -1000;
         }
     }
@@ -370,6 +375,8 @@ public class Mushroom : AbstractMikroController<MainGame> {
 
 
     public async void DestroySelf() {
+        await UniTask.WaitForSeconds(Random.Range(0.0f, 0.2f));
+
         audioSource.clip = destroySFX;
         audioSource.Play();
 
@@ -384,7 +391,7 @@ public class Mushroom : AbstractMikroController<MainGame> {
     private void OnDestroy() {
         data.UnregisterOnTraitAdd<VeryShy>(OnVeryShyAdded);
         data.UnregisterOnUpdateColor(ChangeMushroomColor);
-        
+
         data.OnDestroy();
     }
 }

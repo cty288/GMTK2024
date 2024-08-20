@@ -1,10 +1,10 @@
-using System;
 using MikroFramework.Architecture;
-using System.Collections.Generic;
 using MikroFramework.AudioKit;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
@@ -17,11 +17,15 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     [SerializeField] private LargestSize sizeUI;
 
     [SerializeField] private Button sellModeButton;
-    
+
     [SerializeField] private int lastDay = 100;
 
     [SerializeField] private GameObject restartButton;
     [SerializeField] private GameObject nextDayButton;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip sellToggleSound;
+    [SerializeField] private AudioClip nextDaySound;
 
     [SerializeField] private Camera captureCamera;
     public RawImage displayImage;
@@ -73,11 +77,13 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     public void IncrementDay() {
         this.GetModel<GameTimeModel>().Day.Value++;
 
-        foreach (var mushroom in GetAllMushrooms())
-        {
+        foreach (var mushroom in GetAllMushrooms()) {
             CheckLargestMushroom(mushroom);
         }
-        
+
+        audioSource.clip = nextDaySound;
+        audioSource.Play();
+
         EndGame();
         //UpdateMushroomNeighbors();
     }
@@ -117,11 +123,9 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         return allMushrooms;
     }
 
-    public void CheckLargestMushroom(Mushroom mushroom)
-    {
-        if(mushroom.GetMushroomData().GetStage() == 1) return;
-        if (mushroom.GetMushroomData().GetSize() > largestSize)
-        {
+    public void CheckLargestMushroom(Mushroom mushroom) {
+        if (mushroom.GetMushroomData().GetStage() == 1) return;
+        if (mushroom.GetMushroomData().GetSize() > largestSize) {
             mushroom.RegenerateCollider();
             /*
             Texture2D mushroomTexture = CaptureMushroomImage(mushroom.gameObject);
@@ -163,19 +167,17 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             sizeUI.Modify(largestSize);
         }
     }
-    public Texture2D CaptureMushroomImage(GameObject mushroom)
-    {
-        
+    public Texture2D CaptureMushroomImage(GameObject mushroom) {
+
         CompositeCollider2D collider = mushroom.GetComponent<CompositeCollider2D>();
-        if (collider == null)
-        {
-            
+        if (collider == null) {
+
             return null;
         }
 
         Bounds mushroomBounds = collider.bounds;
 
-       
+
         Vector3 originalPosition = captureCamera.transform.position;
         float originalOrthographicSize = captureCamera.orthographicSize;
         RenderTexture originalTargetTexture = captureCamera.targetTexture;
@@ -194,7 +196,7 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         captureCamera.gameObject.SetActive(true);
         captureCamera.Render();
 
-       
+
         Texture2D capturedTexture = new Texture2D(512, 512, TextureFormat.RGB24, false);
         RenderTexture.active = renderTexture;
         capturedTexture.ReadPixels(new Rect(0, 0, 512, 512), 0, 0);
@@ -211,22 +213,19 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
         return capturedTexture;
     }
 
-    public void EndGame()
-    {
-        if (this.GetModel<GameTimeModel>().Day.Value >= lastDay)
-        {
+    public void EndGame() {
+        if (this.GetModel<GameTimeModel>().Day.Value >= lastDay) {
             // Delete all other mushrooms
-            foreach (var mushroom in GetAllMushrooms())
-            {
+            foreach (var mushroom in GetAllMushrooms()) {
                 mushroom.DestroySelf();
             }
             // Center the camera
             Camera.main.transform.position = new Vector3(0, 0, -10);
-            
+
             // Spawn the copy of the largest mushroom
             var largest = MushroomGenerator.GenerateCustomMushroom(largestMushroom, Vector3.zero);
             OnEndGame.Invoke();
-            
+
             // Lock data panel and set day to day the mushroom was recorded.
             MushroomDataPanel.Instance.TurnOnPanel();
             MushroomDataPanel.Instance.SetPanelDisplay(largestMushroom);
@@ -235,12 +234,11 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
             Camera.main.transform.position = new Vector3(0, 5, -10);
             restartButton.SetActive(true);
             nextDayButton.SetActive(false);
-            
+
         }
     }
 
-    public void RestartGame()
-    {
+    public void RestartGame() {
         this.GetModel<GameTimeModel>().Day.Value = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -288,6 +286,9 @@ public class MushroomEntityManager : MonoBehaviour, ICanGetModel {
     }
 
     public void SellModeToggle() {
+        audioSource.clip = sellToggleSound;
+        audioSource.Play();
+
         sellMode = !sellMode;
         sellModeButton.targetGraphic.color = sellMode ? Color.red : Color.white;
 

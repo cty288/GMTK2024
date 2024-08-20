@@ -7,6 +7,10 @@ public class BookMenu : MonoBehaviour {
     [SerializeField] private GameObject previousImage;
     [SerializeField] private GameObject nextImage;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip openBookSound;
+    [SerializeField] private AudioClip pageFlipSound;
+
     private List<IMushroomTrait> traitsList;
     private int currentPageFirstIndex = 0;
     private bool isOpen = false;
@@ -16,6 +20,9 @@ public class BookMenu : MonoBehaviour {
     }
 
     public void OpenBook() {
+        audioSource.clip = openBookSound;
+        audioSource.Play();
+
         isOpen = !isOpen;
         bookMenu.SetActive(isOpen);
         if (isOpen) {
@@ -25,6 +32,9 @@ public class BookMenu : MonoBehaviour {
     }
 
     public void PreviousPage() {
+        audioSource.clip = pageFlipSound;
+        audioSource.Play();
+
         currentPageFirstIndex -= traitDescriptions.Length;
         currentPageFirstIndex = Mathf.Clamp(currentPageFirstIndex, 0, traitsList.Count - 1);
 
@@ -32,6 +42,9 @@ public class BookMenu : MonoBehaviour {
     }
 
     public void NextPage() {
+        audioSource.clip = pageFlipSound;
+        audioSource.Play();
+
         currentPageFirstIndex += traitDescriptions.Length;
         currentPageFirstIndex = Mathf.Clamp(currentPageFirstIndex, 0, traitsList.Count - 1);
 
