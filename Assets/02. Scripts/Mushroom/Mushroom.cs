@@ -320,9 +320,13 @@ public class Mushroom : AbstractMikroController<MainGame> {
         ChangeOutlineColor(Color.white);
         MushroomDataPanel.Instance.TurnOnPanel();
         MushroomDataPanel.Instance.SetPanelDisplay(data);
+       
+        Bounds b = this.gameObject.GetComponent<CompositeCollider2D>().bounds;
+        MushroomFollowCamera.instance.UpdateCameraPosition(b.center.x, b.center.y);
     }
-
+   
     private void OnMouseExit() {
+        
         ChangeOutlineColor(Color.black);
         MushroomDataPanel.Instance.TurnOffPanel();
         MushroomDataPanel.Instance.ResetPanelDisplay();
