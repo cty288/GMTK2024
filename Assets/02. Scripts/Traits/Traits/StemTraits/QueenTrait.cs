@@ -17,8 +17,7 @@ public class QueenTrait : MushroomTrait, ICanSendEvent {
         });
         this.SendEvent<OnAllMushroomChangeParts>(new OnAllMushroomChangeParts() {
             part = ShroomPart.Volvae,
-            prefab = MushroomPartManager.Instance.partsSO.volva[
-                Random.Range(0, MushroomPartManager.Instance.partsSO.volva.Length)]
+            prefab = MushroomPartManager.Instance.partsSO.volva[6]
         });
     }
 

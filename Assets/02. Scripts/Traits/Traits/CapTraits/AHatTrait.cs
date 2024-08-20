@@ -40,7 +40,7 @@ public class AHatTrait : MushroomTrait , ICanSendEvent{
 		this.SendEvent<OnAllMushroomChangeParts>(new OnAllMushroomChangeParts() {
 			part = ShroomPart.Pattern,
 			//index = 3
-			prefab = MushroomPartManager.Instance.partsSO.pattern[3]
+			prefab = MushroomPartManager.Instance.partsSO.pattern[4]
 		});
 	}
 

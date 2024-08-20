@@ -18,5 +18,7 @@
     public override string GetTraitValueDescription() {
         return "No effects.";
     }
-
+    public override int GetVisualPartGroupIdx() {
+        return 48;
+    }
 }

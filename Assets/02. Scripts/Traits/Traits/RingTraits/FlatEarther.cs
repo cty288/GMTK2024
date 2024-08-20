@@ -19,4 +19,7 @@
         return "No effects.";
     }
 
+    public override int GetVisualPartGroupIdx() {
+        return 47;
+    }
 }

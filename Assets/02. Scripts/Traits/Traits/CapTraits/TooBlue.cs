@@ -22,4 +22,8 @@ public class TooBlue : MushroomTrait {
 	public override string GetTraitValueDescription() {
 		return "The mushroom will become TOO <color=blue>BLUE</color>.";
 	}
+
+	public override int GetVisualPartGroupIdx() {
+		return 45;
+	}
 }

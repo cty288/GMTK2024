@@ -21,4 +21,7 @@ public class Contraband : MushroomTrait {
         return "Sell price doubled.";
     }
 
+    public override int GetVisualPartGroupIdx() {
+        return 46;
+    }
 }

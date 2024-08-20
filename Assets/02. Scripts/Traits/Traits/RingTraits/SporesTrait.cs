@@ -32,7 +32,7 @@ public class SporesTrait : MushroomTrait , ICanSendEvent{
 		});
 		this.SendEvent<OnAllMushroomChangeParts>(new OnAllMushroomChangeParts() {
 			part = ShroomPart.Pattern,
-			prefab = MushroomPartManager.Instance.partsSO.pattern[2]
+			prefab = MushroomPartManager.Instance.partsSO.pattern[1]
 		});
 	}
 
