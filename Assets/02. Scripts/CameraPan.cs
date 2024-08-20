@@ -5,12 +5,13 @@ public class CameraPan : MonoBehaviour {
     private InputManager inputManager;
     private bool isDragging;
     private Vector3 dragOrigin;
-
+    private bool canPan = true;
     private void Start() {
         inputManager = InputManager.Instance;
         inputManager.OnMouseDown += StartPan;
         inputManager.OnScrollUp += ZoomIn;
         inputManager.OnScrollDown += ZoomOut;
+        MushroomEntityManager.Instance.OnEndGame += (() => { canPan = false; });
     }
 
     public void StartPan() {
@@ -44,7 +45,7 @@ public class CameraPan : MonoBehaviour {
     }
 
     void PanCamera() {
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0) && canPan) {
             Vector3 difference = dragOrigin - inputManager.GetMouseWorldPosition();
             transform.position += difference;
         }
