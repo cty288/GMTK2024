@@ -6,6 +6,7 @@ public class Shop : MonoBehaviour, ICanGetModel {
     public PlayerCurrency currency;
     private InputManager inputManager;
 
+    [SerializeField] private GameObject endingPanel;
     [SerializeField] private ShopSlot[] shopSlots;
     [SerializeField] private Image mushroomGhost;
     private bool isDragging = false;
@@ -18,8 +19,12 @@ public class Shop : MonoBehaviour, ICanGetModel {
         this.GetModel<GameTimeModel>().Day.RegisterOnValueChanged(UpdateShopItems);
 
         MushroomEntityManager.Instance.OnEndGame += HideUI;
+        MushroomEntityManager.Instance.OnEndGame += ShowEndingUI;
     }
-
+    void ShowEndingUI()
+    {
+        endingPanel.SetActive(true);
+    }
     private void UpdateShopItems(int arg1, int arg2) {
         for (int i = 0; i < 3; i++)
             if (shopSlots[i].IsEmpty() && Random.value < 0.7f) {
